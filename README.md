@@ -1,0 +1,1 @@
+# SnipMan - A Snippet Manager
