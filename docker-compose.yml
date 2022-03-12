@@ -1,0 +1,61 @@
+version: "3.9"
+
+services:
+
+  web:
+    build: ./web
+    container_name: snip-man-web
+    restart: always
+    networks:
+      web-reverse-proxy:
+
+  postgres:
+    build: ./postgres
+    container_name: snip-man-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: snipper
+      POSTGRES_PASSWORD: i3nj0yan9ularl0l
+      POSTGRES_DB: snip-man
+    networks:
+      postgres-server:
+
+  mongo:
+    build: ./mongo
+    container_name: snip-man-mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: snipper
+      MONGO_INITDB_ROOT_PASSWORD: i3nj0yan9ularl0l
+      MONGO_INITDB_DATABASE: snip-man
+    networks:
+      mongo-server:
+    
+  server:
+    build: ./server
+    container_name: snip-man-server
+    restart: always
+    networks:
+      web-reverse-proxy:
+      server-reverse-proxy:
+      postgres-server:
+      mongo-server:
+
+  reverse-proxy:
+    build: ./reverse-proxy
+    container_name: snip-man-reverse-proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+      - "4000:4000"
+      - "8443:8443"
+    networks:
+      web-reverse-proxy:
+      server-reverse-proxy:
+
+networks:
+  web-reverse-proxy:
+  server-reverse-proxy:
+  postgres-server:
+  mongo-server:
