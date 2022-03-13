@@ -4,7 +4,9 @@
     "version": "0.1.0",
     "private": true,
     "author": "Péter Ferenc Gyarmati <dev.petergy@gmail.com> (https://github.com/peter-gy)",
-    "contributors": ["Simon Eckerstorfer"],
+    "contributors": [
+        "Simon Eckerstorfer"
+    ],
     "scripts": {
         "dev": "next dev",
         "build": "next build",
@@ -13,6 +15,7 @@
         "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc --ignore-path ./.prettierignore"
     },
     "dependencies": {
+        "@geist-ui/core": "^2.3.6",
         "daisyui": "^2.6.4",
         "next": "12.1.0",
         "react": "17.0.2",
