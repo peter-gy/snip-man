@@ -1,13 +1,60 @@
 @startuml
-|Swimlane1|
+skinparam titleBorderRoundCorner 10
+skinparam titleBorderThickness 3
+skinparam titleBorderColor black
+title Add new Snippet to Topic
+
+|User|
 start
-:foo1;
-|#AntiqueWhite|Swimlane2|
-:foo2;
-:foo3;
-|Swimlane1|
-:foo4;
-|Swimlane2|
-:foo5;
+:Click the "New Snippet" button of a programming topic;
+
+|App|
+:Display a snippet skeleton;
+
+|User|
+repeat: Enter Snippet information;
+fork
+  :Fill out header field;
+fork again
+  :Fill out code field;
+fork again
+  :Select language;
+fork again
+  :Select language version;
+end fork
+:Submit the values;
+
+|App|
+partition "Input validation" {
+    if (Header is not empty?) then (yes)
+        :Use the specified header;
+    else (no)
+        :Create header error message;
+    endif
+    if (Code is not empty?) then (yes)
+        :Use the specified code;
+    else (no)
+        :Create code error message;
+    endif
+    if (language is not empty?) then (yes)
+        :Use the specified language;
+    else (no)
+        :Create language error message;
+    endif
+}
+
+backward :Display error message;
+repeat while (Topic creation successful?) is (no) not (yes)
+:Display loading indicator;
+
+partition "Persist snippet" {
+    :Auto-generate //ID//, //created_at//, //last_modified// fields;
+    :Insert snippet into database;
+    :Create relationship to topic and programming language;
+}
+:Render the new snippet on the dashboard;
+
+|User|
+:The user sees the new snippet page displayed;
 stop
 @enduml
