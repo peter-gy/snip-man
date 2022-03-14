@@ -1,15 +1,38 @@
 ```puml
 @startuml
-|Swimlane1|
+skinparam titleBorderRoundCorner 10
+skinparam titleBorderThickness 3
+skinparam titleBorderColor black
+title Add Tag to Topic
+
+|User|
 start
-:foo1;
-|#AntiqueWhite|Swimlane2|
-:foo2;
-:foo3;
-|Swimlane1|
-:foo4;
-|Swimlane2|
-:foo5;
+:Click the "Add Tag" button of a 
+programming topic;
+
+|App|
+:Display a menu with programming topic as header;
+:Display all predefined tags;
+
+|User|
+:Choose preferred tags;
+:Press "Done" button;
+
+|App|
+:Display loading indicator;
+
+if (At least one tag has been selected) then (yes)
+    :Persist relationship between topic and tags;
+    :Close the menu and render the dashboard
+    with the new tags for the topic;
+else (no)
+    :Close the menu and render the
+    dashboard without updating tags;
+endif
+
+|User|
+:The user sees the topic with 
+tags according to selection;
 stop
 @enduml
 ```
