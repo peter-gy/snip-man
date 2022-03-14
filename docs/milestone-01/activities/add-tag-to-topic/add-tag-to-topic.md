@@ -19,9 +19,9 @@ programming topic;
 :Press "Done" button;
 
 |App|
-:Display loading indicator;
 
 if (At least one tag has been selected) then (yes)
+    :Display loading indicator;
     :Persist relationship between topic and tags;
     :Close the menu and render the dashboard
     with the new tags for the topic;
