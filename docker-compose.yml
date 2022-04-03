@@ -1,16 +1,28 @@
-version: "3.9"
+version: '3.9'
+
+networks:
+  web-reverse-proxy:
+  server-reverse-proxy:
+  postgres-server:
+  mongo-server:
 
 services:
-
-  web:
-    build: ./web
-    container_name: snip-man-web
+  reverse-proxy:
+    build: ./services/reverse-proxy
+    container_name: snip-man-reverse-proxy
     restart: always
+    # Ports as defined in the entries of ./services/reverse-proxy/nginx.conf
+    ports:
+      - '80:80'
+      - '443:443'
+      - '3333:3333'
+      - '8443:8443'
     networks:
       web-reverse-proxy:
+      server-reverse-proxy:
 
   postgres:
-    build: ./postgres
+    build: ./services/postgres
     container_name: snip-man-postgres
     restart: always
     environment:
@@ -21,7 +33,7 @@ services:
       postgres-server:
 
   mongo:
-    build: ./mongo
+    build: ./services/mongo
     container_name: snip-man-mongo
     restart: always
     environment:
@@ -30,9 +42,11 @@ services:
       MONGO_INITDB_DATABASE: snip-man
     networks:
       mongo-server:
-    
+
   server:
-    build: ./server
+    build:
+      context: .
+      dockerfile: ./apps/server/Dockerfile
     container_name: snip-man-server
     restart: always
     networks:
@@ -41,21 +55,11 @@ services:
       postgres-server:
       mongo-server:
 
-  reverse-proxy:
-    build: ./reverse-proxy
-    container_name: snip-man-reverse-proxy
+  web:
+    build:
+      context: .
+      dockerfile: ./apps/web/Dockerfile
+    container_name: snip-man-web
     restart: always
-    ports:
-      - "80:80"
-      - "443:443"
-      - "4000:4000"
-      - "8443:8443"
     networks:
       web-reverse-proxy:
-      server-reverse-proxy:
-
-networks:
-  web-reverse-proxy:
-  server-reverse-proxy:
-  postgres-server:
-  mongo-server:
