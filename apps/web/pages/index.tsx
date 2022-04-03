@@ -23,6 +23,10 @@ const Index: NextPage = () => {
               <Button type="secondary">Not really...</Button>
             </div>
           </div>
+          <div className="mt-8">
+              <h3>Env:</h3>
+              <p>{process.env.NEXT_PUBLIC_SNIPMAN_SERVER_URL}</p>
+            </div>
         </div>
       </div>
     </div>
