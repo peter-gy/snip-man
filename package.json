@@ -4,17 +4,21 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve",
-    "build": "nx build",
+    "build": "rm -rf ./dist && npx nx run-many --target=build --projects=web,server && docker-compose build",
+    "build:no-cache": "rm -rf ./dist && npx nx run-many --target=build --projects=web,server --skip-nx-cache && docker-compose build --no-cache",
     "test": "nx test"
   },
   "private": true,
   "dependencies": {
     "@geist-ui/core": "^2.3.8",
     "@nestjs/common": "^8.0.0",
+    "@nestjs/config": "^2.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
     "@nrwl/next": "^13.9.6",
     "core-js": "^3.6.5",
+    "dotenv": "^16.0.0",
+    "joi": "^17.6.0",
     "next": "12.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",

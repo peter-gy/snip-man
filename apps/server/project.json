@@ -18,20 +18,14 @@
         "production": {
           "optimization": true,
           "extractLicenses": true,
-          "inspect": false,
-          "fileReplacements": [
-            {
-              "replace": "apps/server/src/environments/environment.ts",
-              "with": "apps/server/src/environments/environment.prod.ts"
-            }
-          ]
+          "inspect": false
         }
       }
     },
     "serve": {
       "executor": "@nrwl/node:node",
       "options": {
-        "buildTarget": "server:build"
+        "buildTarget": "server:build:development"
       }
     },
     "lint": {

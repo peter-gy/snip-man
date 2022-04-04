@@ -68,6 +68,12 @@ The full system can be started by executing:
 docker-compose up
 ```
 
+**Convenience command to execute the steps above at once:**
+
+```shell
+npm run build
+```
+
 ### Accessing App Components
 
 Only the `web` and `server` components are exposed publicly. They can be accessed both with and without using SSL. Please note that self-signed SSL certificates are generated upon container startup, hence your browser will complain about security risks when visiting any of the below HTTPS links.
