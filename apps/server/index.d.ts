@@ -1,8 +1,14 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      POSTGRES_URL: string;
       NODE_ENV: 'development' | 'production';
+      PORT: ?int;
+      POSTGRES_USER: string;
+      POSTGRES_PASSWORD: string;
+      POSTGRES_DB: string;
+      MONGO_USER: string;
+      MONGO_PASSWORD: string;
+      MONGO_DB: string;
     }
   }
 }

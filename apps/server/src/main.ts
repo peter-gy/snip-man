@@ -1,7 +1,6 @@
-import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-
-import { AppModule } from './app/app.module';
+import { ConfigService } from '@nestjs/config';
+import { Logger } from '@nestjs/common';
 import { join } from 'path';
 import { config as dotenvConfig } from 'dotenv';
 
@@ -15,6 +14,8 @@ if (result.error) {
   Logger.log(`Loaded env file: ${envPath}`);
 }
 
+import { AppModule } from './app/app.module';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
@@ -25,6 +26,9 @@ async function bootstrap() {
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
   );
+
+  const config = app.get(ConfigService);
+  Logger.log(`Running in \`${config.get<string>('environment')}\` mode`);
 }
 
 bootstrap();
