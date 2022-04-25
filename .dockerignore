@@ -1,0 +1,15 @@
+.dockerignore
+.DS_Store
+.editorconfig
+.eslintrc.json
+.github
+.gitignore
+.prettierignore
+.vscode
+dist
+Dockerfile
+docs
+jest.config.js
+jest.preset.js
+node_modules
+README.md
