@@ -1,11 +1,24 @@
-FROM node:16.14.2-buster
+# Build `server`
+FROM snip-man:nx-base AS builder
 
-WORKDIR /app
-ENV PORT=3333
-EXPOSE ${PORT}
+ARG NX_BUILD_ARGS
 
-COPY ./dist/apps/server .
-ENV NODE_ENV=production
-RUN npm install
+WORKDIR /usr/src/builder
+COPY . .
+RUN npx nx build server $NX_BUILD_ARGS
 
-CMD ["node", "main.js"]
+# Runs the artifacts built by `builder`
+FROM node:lts-alpine3.15 AS runner
+
+ARG NODE_ENV
+ARG PORT
+
+WORKDIR /usr/src/app
+COPY --from=builder /usr/src/builder/node_modules ./node_modules
+COPY --from=builder /usr/src/builder/dist/apps/server/ .
+
+ENV PORT=$PORT
+EXPOSE $PORT
+ENV NODE_ENV=$NODE_ENV
+
+CMD ["node", "./main.js"]

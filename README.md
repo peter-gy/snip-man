@@ -46,15 +46,16 @@ npx nx format:write
 
 ## Build & Run
 
-The system can be built in two steps.
+The system can be built using Docker only:
 
-1. Build the `web` and `server` projects using `nx`:
+1. Build the base `nx` image:
 
 ```shell
-npx nx run-many --target=build --projects=web,server
+docker build . -t snip-man:nx-base
 ```
 
-The build artifacts will be stored in the `dist/` directory.
+Note that this base image containing the whole repository source is necessary for the build to succeed,
+as `nx` needs access to the whole monorepo to do shared module transpilation and more advanced dependency-graph based dependency resolution.
 
 2. Build the Docker services:
 
@@ -70,8 +71,16 @@ docker-compose up
 
 **Convenience command to execute the steps above at once:**
 
+Using pure `bash`:
+
 ```shell
-npm run build
+docker build . -t snip-man:nx-base && docker-compose build
+```
+
+Using `npm`:
+
+```shell
+npm run build:docker
 ```
 
 ### Accessing App Components
