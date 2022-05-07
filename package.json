@@ -4,9 +4,6 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve",
-    "build": "rm -rf ./dist && npx nx run-many --target=build --projects=web,server",
-    "build:no-cache": "rm -rf ./dist && npx nx run-many --target=build --projects=web,server --skip-nx-cache && docker-compose build --no-cache",
-    "build:docker": "docker build . -t snip-man:nx-base && docker-compose build",
     "test": "nx test"
   },
   "private": true,
