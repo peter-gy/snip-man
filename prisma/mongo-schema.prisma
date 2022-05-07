@@ -1,0 +1,13 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/@prisma/mongo-client"
+}
+
+// Connection URL: https://www.prisma.io/dataguide/mongodb/connection-uris
+datasource db {
+  provider = "mongodb"
+  url      = "mongodb://snipper:i3nj0yan9ularl0l@localhost:37017/snip-man-dev"
+}

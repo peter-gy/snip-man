@@ -179,3 +179,20 @@ advanced code generation and project dependency graph, plus a unified experience
 developers.
 
 Visit [Nx Cloud](https://nx.app/) to learn more.
+
+## Working With Prisma
+
+### Useful links
+
+- [Prisma Schema](https://pris.ly/d/prisma-schema)
+- [Data Modelling](https://javascript.plainenglish.io/data-modeling-with-prisma-5c4c37f31d8c)
+
+### Generating Code
+
+```shell
+npx prisma migrate dev --schema=./prisma/postgres-schema.prisma
+```
+
+```shell
+npx prisma generate --schema=./prisma/postgres-schema.prisma
+```
