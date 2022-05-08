@@ -7,8 +7,8 @@ export const configuration = () => ({
     database: process.env.POSTGRES_DB,
   },
   mongo: {
-    user: process.env.MONGO_USER,
-    password: process.env.MONGO_PASSWORD,
-    database: process.env.MONGO_DB,
+    user: process.env.MONGO_INITDB_ROOT_USERNAME,
+    password: process.env.MONGO_INITDB_ROOT_PASSWORD,
+    database: process.env.MONGO_INITDB_DATABASE,
   },
 });
