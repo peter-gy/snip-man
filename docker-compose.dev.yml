@@ -9,12 +9,17 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
+    env_file:
+      - ./services/mongo/.env.dev
+      - ./services/postgres/.env.dev
     container_name: snip-man-nx-dev
     restart: always
     # Mount the repository root into the container for live file changes
     volumes:
       - ./:/usr/snip-man-dev/
     ports:
+      - '5555:5555' # prisma studio mongo
+      - '5556:5556' # prisma studio postgres
       - '4200:4200' # web
       - '3333:3333' # server
     networks:
