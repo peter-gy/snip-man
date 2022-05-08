@@ -4,7 +4,15 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve",
-    "test": "nx test"
+    "test": "nx test",
+    "format": "nx format",
+    "migrate:prisma": "npm run migrate:prisma:postgres",
+    "migrate:prisma:postgres": "prisma migrate dev --schema=./services/postgres/schema.prisma --name=init --preview-feature",
+    "generate:prisma": "npm run generate:prisma:postgres && npm run generate:prisma:mongo",
+    "generate:prisma:postgres": "prisma generate --schema=./services/postgres/schema.prisma",
+    "generate:prisma:mongo": "prisma generate --schema=./services/mongo/schema.prisma",
+    "prisma-studio:mongo": "prisma studio --schema=./services/mongo/schema.prisma --port 5555",
+    "prisma-studio:postgres": "prisma studio --schema=./services/postgres/schema.prisma --port 5556"
   },
   "private": true,
   "dependencies": {
