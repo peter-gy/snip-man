@@ -7,9 +7,12 @@
 .prettierignore
 .vscode
 dist
-Dockerfile
+Dockerfile*
+docker-compose*
+.env*
 docs
 jest.config.js
 jest.preset.js
+Makefile
 node_modules
 README.md
