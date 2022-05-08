@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../node_modules/@prisma/postgres-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL_POSTGRES")
+}
+
+model User {
+  id       String @id @default(cuid())
+  email    String @unique
+  username String @unique
+  password String
+
+  progTopics ProgTopic[]
+  @@map("user")
+}
+
+model ProgTopic {
+  id          String      @id @default(cuid())
+  children    ProgTopic[] @relation("parent_id")
+  name        String      @unique
+  description String
+
+  parentId     String?       @map("parent_id")
+  parent       ProgTopic?    @relation("parent_id", fields: [parentId], references: [id])
+  user         User          @relation(fields: [userId], references: [id])
+  userId       String        @map("user_id")
+  tags         Tag[]
+  progSnippets ProgSnippet[]
+  @@map("prog_topic")
+}
+
+model Tag {
+  id    String @id @default(cuid())
+  name  String @unique
+  color String
+
+  progTopics ProgTopic[]
+  @@map("tag")
+}
+
+model ProgSnippet {
+  id           String   @default(cuid())
+  headline     String
+  content      String
+  createdAt    DateTime @default(now()) @map("created_at")
+  lastModified DateTime @updatedAt @map("last_modified")
+
+  progTopic      ProgTopic    @relation(fields: [progTopicId], references: [id])
+  progTopicId    String       @map("prog_topic_id")
+  progLanguage   ProgLanguage @relation(fields: [progLanguageId], references: [id])
+  progLanguageId String       @map("prog_language_id")
+  @@id([id, progTopicId])
+  @@map("prog_snippet")
+}
+
+model ProgLanguage {
+  id      String @id @default(cuid())
+  name    String @unique
+  version String
+
+  progSnippets ProgSnippet[]
+  @@map("prog_language")
+}
