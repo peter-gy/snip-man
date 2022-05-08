@@ -37,6 +37,21 @@ services:
     networks:
       mongo-server:
 
+  prisma-migrate:
+    image: snip-man:nx-base
+    env_file:
+      - ./services/mongo/.env
+      - ./services/postgres/.env
+    container_name: snip-man-prisma-migrate
+    restart: on-failure
+    command: ['npm', 'run', 'migrate:prisma']
+    depends_on:
+      - postgres
+      - mongo
+    networks:
+      postgres-server:
+      mongo-server:
+
   server:
     build:
       context: ./
@@ -48,6 +63,8 @@ services:
         NX_BUILD_ARGS: '--prod'
     container_name: snip-man-server
     restart: always
+    depends_on:
+      - prisma-migrate
     networks:
       web-reverse-proxy:
       server-reverse-proxy:
@@ -65,5 +82,7 @@ services:
         NX_BUILD_ARGS: '--prod'
     container_name: snip-man-web
     restart: always
+    depends_on:
+      - server
     networks:
       web-reverse-proxy:

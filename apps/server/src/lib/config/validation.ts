@@ -8,7 +8,7 @@ export const validationSchema = Joi.object({
   POSTGRES_USER: Joi.string().required(),
   POSTGRES_PASSWORD: Joi.string().required(),
   POSTGRES_DB: Joi.string().required(),
-  MONGO_USER: Joi.string().required(),
-  MONGO_PASSWORD: Joi.string().required(),
-  MONGO_DB: Joi.string().required(),
+  MONGO_INITDB_ROOT_USERNAME: Joi.string().required(),
+  MONGO_INITDB_ROOT_PASSWORD: Joi.string().required(),
+  MONGO_INITDB_DATABASE: Joi.string().required(),
 });

@@ -1,29 +1,24 @@
+# Join the DB .env files and create aggregated ones in `apps/server/src/assets`
+prisma-env:
+	echo "# GENERATED FILE, DO NOT MODIFY MANUALLY\n\n$$(<services/mongo/.env)\n\n$$(<services/postgres/.env)" > apps/server/src/assets/.env.production
+	echo "# GENERATED FILE, DO NOT MODIFY MANUALLY\n\n$$(<services/mongo/.env.dev)\n\n$$(<services/postgres/.env.dev)" > apps/server/src/assets/.env.development
+
 build-prod:
-	echo "Running Docker build for production"
-	docker build . -t snip-man:nx-base && docker-compose build
+	docker build . -t snip-man:nx-base
+	docker-compose build
 
-ph1-prod: build-prod
-	docker-compose up -d postgres server web reverse-proxy
+prod-up: build-prod
+	docker-compose up -d
 
-ph2-prod: build-prod
-	docker-compose up -d mongo server web reverse-proxy
+prod-down:
+	docker-compose down
 
 build-dev:
-	echo "Running Docker build for development"
 	docker-compose -f docker-compose.dev.yml build
 
-nx-dev:
-	echo "Starting dockerized NX monorepo"
+dev-up: build-dev
+	docker-compose -f docker-compose.dev.yml up -d mongo postgres
 	docker-compose -f docker-compose.dev.yml run --rm --service-ports nx-dev bash
 
-postgres-dev:
-	echo "Starting dockerized Postgres instance for development in detached mode"
-	docker-compose -f docker-compose.dev.yml up -d postgres
-
-mongo-dev:
-	echo "Starting dockerized MongoDB instance for development in detached mode"
-	docker-compose -f docker-compose.dev.yml up -d mongo
-
-ph1-dev: build-dev postgres-dev nx-dev
-
-ph2-dev: build-dev mongo-dev nx-dev
+dev-down:
+	docker-compose -f docker-compose.dev.yml down

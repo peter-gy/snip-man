@@ -1,0 +1,20 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../node_modules/@prisma/mongo-client"
+}
+
+// Connection URL: https://www.prisma.io/dataguide/mongodb/connection-uris
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL_MONGO")
+}
+
+model User {
+  id       String @id @default(cuid()) @map("_id") @db.ObjectId
+  email    String @unique
+  username String @unique
+  password String
+}
