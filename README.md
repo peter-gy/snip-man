@@ -189,10 +189,14 @@ Visit [Nx Cloud](https://nx.app/) to learn more.
 
 ### Generating Code
 
-```shell
-npx prisma migrate dev --schema=./prisma/postgres-schema.prisma
-```
+Generate `TypeScript` clients:
 
 ```shell
-npx prisma generate --schema=./prisma/postgres-schema.prisma
+npm run generate:prisma
+```
+
+Generate `SQL`:
+
+```shell
+npm run migrate:prisma
 ```
