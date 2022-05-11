@@ -4,6 +4,10 @@ import { PartialType } from '@nestjs/mapped-types';
 export class CreateProgSnippetDto {
   @IsString()
   @IsNotEmpty()
+  progTopicId: string;
+
+  @IsString()
+  @IsNotEmpty()
   headline: string;
 
   @IsString()
