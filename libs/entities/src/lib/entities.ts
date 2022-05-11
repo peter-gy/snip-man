@@ -11,6 +11,7 @@ export interface IUser extends BaseEntity {
 export interface IProgTopic extends BaseEntity {
   name: string;
   description: string;
+  tags: ITag[];
 }
 
 export interface ITag extends BaseEntity {
@@ -23,6 +24,7 @@ export interface IProgSnippet extends BaseEntity {
   content: string;
   lastModified: Date;
   createdAt: Date;
+  progLanguage: IProgLanguage;
 }
 
 export interface IProgLanguage extends BaseEntity {
