@@ -3,8 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import { configuration } from './config/configuration';
 import { validationSchema } from './config/validation';
-import { PostgresApiModule } from './api/postgres/postgres-api.module';
-import { MongoApiModule } from './api/mongo/mongo-api.module';
+import { ApiModule } from './api/api.module';
 
 @Module({
   imports: [
@@ -13,8 +12,8 @@ import { MongoApiModule } from './api/mongo/mongo-api.module';
       load: [configuration],
       validationSchema: validationSchema,
     }),
-    MongoApiModule,
-    PostgresApiModule,
+    ApiModule.register('mongo'),
+    ApiModule.register('postgres'),
   ],
 })
 export class AppModule {}
