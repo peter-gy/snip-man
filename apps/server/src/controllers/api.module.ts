@@ -12,10 +12,25 @@ import { ProgTopicApiControllerBuilder } from './prog-topic.controller';
 import { TagApiControllerBuilder } from './tag.controller';
 
 @Module({})
+/**
+ * This module is responsible for exposing the API endpoints via controllers
+ * which import entity-related use-case services.
+ *
+ * The module itself is dynamic, so that the same controllers can be re-used
+ * for `mongo` and `postgres` `DataSourceType`s.
+ */
 export class ApiModule {
+  /**
+   * Returns a dynamic module which exposes the API endpoints via controllers
+   * for the specified `dataSourceType`.
+   *
+   * @param dataSourceType the `DataSourceType` for which the controllers are built,
+   *                       defining the underlying database to be used.
+   */
   static register(dataSourceType: DataSourceType): DynamicModule {
     return {
       module: ApiModule,
+      // Importing one use-case service module per controller
       imports: [
         ProgLanguageServicesModule.register(dataSourceType),
         ProgSnippetServicesModule.register(dataSourceType),
@@ -23,6 +38,7 @@ export class ApiModule {
         TagServicesModule.register(dataSourceType),
         UserServicesModule.register(dataSourceType),
       ],
+      // Building controllers dynamically based on the `dataSourceType`
       controllers: [
         ProgLanguageApiControllerBuilder.build(dataSourceType),
         ProgSnippetApiControllerBuilder.build(dataSourceType),

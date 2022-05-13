@@ -4,8 +4,12 @@ import { MongoDataServicesModule } from '../../frameworks/data-services/mongo/mo
 import { DataSourceType } from '../../core';
 
 @Module({})
+/**
+ * Dynamic module that imports the data services module based on the `dataSourceType`.
+ */
 export class DataServicesModule {
   static register(dataSourceType: DataSourceType): DynamicModule {
+    // picking the module dynamically
     const dataServiceModule = dataServiceModuleByDataSourceType(dataSourceType);
     return {
       module: DataServicesModule,

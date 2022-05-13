@@ -19,6 +19,7 @@ import { IBaseDataServices } from '../../../core';
     TagRepository,
     UserRepository,
     {
+      // providing as the base interface, so that it can be injected without knowing the implementation
       provide: IBaseDataServices,
       useClass: MongoDataServices,
     },
