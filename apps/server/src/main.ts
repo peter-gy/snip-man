@@ -31,4 +31,4 @@ async function bootstrap() {
   Logger.log(`Running in \`${config.get<string>('environment')}\` mode`);
 }
 
-bootstrap();
+bootstrap().then(Logger.log);

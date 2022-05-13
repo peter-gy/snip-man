@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import { configuration } from './config/configuration';
 import { validationSchema } from './config/validation';
-import { ApiModule } from './api/api.module';
+import { ApiModule } from './controllers/api.module';
 
 @Module({
   imports: [
