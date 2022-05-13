@@ -24,7 +24,6 @@ export class UserRepository implements IBaseRepository<UserEntity> {
   }
 
   findAll(): Promise<UserEntity[]> {
-    console.log('postgres findAll');
     return this.prisma.user.findMany();
   }
 

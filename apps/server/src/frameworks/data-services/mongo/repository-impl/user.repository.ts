@@ -16,7 +16,6 @@ export class UserRepository implements IBaseRepository<UserEntity> {
   }
 
   findAll(): Promise<UserEntity[]> {
-    console.log('mongo findAll');
     return Promise.resolve([]);
   }
 
