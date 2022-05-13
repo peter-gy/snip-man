@@ -8,18 +8,22 @@ import {
   UserRepository,
 } from './repository-impl';
 import { PostgresDataServices } from './postgres-data-services.service';
+import { IBaseDataServices } from '../../../core';
 
 @Module({
   providers: [
-    PostgresDataServices,
     PrismaPostgresService,
     ProgLanguageRepository,
     ProgSnippetRepository,
     ProgTopicRepository,
     TagRepository,
     UserRepository,
+    {
+      provide: IBaseDataServices,
+      useClass: PostgresDataServices,
+    },
   ],
   // Only expose the facade
-  exports: [PostgresDataServices],
+  exports: [IBaseDataServices],
 })
 export class PostgresDataServicesModule {}

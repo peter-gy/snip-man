@@ -8,18 +8,22 @@ import {
   UserRepository,
 } from './repository-impl';
 import { MongoDataServices } from './mongo-data-services.service';
+import { IBaseDataServices } from '../../../core';
 
 @Module({
   providers: [
-    MongoDataServices,
     PrismaMongoService,
     ProgLanguageRepository,
     ProgSnippetRepository,
     ProgTopicRepository,
     TagRepository,
     UserRepository,
+    {
+      provide: IBaseDataServices,
+      useClass: MongoDataServices,
+    },
   ],
   // Only expose the facade
-  exports: [MongoDataServices],
+  exports: [IBaseDataServices],
 })
 export class MongoDataServicesModule {}

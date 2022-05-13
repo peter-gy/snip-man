@@ -5,8 +5,8 @@ import { DataSourceType } from '../../core';
 
 @Module({})
 export class DataServicesModule {
-  static register(type: DataSourceType): DynamicModule {
-    const dataServiceModule = dataServiceModuleByDataSourceType(type);
+  static register(dataSourceType: DataSourceType): DynamicModule {
+    const dataServiceModule = dataServiceModuleByDataSourceType(dataSourceType);
     return {
       module: DataServicesModule,
       imports: [dataServiceModule],
