@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { join } from 'path';
 import { config as dotenvConfig } from 'dotenv';
 
@@ -14,12 +15,23 @@ if (result.error) {
   Logger.log(`Loaded env file: ${envPath}`);
 }
 
-import { AppModule } from './app/app.module';
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
+
+  // Generating OpenAPI specification
+  const openApiConfig = new DocumentBuilder()
+    .setTitle('SnipMan Server')
+    .setDescription('API exposing the SnipMan backend')
+    .setVersion('1.0')
+    .addTag('snip-man')
+    .build();
+  const document = SwaggerModule.createDocument(app, openApiConfig);
+  // Exposing the docs at http(s)://<host>:<port>/api
+  SwaggerModule.setup('api', app, document);
 
   const port = process.env.PORT || 3333;
   await app.listen(port);
@@ -28,7 +40,8 @@ async function bootstrap() {
   );
 
   const config = app.get(ConfigService);
-  Logger.log(`Running in \`${config.get<string>('environment')}\` mode`);
+  Logger.log(`💪 Running in \`${config.get<string>('environment')}\` mode`);
 }
 
-bootstrap();
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+bootstrap().then((_) => Logger.log('✅ Bootstrap done'));

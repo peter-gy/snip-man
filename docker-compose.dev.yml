@@ -14,6 +14,11 @@ services:
       - ./services/postgres/.env.dev
     container_name: snip-man-nx-dev
     restart: always
+    entrypoint: >
+      bash -c "npm install &&
+               npm run generate:prisma &&
+               npm run migrate:prisma &&
+               bash"
     # Mount the repository root into the container for live file changes
     volumes:
       - ./:/usr/snip-man-dev/

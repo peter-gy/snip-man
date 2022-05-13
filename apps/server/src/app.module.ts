@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { configuration } from '../lib/config/configuration';
-import { validationSchema } from '../lib/config/validation';
+import { configuration } from './config/configuration';
+import { validationSchema } from './config/validation';
+import { ApiModule } from './controllers/api.module';
 
 @Module({
   imports: [
@@ -13,8 +12,8 @@ import { validationSchema } from '../lib/config/validation';
       load: [configuration],
       validationSchema: validationSchema,
     }),
+    ApiModule.register('mongo'),
+    ApiModule.register('postgres'),
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
