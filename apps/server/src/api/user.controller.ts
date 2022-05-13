@@ -5,15 +5,15 @@ import { DataSourceType } from '../core';
 export class UserApiControllerBuilder {
   static build(dataSourceType: DataSourceType) {
     @Controller(`${dataSourceType}/users`)
-    class UserApiController {
+    class EndpointController {
       constructor(private readonly service: UserServices) {}
 
       @Get()
-      async getAll() {
-        return this.service.getAllUsers();
+      findAll() {
+        return this.service.findAll();
       }
     }
 
-    return UserApiController;
+    return EndpointController;
   }
 }
