@@ -1,4 +1,5 @@
 import {
+  DataSourceType,
   IBaseDataServices,
   IBaseRepository,
   IBaseRepositoryWeak,
@@ -23,6 +24,7 @@ import {
 export class MongoDataServices
   implements IBaseDataServices, OnApplicationBootstrap
 {
+  dataSourceType: DataSourceType = 'mongo';
   users: IBaseRepository<UserEntity>;
   progTopics: IBaseRepository<ProgTopicEntity>;
   tags: IBaseRepository<TagEntity>;

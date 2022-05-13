@@ -1,4 +1,5 @@
 import {
+  DataSourceType,
   IBaseDataServices,
   IBaseRepository,
   IBaseRepositoryWeak,
@@ -23,6 +24,7 @@ import {
 export class PostgresDataServices
   implements IBaseDataServices, OnApplicationBootstrap
 {
+  dataSourceType: DataSourceType = 'postgres';
   users: IBaseRepository<UserEntity>;
   progTopics: IBaseRepository<ProgTopicEntity>;
   tags: IBaseRepository<TagEntity>;
