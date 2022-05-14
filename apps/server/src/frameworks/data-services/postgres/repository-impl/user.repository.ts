@@ -17,9 +17,12 @@ export class UserRepository implements IBaseRepository<UserEntity> {
     });
   }
 
-  find(id: Pick<UserEntity, 'id'>): Promise<UserEntity | null> {
+  findUnique<A extends keyof UserEntity>(
+    by: keyof UserEntity,
+    attribute: Pick<UserEntity, A>
+  ): Promise<UserEntity | null> {
     return this.prisma.user.findUnique({
-      where: { id: id as unknown as string },
+      where: { [by]: attribute },
     });
   }
 

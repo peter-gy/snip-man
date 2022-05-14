@@ -1,5 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Schema based on: https://github.com/peter-gy/snip-man/blob/main/docs/milestone-01/erd/snip-man-er.svg
 
 generator client {
   provider = "prisma-client-js"
@@ -12,59 +13,97 @@ datasource db {
 }
 
 model User {
+  // Simple attributes
   id       String @id @default(cuid())
   email    String @unique
   username String @unique
   password String
 
+  // User <creates> ProgTopic (1:N)
   progTopics ProgTopic[]
   @@map("user")
 }
 
 model ProgTopic {
-  id          String      @id @default(cuid())
-  children    ProgTopic[] @relation("parent_id")
-  name        String      @unique
+  // Simple attributes
+  id          String @id @default(cuid())
+  name        String
   description String
 
-  parentId     String?       @map("parent_id")
-  parent       ProgTopic?    @relation("parent_id", fields: [parentId], references: [id])
-  user         User          @relation(fields: [userId], references: [id])
-  userId       String        @map("user_id")
-  tags         Tag[]
+  // ProgTopic <has nested> ProgTopic (1:N)
+  parentId String?     @map("parent_id") // null implies that this is a top-level ProgTopic with no parent
+  parent   ProgTopic?  @relation("nested_topics", fields: [parentId], references: [id])
+  children ProgTopic[] @relation("nested_topics") // nested topics
+
+  // User <creates> ProgTopic (1:N)
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id]) // topic author
+
+  // ProgTopic <has> Tag (N:M)
+  tags TagsOnProgTopics[]
+
+  // ProgTopic <has> ProgSnippet (1:N)
   progSnippets ProgSnippet[]
+
   @@map("prog_topic")
 }
 
 model Tag {
+  // Simple attributes
   id    String @id @default(cuid())
   name  String @unique
   color String
 
-  progTopics ProgTopic[]
+  // ProgTopic <has> Tag (N:M)
+  progTopics TagsOnProgTopics[]
+
   @@map("tag")
 }
 
+// Auxiliary model to represent the many-to-many relationship between ProgTopics and Tags
+// Makes it possible to access the relationship via the generated schema, and adds support for referential actions
+model TagsOnProgTopics {
+  // ProgTopic <has> Tag (N:M)
+  tagId String
+  tag   Tag    @relation(fields: [tagId], references: [id])
+
+  // ProgTopic <has> Tag (N:M)
+  progTopicId String
+  progTopic   ProgTopic @relation(fields: [progTopicId], references: [id])
+
+  @@id([tagId, progTopicId])
+  @@map("tags_on_prog_topics")
+}
+
 model ProgSnippet {
+  // Simple attributes
   id           String   @default(cuid())
   headline     String
   content      String
   createdAt    DateTime @default(now()) @map("created_at")
   lastModified DateTime @updatedAt @map("last_modified")
 
-  progTopic      ProgTopic    @relation(fields: [progTopicId], references: [id])
-  progTopicId    String       @map("prog_topic_id")
-  progLanguage   ProgLanguage @relation(fields: [progLanguageId], references: [id])
+  // ProgTopic <has> ProgSnippet (1:N)
+  progTopicId String    @map("prog_topic_id")
+  progTopic   ProgTopic @relation(fields: [progTopicId], references: [id])
+
+  // ProgLanguage <has> ProgSnippet (1:N)
   progLanguageId String       @map("prog_language_id")
+  progLanguage   ProgLanguage @relation(fields: [progLanguageId], references: [id])
+
+  // Weak Entity, primary key composes the progTopicId
   @@id([id, progTopicId])
   @@map("prog_snippet")
 }
 
 model ProgLanguage {
+  // Simple attributes
   id      String @id @default(cuid())
   name    String @unique
   version String
 
+  // ProgLanguage <has> ProgSnippet (1:N)
   progSnippets ProgSnippet[]
+
   @@map("prog_language")
 }

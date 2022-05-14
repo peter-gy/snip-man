@@ -12,11 +12,15 @@ export abstract class IBaseRepository<T extends BaseEntity> {
   abstract findAll(): Promise<T[]>;
 
   /**
-   * Retrieves a single entity from the database by id.
+   * Finds a single entity by a given unique property.
    *
-   * @param id The id of the entity to retrieve.
+   * @param by the name of the unique property to search by.
+   * @param attribute the property to use in the query.
    */
-  abstract find(id: Pick<T, 'id'>): Promise<T | null>;
+  abstract findUnique<A extends keyof T>(
+    by: keyof T,
+    attribute: Pick<T, A>
+  ): Promise<T | null>;
 
   /**
    * Creates a new entity in the database.
@@ -54,14 +58,16 @@ export abstract class IBaseRepositoryWeak<
   abstract findAll(parentId: Pick<Strong, 'id'>): Promise<Weak[]>;
 
   /**
-   * Retrieves a single weak entity from the database by id.
+   * Finds a single weak entity by a given unique property.
    *
    * @param parentId The id of the `Strong` `BaseEntity` whose weak entities shall be retrieved.
-   * @param id The id of the weak entity to retrieve.
+   * @param by the name of the unique property to search by.
+   * @param attribute the property to use in the query.
    */
-  abstract find(
+  abstract findUnique<A extends keyof Weak>(
     parentId: Pick<Strong, 'id'>,
-    id: Pick<Weak, 'id'>
+    by: keyof Weak,
+    attribute: Pick<Weak, A>
   ): Promise<Weak | null>;
 
   /**

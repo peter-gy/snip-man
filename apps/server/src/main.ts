@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -16,6 +16,7 @@ if (result.error) {
 }
 
 import { AppModule } from './app.module';
+import { AllExceptionsFilter } from './core/controller/all-exceptions.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -27,7 +28,6 @@ async function bootstrap() {
     .setTitle('SnipMan Server')
     .setDescription('API exposing the SnipMan backend')
     .setVersion('1.0')
-    .addTag('snip-man')
     .build();
   const document = SwaggerModule.createDocument(app, openApiConfig);
   // Exposing the docs at http(s)://<host>:<port>/api

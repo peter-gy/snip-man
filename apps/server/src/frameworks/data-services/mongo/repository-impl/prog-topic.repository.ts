@@ -11,7 +11,10 @@ export class ProgTopicRepository implements IBaseRepository<ProgTopicEntity> {
     return Promise.resolve(undefined);
   }
 
-  find(id: Pick<ProgTopicEntity, 'id'>): Promise<ProgTopicEntity | null> {
+  findUnique<A extends keyof ProgTopicEntity>(
+    by: keyof ProgTopicEntity,
+    attribute: Pick<ProgTopicEntity, A>
+  ): Promise<ProgTopicEntity | null> {
     return Promise.resolve(undefined);
   }
 
