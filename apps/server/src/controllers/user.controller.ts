@@ -41,7 +41,6 @@ export class UserApiControllerBuilder {
       })
       @Get('find-by-username')
       findByUsername(@Query('value') username: Pick<UserEntity, 'username'>) {
-        console.log(username);
         return this.service.findByUsername(username);
       }
 
