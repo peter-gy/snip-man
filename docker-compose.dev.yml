@@ -15,7 +15,8 @@ services:
     container_name: snip-man-nx-dev
     restart: always
     entrypoint: >
-      bash -c "npm install &&
+      bash -c "npm install -g npm@latest &&
+               npm install &&
                npm run generate:prisma &&
                npm run migrate:prisma &&
                bash"
