@@ -31,10 +31,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
       path: httpAdapter.getRequestUrl(ctx.getRequest()),
       message: (exception as Error).message.replace(/\n/g, ''),
     };
-    Logger.error(
-      `${responseBody.path}: ${responseBody.message}`,
-      'ExceptionFilter'
-    );
+    Logger.error(`${responseBody.path}: ${exception}`, 'ExceptionFilter');
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
   }
 }

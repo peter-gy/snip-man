@@ -1,4 +1,4 @@
-import { Faker, faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import {
   CreateProgLanguageDto,
   CreateProgSnippetDto,
@@ -6,23 +6,24 @@ import {
   CreateTagDto,
   CreateUserDto,
 } from '@snip-man/entities';
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { DataGenerator } from '../../../core/populator/data-generator.abstract';
 
 @Injectable()
-export class FakeDataGeneratorService implements DataGenerator {
-  fk: Faker;
+export class FakeDataGeneratorService
+  implements DataGenerator, OnApplicationBootstrap
+{
+  constructor(private readonly seed: number) {}
 
-  constructor(seed?: number) {
-    this.fk = faker;
-    this.fk.seed(seed);
+  onApplicationBootstrap() {
+    faker.seed(this.seed);
   }
 
   public generateUser(): CreateUserDto {
     return {
-      email: this.fk.internet.email(),
-      password: this.fk.internet.password(),
-      username: this.fk.internet.userName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+      username: faker.internet.userName(),
     };
   }
 
@@ -33,32 +34,32 @@ export class FakeDataGeneratorService implements DataGenerator {
     return {
       userId: userId,
       parentId: parentId,
-      name: this.fk.hacker.verb(),
-      description: this.fk.hacker.phrase(),
+      name: faker.hacker.verb(),
+      description: faker.hacker.phrase(),
     };
   }
 
   public generateTag(): CreateTagDto {
     return {
-      name: this.fk.hacker.noun(),
-      color: this.fk.internet.color(),
+      name: faker.hacker.noun(),
+      color: faker.internet.color(),
     };
   }
 
   public generateProgSnippet(progTopicId: string): CreateProgSnippetDto {
     return {
       progTopicId: progTopicId,
-      headline: this.fk.git.commitMessage(),
-      content: this.fk.lorem.paragraphs(2),
-      createdAt: this.fk.date.past(),
-      lastModified: this.fk.date.recent(),
+      headline: faker.git.commitMessage(),
+      content: faker.lorem.paragraphs(2),
+      createdAt: faker.date.past(),
+      lastModified: faker.date.recent(),
     };
   }
 
   public generateProgLanguage(): CreateProgLanguageDto {
     return {
-      name: this.fk.hacker.noun(),
-      version: this.fk.hacker.abbreviation(),
+      name: faker.hacker.noun(),
+      version: faker.hacker.abbreviation(),
     };
   }
 }

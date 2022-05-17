@@ -3,21 +3,23 @@ import { DatabasePopulator } from '../../../core/populator/database-populator.ab
 import { DatabasePopulatorService } from './database-populator.service';
 import { DataGenerator } from '../../../core/populator/data-generator.abstract';
 import { FakeDataGeneratorService } from './fake-data-generator.service';
+import { PostgresDataServicesModule } from '../../../frameworks/data-services/postgres/postgres-data-services.module';
 
 @Module({
+  imports: [PostgresDataServicesModule],
   providers: [
-    {
-      provide: DatabasePopulator,
-      useClass: DatabasePopulatorService,
-    },
     {
       provide: DataGenerator,
       useClass: FakeDataGeneratorService,
     },
     {
-      // seed for FakeDataGeneratorService
+      // seed for Faker
       provide: Number,
       useValue: 42,
+    },
+    {
+      provide: DatabasePopulator,
+      useClass: DatabasePopulatorService,
     },
   ],
   exports: [DatabasePopulator],
