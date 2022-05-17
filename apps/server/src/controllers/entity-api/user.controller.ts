@@ -8,8 +8,8 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { UserServices } from '../services/use-cases/user/user-services.service';
-import { DataSourceType } from '../core';
+import { UserServices } from '../../services/use-cases/user/user-services.service';
+import { DataSourceType } from '../../core';
 import { CreateUserDto, UserEntity } from '@snip-man/entities';
 import { ApiOperation, ApiQuery } from '@nestjs/swagger';
 

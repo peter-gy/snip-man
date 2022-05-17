@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
-import { DataSourceType } from '../core';
-import { ProgLanguageServices } from '../services/use-cases/prog-language/prog-language-services.services';
+import { DataSourceType } from '../../core';
+import { ProgLanguageServices } from '../../services/use-cases/prog-language/prog-language-services.services';
 import { ApiOperation } from '@nestjs/swagger';
 
 export class ProgLanguageApiControllerBuilder {

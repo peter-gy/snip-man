@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { DataSourceType } from '../core';
-import { ProgTopicServices } from '../services/use-cases/prog-topic/prog-topic-services.service';
+import { DataSourceType } from '../../core';
+import { ProgTopicServices } from '../../services/use-cases/prog-topic/prog-topic-services.service';
 import { CreateProgTopicDto } from '@snip-man/entities';
 import { ApiOperation } from '@nestjs/swagger';
 

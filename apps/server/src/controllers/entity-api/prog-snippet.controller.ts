@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { DataSourceType } from '../core';
-import { ProgSnippetServices } from '../services/use-cases/prog-snippet/prog-snippet-services.service';
+import { DataSourceType } from '../../core';
+import { ProgSnippetServices } from '../../services/use-cases/prog-snippet/prog-snippet-services.service';
 import { ProgTopicEntity } from '@snip-man/entities';
 import { ApiOperation } from '@nestjs/swagger';
 

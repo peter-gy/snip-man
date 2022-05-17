@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
-import { DataSourceType } from '../core';
-import { TagServices } from '../services/use-cases/tag/tag-services.service';
+import { DataSourceType } from '../../core';
+import { TagServices } from '../../services/use-cases/tag/tag-services.service';
 import { ApiOperation } from '@nestjs/swagger';
 
 export class TagApiControllerBuilder {
