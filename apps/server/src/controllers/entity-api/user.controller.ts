@@ -23,6 +23,15 @@ export class UserApiControllerBuilder {
 
       @ApiOperation({
         tags: [openApiTag],
+        summary: 'Find all users',
+      })
+      @Get('find-all')
+      findAll() {
+        return this.service.findAll();
+      }
+
+      @ApiOperation({
+        tags: [openApiTag],
         summary: 'Find user by username',
       })
       @ApiQuery({
