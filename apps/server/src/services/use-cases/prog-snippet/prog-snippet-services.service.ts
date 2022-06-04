@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotImplementedException } from '@nestjs/common';
 import { IBaseDataServices, IBaseRepositoryWeak } from '../../../core';
 import {
   CreateProgSnippetDto,
@@ -19,7 +19,7 @@ export class ProgSnippetServices {
    * Create a new snippet
    * @param dto data transfer object passed from the outside world
    */
-  create(dto: CreateProgSnippetDto) {
+  async create(dto: CreateProgSnippetDto) {
     const { progTopicId, ...item } = dto;
     return this.repo.create(
       progTopicId as unknown as Pick<ProgTopicEntity, 'id'>,
@@ -59,6 +59,6 @@ export class ProgSnippetServices {
     id: Pick<ProgSnippetEntity, 'id'>,
     dto: UpdateProgSnippetDto
   ) {
-    return this.repo.update(parentId, id, dto);
+    throw NotImplementedException;
   }
 }

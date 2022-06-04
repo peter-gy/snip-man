@@ -1,24 +1,42 @@
-import { IsDate, IsNotEmpty, IsString } from 'class-validator';
+import { IsDate, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { PartialType } from '@nestjs/mapped-types';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateProgSnippetDto {
+  @ApiProperty({
+    example: 'cl36077510000x0piadfdwx94t',
+    description:
+      'ID of the ProgTopic inside which this snippet should be created',
+  })
   @IsString()
   @IsNotEmpty()
   progTopicId: string;
 
+  @ApiProperty({
+    example: 'cl36077510000x0piasffdwx94t',
+    description: 'ID of the ProgLanguage in which this snippet is written',
+  })
+  progLanguageId: string;
+
+  @ApiProperty({ example: 'Factorial' })
   @IsString()
   @IsNotEmpty()
   headline: string;
 
+  @ApiProperty({ example: 'const f = (x) => x == 0 ? 1 : x*f(x-1)' })
   @IsString()
   @IsNotEmpty()
   content: string;
 
+  @ApiProperty({ example: null })
   @IsDate()
-  lastModified: Date;
+  @IsOptional()
+  lastModified?: Date;
 
+  @ApiProperty({ example: null })
   @IsDate()
-  createdAt: Date;
+  @IsOptional()
+  createdAt?: Date;
 }
 
 export class UpdateProgSnippetDto extends PartialType(CreateProgSnippetDto) {}

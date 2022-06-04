@@ -13,7 +13,14 @@ export class ProgSnippetRepository
     parentId: Pick<ProgTopicEntity, 'id'>,
     item: Partial<ProgSnippetEntity>
   ): Promise<ProgSnippetEntity> {
-    return Promise.resolve(undefined);
+    return this.prisma.progSnippet.create({
+      data: {
+        content: item.content,
+        headline: item.headline,
+        progTopicId: parentId as unknown as string,
+        progLanguageId: item.progLanguageId,
+      },
+    });
   }
 
   findUnique<A extends keyof ProgSnippetEntity>(

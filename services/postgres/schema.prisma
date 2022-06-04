@@ -99,7 +99,7 @@ model ProgSnippet {
 model ProgLanguage {
   // Simple attributes
   id      String @id @default(cuid())
-  name    String @unique
+  name    String
   version String
 
   // ProgLanguage <has> ProgSnippet (1:N)

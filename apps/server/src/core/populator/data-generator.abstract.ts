@@ -32,9 +32,13 @@ export abstract class DataGenerator {
 
   /**
    * @param progTopicId id of the topic containing the snippet
+   * @param progLanguageId id of the programming language of the snippet
    * @return a generated `CreateProgSnippetDto`
    */
-  abstract generateProgSnippet(progTopicId: string): CreateProgSnippetDto;
+  abstract generateProgSnippet(
+    progTopicId: string,
+    progLanguageId: string
+  ): CreateProgSnippetDto;
 
   /**
    * @return a generated `CreateProgLanguageDto`

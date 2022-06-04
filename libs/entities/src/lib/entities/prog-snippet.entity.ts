@@ -6,5 +6,5 @@ export class ProgSnippetEntity extends BaseEntity {
   content: string;
   lastModified: Date;
   createdAt: Date;
-  progLanguage: ProgLanguageEntity;
+  progLanguageId: string;
 }
