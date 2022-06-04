@@ -13,14 +13,22 @@ export class ProgSnippetRepository
     parentId: Pick<ProgTopicEntity, 'id'>,
     item: Partial<ProgSnippetEntity>
   ): Promise<ProgSnippetEntity> {
-    return Promise.resolve(undefined);
+    return this.prisma.progSnippet.create({
+      data: {
+        content: item.content,
+        headline: item.headline,
+        progTopicId: parentId as unknown as string,
+        progLanguageId: item.progLanguageId,
+      },
+    });
   }
 
-  find(
+  findUnique<A extends keyof ProgSnippetEntity>(
     parentId: Pick<ProgTopicEntity, 'id'>,
-    id: Pick<ProgSnippetEntity, 'id'>
-  ): Promise<ProgSnippetEntity | null> {
-    return Promise.resolve(undefined);
+    by: keyof ProgSnippetEntity,
+    attribute: Pick<ProgSnippetEntity, A>
+  ): Promise<ProgSnippetEntity> {
+    throw new Error('Method not implemented.');
   }
 
   findAll(parentId: Pick<ProgTopicEntity, 'id'>): Promise<ProgSnippetEntity[]> {

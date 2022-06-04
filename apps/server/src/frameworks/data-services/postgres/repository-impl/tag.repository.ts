@@ -8,21 +8,38 @@ export class TagRepository implements IBaseRepository<TagEntity> {
   constructor(private readonly prisma: PrismaPostgresService) {}
 
   create(item: Partial<TagEntity>): Promise<TagEntity> {
-    return Promise.resolve(undefined);
+    return this.prisma.tag.create({
+      data: {
+        name: item.name,
+        color: item.color,
+      },
+    });
   }
 
-  find(id: Pick<TagEntity, 'id'>): Promise<TagEntity | null> {
-    return Promise.resolve(undefined);
+  findUnique<A extends keyof TagEntity>(
+    by: keyof TagEntity,
+    attribute: Pick<TagEntity, A>
+  ): Promise<TagEntity | null> {
+    return this.prisma.tag.findUnique({
+      where: { [by]: attribute },
+    });
   }
 
   findAll(): Promise<TagEntity[]> {
-    return Promise.resolve([]);
+    return this.prisma.tag.findMany();
   }
 
   update(
     id: Pick<TagEntity, 'id'>,
     item: Partial<TagEntity>
   ): Promise<TagEntity> {
-    return Promise.resolve(undefined);
+    const promise = this.prisma.tag.update({
+      where: { id: id as unknown as string },
+      data: {
+        name: item.name,
+        color: item.color,
+      },
+    });
+    return Promise.resolve(promise);
   }
 }

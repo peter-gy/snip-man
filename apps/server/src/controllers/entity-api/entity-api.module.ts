@@ -1,11 +1,11 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { DataSourceType } from '../core';
-import { UserServicesModule } from '../services/use-cases/user/user-services.module';
+import { DataSourceType } from '../../core';
+import { UserServicesModule } from '../../services/use-cases/user/user-services.module';
 import { UserApiControllerBuilder } from './user.controller';
-import { ProgLanguageServicesModule } from '../services/use-cases/prog-language/prog-language-services.module';
-import { ProgSnippetServicesModule } from '../services/use-cases/prog-snippet/prog-snippet-services.module';
-import { ProgTopicServicesModule } from '../services/use-cases/prog-topic/prog-topic-services.module';
-import { TagServicesModule } from '../services/use-cases/tag/tag-services.module';
+import { ProgLanguageServicesModule } from '../../services/use-cases/prog-language/prog-language-services.module';
+import { ProgSnippetServicesModule } from '../../services/use-cases/prog-snippet/prog-snippet-services.module';
+import { ProgTopicServicesModule } from '../../services/use-cases/prog-topic/prog-topic-services.module';
+import { TagServicesModule } from '../../services/use-cases/tag/tag-services.module';
 import { ProgLanguageApiControllerBuilder } from './prog-language.controller';
 import { ProgSnippetApiControllerBuilder } from './prog-snippet.controller';
 import { ProgTopicApiControllerBuilder } from './prog-topic.controller';
@@ -19,7 +19,7 @@ import { TagApiControllerBuilder } from './tag.controller';
  * The module itself is dynamic, so that the same controllers can be re-used
  * for `mongo` and `postgres` `DataSourceType`s.
  */
-export class ApiModule {
+export class EntityApiModule {
   /**
    * Returns a dynamic module which exposes the API endpoints via controllers
    * for the specified `dataSourceType`.
@@ -29,7 +29,7 @@ export class ApiModule {
    */
   static register(dataSourceType: DataSourceType): DynamicModule {
     return {
-      module: ApiModule,
+      module: EntityApiModule,
       // Importing one use-case service module per controller
       imports: [
         ProgLanguageServicesModule.register(dataSourceType),

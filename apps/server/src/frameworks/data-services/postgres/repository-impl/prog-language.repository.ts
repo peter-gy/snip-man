@@ -10,21 +10,38 @@ export class ProgLanguageRepository
   constructor(private readonly prisma: PrismaPostgresService) {}
 
   create(item: Partial<ProgLanguageEntity>): Promise<ProgLanguageEntity> {
-    return Promise.resolve(undefined);
+    return this.prisma.progLanguage.create({
+      data: {
+        name: item.name,
+        version: item.version,
+      },
+    });
   }
 
-  find(id: Pick<ProgLanguageEntity, 'id'>): Promise<ProgLanguageEntity | null> {
-    return Promise.resolve(undefined);
+  findUnique<A extends keyof ProgLanguageEntity>(
+    by: keyof ProgLanguageEntity,
+    attribute: Pick<ProgLanguageEntity, A>
+  ): Promise<ProgLanguageEntity> {
+    return this.prisma.progLanguage.findUnique({
+      where: { [by]: attribute },
+    });
   }
 
   findAll(): Promise<ProgLanguageEntity[]> {
-    return Promise.resolve([]);
+    return this.prisma.progLanguage.findMany();
   }
 
   update(
     id: Pick<ProgLanguageEntity, 'id'>,
     item: Partial<ProgLanguageEntity>
   ): Promise<ProgLanguageEntity> {
-    return Promise.resolve(undefined);
+    const promise = this.prisma.progLanguage.update({
+      where: { id: id as unknown as string },
+      data: {
+        name: item.name,
+        version: item.version,
+      },
+    });
+    return Promise.resolve(promise);
   }
 }

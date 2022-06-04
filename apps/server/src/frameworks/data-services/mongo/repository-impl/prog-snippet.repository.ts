@@ -16,11 +16,12 @@ export class ProgSnippetRepository
     return Promise.resolve(undefined);
   }
 
-  find(
+  findUnique<A extends keyof ProgSnippetEntity>(
     parentId: Pick<ProgTopicEntity, 'id'>,
-    id: Pick<ProgSnippetEntity, 'id'>
-  ): Promise<ProgSnippetEntity | null> {
-    return Promise.resolve(undefined);
+    by: keyof ProgSnippetEntity,
+    attribute: Pick<ProgSnippetEntity, A>
+  ): Promise<ProgSnippetEntity> {
+    throw new Error('Method not implemented.');
   }
 
   findAll(parentId: Pick<ProgTopicEntity, 'id'>): Promise<ProgSnippetEntity[]> {

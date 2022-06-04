@@ -1,12 +1,64 @@
-import { Injectable } from '@nestjs/common';
-import { IBaseDataServices } from '../../../core';
-import { ProgTopicEntity } from '@snip-man/entities';
+import { Injectable, NotImplementedException } from '@nestjs/common';
+import { IBaseDataServices, IBaseRepositoryWeak } from '../../../core';
+import {
+  CreateProgSnippetDto,
+  ProgSnippetEntity,
+  ProgTopicEntity,
+  UpdateProgSnippetDto,
+} from '@snip-man/entities';
 
 @Injectable()
 export class ProgSnippetServices {
-  constructor(private readonly dataServices: IBaseDataServices) {}
+  repo: IBaseRepositoryWeak<ProgSnippetEntity, ProgTopicEntity>;
 
+  constructor(private readonly dataServices: IBaseDataServices) {
+    this.repo = dataServices.progSnippets;
+  }
+
+  /**
+   * Create a new snippet
+   * @param dto data transfer object passed from the outside world
+   */
+  async create(dto: CreateProgSnippetDto) {
+    const { progTopicId, ...item } = dto;
+    return this.repo.create(
+      progTopicId as unknown as Pick<ProgTopicEntity, 'id'>,
+      item
+    );
+  }
+
+  /**
+   * Retrieves a programming snippet by the id of its enclosing topic
+   * and the id of the snippet itself
+   * @param parentId the id of the topic
+   * @param id the id of the snippet
+   */
+  find(
+    parentId: Pick<ProgTopicEntity, 'id'>,
+    id: Pick<ProgSnippetEntity, 'id'>
+  ) {
+    return this.repo.findUnique<'id'>(parentId, 'id', id);
+  }
+
+  /**
+   * Retrieves all snippets from the database for a given topic
+   * @param parentId the id of the topic to which the snippet belongs
+   */
   findAll(parentId: Pick<ProgTopicEntity, 'id'>) {
     return this.dataServices.progSnippets.findAll(parentId);
+  }
+
+  /**
+   * Updates a programming snippet
+   * @param parentId the id of the topic to which the snippet belongs
+   * @param id the id of the snippet
+   * @param dto the data transfer object containing the updated attributes
+   */
+  update(
+    parentId: Pick<ProgTopicEntity, 'id'>,
+    id: Pick<ProgSnippetEntity, 'id'>,
+    dto: UpdateProgSnippetDto
+  ) {
+    throw NotImplementedException;
   }
 }

@@ -1,6 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { PrismaClient as PrismaMongoClient } from '@prisma/mongo-client';
 import { ConfigService } from '@nestjs/config';
+
+// Source: https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#event-types
+type QueryEvent = {
+  timestamp: Date;
+  query: string; // Query sent to the database
+  target: string;
+};
 
 @Injectable()
 /**
@@ -18,6 +25,17 @@ export class PrismaMongoService extends PrismaMongoClient {
           url: config.get('DATABASE_URL_MONGO'),
         },
       },
+      log: [
+        {
+          emit: 'event',
+          level: 'query',
+        },
+      ],
+    });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    this.$on('query', (event: QueryEvent) => {
+      Logger.debug(`Query: ${event.query}`);
     });
   }
 }

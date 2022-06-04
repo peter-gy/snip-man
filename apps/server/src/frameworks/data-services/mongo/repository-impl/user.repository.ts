@@ -11,12 +11,14 @@ export class UserRepository implements IBaseRepository<UserEntity> {
     return Promise.resolve(undefined);
   }
 
-  find(id: Pick<UserEntity, 'id'>): Promise<UserEntity | null> {
+  findUnique<A extends keyof UserEntity>(
+    by: keyof UserEntity,
+    attribute: Pick<UserEntity, A>
+  ): Promise<UserEntity | null> {
     return Promise.resolve(undefined);
   }
 
   findAll(): Promise<UserEntity[]> {
-    console.log('mongo findAll');
     return Promise.resolve([]);
   }
 

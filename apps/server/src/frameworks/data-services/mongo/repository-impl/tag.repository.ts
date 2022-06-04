@@ -11,8 +11,11 @@ export class TagRepository implements IBaseRepository<TagEntity> {
     return Promise.resolve(undefined);
   }
 
-  find(id: Pick<TagEntity, 'id'>): Promise<TagEntity | null> {
-    return Promise.resolve(undefined);
+  findUnique<A extends keyof TagEntity>(
+    by: keyof TagEntity,
+    attribute: Pick<TagEntity, A>
+  ): Promise<TagEntity> {
+    throw new Error('Method not implemented.');
   }
 
   findAll(): Promise<TagEntity[]> {

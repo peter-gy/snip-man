@@ -13,8 +13,11 @@ export class ProgLanguageRepository
     return Promise.resolve(undefined);
   }
 
-  find(id: Pick<ProgLanguageEntity, 'id'>): Promise<ProgLanguageEntity | null> {
-    return Promise.resolve(undefined);
+  findUnique<A extends keyof ProgLanguageEntity>(
+    by: keyof ProgLanguageEntity,
+    attribute: Pick<ProgLanguageEntity, A>
+  ): Promise<ProgLanguageEntity> {
+    throw new Error('Method not implemented.');
   }
 
   findAll(): Promise<ProgLanguageEntity[]> {
