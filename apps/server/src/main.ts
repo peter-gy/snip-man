@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { join } from 'path';
 import { config as dotenvConfig } from 'dotenv';
@@ -20,6 +20,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
+
+  // Handles validation using `class-validator` annotations
+  app.useGlobalPipes(new ValidationPipe());
 
   // Generating OpenAPI specification
   const openApiConfig = new DocumentBuilder()

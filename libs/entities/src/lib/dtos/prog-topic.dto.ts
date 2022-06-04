@@ -16,7 +16,7 @@ export class CreateProgTopicDto {
 
   @ApiProperty({ example: 'NestJS & Swagger' })
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ always: true })
   name: string;
 
   @ApiProperty({ example: 'Integration of OpenAPI standards with NestJS' })

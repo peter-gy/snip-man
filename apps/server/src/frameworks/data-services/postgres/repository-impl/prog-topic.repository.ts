@@ -10,9 +10,7 @@ export class ProgTopicRepository implements IBaseRepository<ProgTopicEntity> {
   create(item: Partial<ProgTopicEntity>): Promise<ProgTopicEntity> {
     return this.prisma.progTopic
       .create({
-        include: {
-          tags: true,
-        },
+        include: { tags: { include: { tag: true } } },
         data: {
           userId: item.userId,
           parentId: item.parentId,
@@ -20,7 +18,11 @@ export class ProgTopicRepository implements IBaseRepository<ProgTopicEntity> {
           description: item.description,
         },
       })
-      .then((r) => ({ ...r, tagIds: r.tags.map((t) => t.tagId) }));
+      .then((r) => ({
+        ...r,
+        tagIds: r.tags.map((t) => t.tagId),
+        tags: r.tags.map(({ tag }) => tag),
+      }));
   }
 
   async findUnique<A extends keyof ProgTopicEntity>(
@@ -32,9 +34,13 @@ export class ProgTopicRepository implements IBaseRepository<ProgTopicEntity> {
 
   findAll(): Promise<ProgTopicEntity[]> {
     return this.prisma.progTopic
-      .findMany({ include: { tags: true } })
+      .findMany({ include: { tags: { include: { tag: true } } } })
       .then((r) =>
-        r.map((t) => ({ ...t, tagIds: t.tags.map((t) => t.tagId) }))
+        r.map((t) => ({
+          ...t,
+          tagIds: t.tags.map((t) => t.tagId),
+          tags: t.tags.map(({ tag }) => tag),
+        }))
       );
   }
 
@@ -52,7 +58,7 @@ export class ProgTopicRepository implements IBaseRepository<ProgTopicEntity> {
     }
     return this.prisma.progTopic
       .update({
-        include: { tags: true },
+        include: { tags: { include: { tag: true } } },
         where: { id: id as unknown as string },
         data: {
           userId: item.userId,
@@ -61,6 +67,10 @@ export class ProgTopicRepository implements IBaseRepository<ProgTopicEntity> {
           description: item.description,
         },
       })
-      .then((r) => ({ ...r, tagIds: r.tags.map((t) => t.tagId) }));
+      .then((r) => ({
+        ...r,
+        tagIds: r.tags.map((t) => t.tagId),
+        tags: r.tags.map(({ tag }) => tag),
+      }));
   }
 }

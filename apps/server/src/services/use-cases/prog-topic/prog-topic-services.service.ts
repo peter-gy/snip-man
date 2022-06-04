@@ -31,8 +31,6 @@ export class ProgTopicServices {
    * @param dto the data transfer object containing the updated attributes
    */
   update(id: Pick<ProgTopicEntity, 'id'>, dto: UpdateProgTopicDto) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     return this.dataServices.progTopics.update(id, dto);
   }
 }
