@@ -27,7 +27,7 @@ Note that the repository root gets mounted bi-directionally into the `/usr/snip-
 service, therefore file-system changes made on the host will be immediately present inside the container, and
 vice-versa.
 
-The `web` and `server` components can be served in development mode at once by executing `npm run project:serve`. 
+The `web` and `server` components can be served in development mode at once by executing `npm run project:serve`.
 
 ## Production Build & Run
 
