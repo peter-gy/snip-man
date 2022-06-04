@@ -20,31 +20,12 @@ addition, the database services can be also managed via `docker-compose`.
 
 Steps to start the development environment:
 
-1. Build the services: `make build-dev`
-2. Start one of the databases: `make postgres-dev` or `make mongo-dev`
-3. Start the `nx` environment: `make nx-dev`
+1. Build and run the services: `make dev-up`
+2. Start Nx services of your choice (scripts in `package.json` might be helpful)
 
 Note that the repository root gets mounted bi-directionally into the `/usr/snip-man-dev/` directory of the `nx-dev`
 service, therefore file-system changes made on the host will be immediately present inside the container, and
 vice-versa.
-
-### Shortcuts
-
-#### Phase 1 - RDBMS feat. Postgres
-
-Starts the development environment with a Postgres instance.
-
-```shell
-make ph1-dev
-```
-
-#### Phase 2 - NoSQL feat. MongoDB
-
-Starts the development environment with a MongoDB instance.
-
-```shell
-make ph2-dev
-```
 
 ## Production Build & Run
 
@@ -77,21 +58,13 @@ docker-compose up
 Using pure `bash`:
 
 ```shell
-docker build . -t snip-man:nx-base && docker-compose build
+docker build . -t snip-man:nx-base && docker-compose build && docker-compose up -d
 ```
 
 Using `make`:
 
-Phase 1, RDBMS feat. Postgres
-
 ```shell
-make ph1-prod
-```
-
-Phase 2, RDBMS feat. MongoDB
-
-```shell
-make ph2-prod
+make prod-up
 ```
 
 ### Accessing App Components
