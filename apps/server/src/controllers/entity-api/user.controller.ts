@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  Post,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { UserServices } from '../../services/use-cases/user/user-services.service';
 import { DataSourceType } from '../../core';
 import { CreateUserDto, UserEntity } from '@snip-man/entities';

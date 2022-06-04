@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { IBaseDataServices, IBaseRepository } from '../../../core';
-import { CreateTagDto, UpdateTagDto, TagEntity } from '@snip-man/entities';
+import { CreateTagDto, TagEntity, UpdateTagDto } from '@snip-man/entities';
 
 @Injectable()
 export class TagServices {

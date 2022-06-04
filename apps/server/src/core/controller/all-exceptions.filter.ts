@@ -1,8 +1,8 @@
 // Source: https://docs.nestjs.com/exception-filters
 import {
-  ExceptionFilter,
-  Catch,
   ArgumentsHost,
+  Catch,
+  ExceptionFilter,
   HttpException,
   HttpStatus,
   Logger,

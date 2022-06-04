@@ -1,9 +1,10 @@
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { join } from 'path';
 import { config as dotenvConfig } from 'dotenv';
+import { AppModule } from './app.module';
 
 // Load environment variables dynamically from 'assets/.env.development' or 'assets/.env.production'
 const envPath = join(__dirname, 'assets', `.env.${process.env.NODE_ENV}`);
@@ -14,9 +15,6 @@ if (result.error) {
 } else {
   Logger.log(`Loaded env file: ${envPath}`);
 }
-
-import { AppModule } from './app.module';
-import { AllExceptionsFilter } from './core/controller/all-exceptions.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
