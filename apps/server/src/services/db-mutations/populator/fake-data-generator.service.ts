@@ -36,6 +36,7 @@ export class FakeDataGeneratorService
       parentId: parentId,
       name: faker.hacker.verb(),
       description: faker.hacker.phrase(),
+      tagIds: [],
     };
   }
 

@@ -1,6 +1,6 @@
 import { IBaseRepository } from '../../../../core';
 import { ProgTopicEntity } from '@snip-man/entities';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotImplementedException } from '@nestjs/common';
 import { PrismaPostgresService } from '../prisma-postgres.service';
 
 @Injectable()
@@ -8,41 +8,59 @@ export class ProgTopicRepository implements IBaseRepository<ProgTopicEntity> {
   constructor(private readonly prisma: PrismaPostgresService) {}
 
   create(item: Partial<ProgTopicEntity>): Promise<ProgTopicEntity> {
-    return this.prisma.progTopic.create({
-      data: {
-        userId: item.userId,
-        parentId: item.parentId,
-        name: item.name,
-        description: item.description,
-      },
-    });
+    return this.prisma.progTopic
+      .create({
+        include: {
+          tags: true,
+        },
+        data: {
+          userId: item.userId,
+          parentId: item.parentId,
+          name: item.name,
+          description: item.description,
+        },
+      })
+      .then((r) => ({ ...r, tagIds: r.tags.map((t) => t.tagId) }));
   }
 
-  findUnique<A extends keyof ProgTopicEntity>(
+  async findUnique<A extends keyof ProgTopicEntity>(
     by: keyof ProgTopicEntity,
     attribute: Pick<ProgTopicEntity, A>
   ): Promise<ProgTopicEntity | null> {
-    return this.prisma.progTopic.findUnique({
-      where: { [by]: attribute },
-    });
+    throw NotImplementedException;
   }
 
   findAll(): Promise<ProgTopicEntity[]> {
-    return this.prisma.progTopic.findMany();
+    return this.prisma.progTopic
+      .findMany({ include: { tags: true } })
+      .then((r) =>
+        r.map((t) => ({ ...t, tagIds: t.tags.map((t) => t.tagId) }))
+      );
   }
 
-  update(
+  async update(
     id: Pick<ProgTopicEntity, 'id'>,
     item: Partial<ProgTopicEntity>
   ): Promise<ProgTopicEntity> {
-    return this.prisma.progTopic.update({
-      where: { id: id as unknown as string },
-      data: {
-        userId: item.userId,
-        parentId: item.parentId,
-        name: item.name,
-        description: item.description,
-      },
-    });
+    const progTopicId = id as unknown as string;
+    for (const tagId of item.tagIds) {
+      await this.prisma.tagsOnProgTopics.upsert({
+        where: { tagId_progTopicId: { tagId, progTopicId } },
+        create: { tagId, progTopicId },
+        update: { tagId, progTopicId },
+      });
+    }
+    return this.prisma.progTopic
+      .update({
+        include: { tags: true },
+        where: { id: id as unknown as string },
+        data: {
+          userId: item.userId,
+          parentId: item.parentId,
+          name: item.name,
+          description: item.description,
+        },
+      })
+      .then((r) => ({ ...r, tagIds: r.tags.map((t) => t.tagId) }));
   }
 }

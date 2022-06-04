@@ -23,6 +23,9 @@ export class CreateProgTopicDto {
   @IsString()
   @IsNotEmpty()
   description: string;
+
+  @ApiProperty({ example: [], description: 'Array of Tag ids on this topic' })
+  tagIds: string[] = [];
 }
 
 export class UpdateProgTopicDto extends PartialType(CreateProgTopicDto) {}

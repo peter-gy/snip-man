@@ -51,7 +51,7 @@ model ProgTopic {
 model Tag {
   // Simple attributes
   id    String @id @default(cuid())
-  name  String @unique
+  name  String
   color String
 
   // ProgTopic <has> Tag (N:M)

@@ -5,4 +5,5 @@ export class ProgTopicEntity extends BaseEntity {
   parentId?: string;
   name: string;
   description: string;
+  tagIds: string[] = [];
 }

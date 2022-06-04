@@ -8,10 +8,16 @@ function range(start: number, end: number) {
   return Array.from({ length: end - start }, (_, i) => i + start);
 }
 
+function randomArrayElement<T>(array: T[]) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+
 const NUM_USERS = 3;
 const NUM_LANGUAGES = 10;
+const NUM_TAGS = 8;
 const NUM_TOPICS_PER_USER = 5;
 const NUM_SNIPPETS_PER_TOPIC = 3;
+const NUM_TAGS_PER_TOPIC = 4;
 
 @Injectable()
 export class DatabasePopulatorService implements DatabasePopulator {
@@ -29,6 +35,10 @@ export class DatabasePopulatorService implements DatabasePopulator {
     const languageIds = await this.generateProgLanguages();
     Logger.debug(`Generated ${languageIds.length} languages`);
 
+    // Generate tags
+    const tagIds = await this.generateTags();
+    Logger.debug(`Generated ${tagIds.length} tags`);
+
     // Generate random data for each user
     for (const userId of userIds) {
       const progTopicIds = await this.generateTopicsForUser(userId);
@@ -43,6 +53,15 @@ export class DatabasePopulatorService implements DatabasePopulator {
         Logger.debug(
           `Generated ${progSnippetIds.length} snippets for topic ${progTopicId}`
         );
+        // Assign random tags to topic
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const randomTagIds = range(0, NUM_TAGS_PER_TOPIC).map((_) =>
+          randomArrayElement(tagIds)
+        );
+        await this.dataServices.progTopics.update(
+          progTopicId as unknown as Pick<ProgTopicEntity, 'id'>,
+          { tagIds: randomTagIds }
+        );
       }
     }
   }
@@ -56,6 +75,26 @@ export class DatabasePopulatorService implements DatabasePopulator {
       this.dataServices.users.create(dto)
     );
     return (await Promise.all(userPromises)).map(({ id }) => id);
+  }
+
+  private async generateProgLanguages(): Promise<string[]> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const languageDtos = range(0, NUM_LANGUAGES).map((_) =>
+      this.generator.generateProgLanguage()
+    );
+    const languagePromises = languageDtos.map((dto) =>
+      this.dataServices.progLanguages.create(dto)
+    );
+    return (await Promise.all(languagePromises)).map(({ id }) => id);
+  }
+
+  private async generateTags(): Promise<string[]> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const tagDtos = range(0, NUM_TAGS).map((_) => this.generator.generateTag());
+    const tagPromises = tagDtos.map((dto) =>
+      this.dataServices.tags.create(dto)
+    );
+    return (await Promise.all(tagPromises)).map(({ id }) => id);
   }
 
   private async generateTopicsForUser(userId: string): Promise<string[]> {
@@ -81,17 +120,6 @@ export class DatabasePopulatorService implements DatabasePopulator {
     );
     // Return all topic ids
     return [...parentTopicIds, ...childTopicIds];
-  }
-
-  private async generateProgLanguages(): Promise<string[]> {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const languageDtos = range(0, NUM_LANGUAGES).map((_) =>
-      this.generator.generateProgLanguage()
-    );
-    const languagePromises = languageDtos.map((dto) =>
-      this.dataServices.progLanguages.create(dto)
-    );
-    return (await Promise.all(languagePromises)).map(({ id }) => id);
   }
 
   private async generateSnippetsForTopic(
