@@ -21,6 +21,7 @@
   "dependencies": {
     "@faker-js/faker": "^6.3.1",
     "@geist-ui/core": "^2.3.8",
+    "@geist-ui/icons": "^1.0.2",
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^2.0.0",
     "@nestjs/core": "^8.0.0",
