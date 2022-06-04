@@ -1,13 +1,13 @@
-import { IBaseRepositoryWeak } from '../../../../core';
-import { ProgSnippetEntity, ProgTopicEntity } from '@snip-man/entities';
 import { Injectable } from '@nestjs/common';
+import { ProgSnippetEntity, ProgTopicEntity } from '@snip-man/entities';
+import { IBaseRepositoryWeak } from '../../../../core';
 import { PrismaPostgresService } from '../prisma-postgres.service';
 
 @Injectable()
 export class ProgSnippetRepository
   implements IBaseRepositoryWeak<ProgSnippetEntity, ProgTopicEntity>
 {
-  constructor(private readonly prisma: PrismaPostgresService) {}
+  constructor(private readonly prisma: PrismaPostgresService) { }
 
   create(
     parentId: Pick<ProgTopicEntity, 'id'>,
@@ -32,7 +32,7 @@ export class ProgSnippetRepository
   }
 
   findAll(parentId: Pick<ProgTopicEntity, 'id'>): Promise<ProgSnippetEntity[]> {
-    return Promise.resolve([]);
+    return this.prisma.progSnippet.findMany({ where: { progTopicId: parentId as unknown as string } });
   }
 
   update(

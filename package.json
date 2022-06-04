@@ -13,7 +13,8 @@
     "generate:prisma:mongo": "prisma generate --schema=./services/mongo/schema.prisma",
     "prisma-studio:mongo": "prisma studio --schema=./services/mongo/schema.prisma --port 5555",
     "prisma-studio:postgres": "prisma studio --schema=./services/postgres/schema.prisma --port 5556",
-    "server:serve": "nx run server:serve"
+    "server:serve": "nx run server:serve",
+    "web:serve": "nx run web:serve"
   },
   "private": true,
   "dependencies": {
