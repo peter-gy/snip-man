@@ -5,6 +5,9 @@ import { UserEntity } from '@snip-man/entities';
 import { Select } from '@geist-ui/core';
 
 function UserSelector() {
+  const {
+    state: { user: initialUser },
+  } = useSnipManState();
   const { data: queryRes, isLoading } = useAppUsers();
   const { dispatch } = useSnipManState();
   function selectUser(userJson: string) {
@@ -18,7 +21,11 @@ function UserSelector() {
         <div>Please populate the database</div>
       )}
       {queryRes?.data && queryRes?.data.length !== 0 && (
-        <Select placeholder="Choose one" onChange={selectUser}>
+        <Select
+          placeholder="Choose one"
+          onChange={selectUser}
+          defaultValue={initialUser?.username}
+        >
           {queryRes.data.map((user) => (
             <Select.Option key={user.id} value={JSON.stringify(user)}>
               {user.username}
