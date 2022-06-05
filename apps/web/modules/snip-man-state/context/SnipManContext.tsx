@@ -61,4 +61,11 @@ function useSnipManState(): SnipManStateContextType {
   return context;
 }
 
-export { SnipManStateProvider, useSnipManState };
+function useDatabaseSource(): 'postgres' | 'mongo' {
+  const {
+    state: { databaseSource },
+  } = useSnipManState();
+  return databaseSource;
+}
+
+export { SnipManStateProvider, useSnipManState, useDatabaseSource };

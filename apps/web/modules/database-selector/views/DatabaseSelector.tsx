@@ -2,6 +2,7 @@ import { ReactElement } from 'react';
 import { Button } from '@geist-ui/core';
 import { SiMongodb, SiPostgresql } from 'react-icons/si';
 import { useSnipManState } from '../../snip-man-state/context/SnipManContext';
+import DashedContainer from '../../components/DashedContainer';
 
 function DatabaseSelector(): ReactElement {
   const {
@@ -15,8 +16,7 @@ function DatabaseSelector(): ReactElement {
     dispatch({ type: 'setDatabaseSource', data: 'mongo' });
   }
   return (
-    <div className="p-4 border-2 border-black border-dashed rounded-lg flex flex-col items-center">
-      <h2 className="text-xl">Database Selection</h2>
+    <DashedContainer title="Database Selection">
       <div className="flex justify-between items-center space-x-5">
         <Button
           onClick={selectPostgres}
@@ -45,7 +45,7 @@ function DatabaseSelector(): ReactElement {
           </p>
         </Button>
       </div>
-    </div>
+    </DashedContainer>
   );
 }
 

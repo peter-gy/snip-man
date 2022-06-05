@@ -23,7 +23,7 @@ export class UserApiControllerBuilder {
 
       @ApiOperation({
         tags: [openApiTag],
-        summary: 'Find all users',
+        summary: 'Find all user-selector',
       })
       @Get('find-all')
       findAll() {

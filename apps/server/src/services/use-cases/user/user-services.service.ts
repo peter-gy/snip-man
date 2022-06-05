@@ -15,7 +15,7 @@ export class UserServices {
   }
 
   /**
-   * Retrieves all users
+   * Retrieves all user-selector
    */
   findAll() {
     return this.dataServices.users.findAll();
