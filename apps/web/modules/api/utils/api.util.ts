@@ -1,10 +1,4 @@
-import {
-  ApiEndpoint,
-  BaseResponse,
-  constructApiEndpoint,
-  DbSource,
-} from '../types/endpoint.type';
-import { UserEntity } from '@snip-man/entities';
+import { BaseResponse } from '../types/endpoint.type';
 
 const baseUrl = process.env.NEXT_PUBLIC_SNIPMAN_SERVER_URL + '/api';
 
@@ -27,7 +21,7 @@ function constructFetchUrl(
  * @param params Query parameters to pass to the endpoint.
  * @returns The response from the fetch call.
  */
-async function baseFetch<T>(
+export async function baseFetch<T>(
   endpoint: string,
   options?: RequestInit,
   params: Record<string, string> = {}
@@ -47,21 +41,6 @@ async function baseFetch<T>(
   }
 }
 
-type EmptyObject = {
+export type EmptyObject = {
   [K in never]: never;
 };
-
-export function populateDatabase() {
-  return baseFetch<BaseResponse<EmptyObject>>(ApiEndpoint.PopulateDatabase, {
-    method: 'POST',
-  });
-}
-
-export function findAllUsers(dbSource: DbSource) {
-  return baseFetch<BaseResponse<UserEntity[]>>(
-    constructApiEndpoint(ApiEndpoint.FindAllUsers, dbSource),
-    {
-      method: 'GET',
-    }
-  );
-}
