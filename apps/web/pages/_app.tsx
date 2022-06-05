@@ -1,6 +1,6 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { GeistProvider, CssBaseline } from '@geist-ui/core';
+import { CssBaseline, GeistProvider } from '@geist-ui/core';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
