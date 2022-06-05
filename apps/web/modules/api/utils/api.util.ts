@@ -52,7 +52,7 @@ type EmptyObject = {
 };
 
 export function populateDatabase() {
-  return baseFetch<BaseResponse<EmptyObject>>(ApiEndpoint.FindAllUsers, {
+  return baseFetch<BaseResponse<EmptyObject>>(ApiEndpoint.PopulateDatabase, {
     method: 'POST',
   });
 }

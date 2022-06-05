@@ -1,7 +1,6 @@
-import { Button, Collapse } from '@geist-ui/core';
 import { ReactElement } from 'react';
 import DatabaseSelector from './DatabaseSelector';
-import PopulateDatabaseButton from './PopulateDatabaseButton';
+import PopulateDatabaseButton from '../../populate-database/views/PopulateDatabaseButton';
 import StartAppButton from './StartAppButton';
 
 function HomeContent(): ReactElement {
