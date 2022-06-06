@@ -10,9 +10,9 @@ function populateDatabase() {
 
 function usePopulateDatabase() {
   const queryClient = useQueryClient();
-  return useMutation('populate-database', populateDatabase, {
+  return useMutation(ApiEndpoint.PopulateDatabase, populateDatabase, {
     // Automatically updates the user selector dropdown
-    onSuccess: () => queryClient.refetchQueries('app-users'),
+    onSuccess: () => queryClient.refetchQueries(ApiEndpoint.FindAllUsers),
   });
 }
 

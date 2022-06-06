@@ -1,6 +1,5 @@
 import {
   ApiEndpoint,
-  BaseResponse,
   constructApiEndpoint,
   DbSource,
 } from '../../api/types/endpoint.type';
@@ -20,7 +19,7 @@ function findAllUsers(dbSource: DbSource) {
 
 function useAppUsers() {
   const dbSource = useDatabaseSource();
-  return useQuery('app-users', () => findAllUsers(dbSource));
+  return useQuery(ApiEndpoint.FindAllUsers, () => findAllUsers(dbSource));
 }
 
 export default useAppUsers;

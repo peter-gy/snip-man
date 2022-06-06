@@ -6,7 +6,8 @@ export type DbSource = 'postgres' | 'mongo';
 export enum ApiEndpoint {
   PopulateDatabase = '/populate',
   FindAllProgLanguages = '/$db/prog-language',
-  FindAllUsers = '/$db/users/find-all',
+  FindAllUsers = '/$db/user',
+  FindProgTopicsByUserId = '/$db/prog-topic/find-by-userid',
 }
 
 /**
