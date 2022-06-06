@@ -35,12 +35,12 @@ export class ProgTopicApiControllerBuilder {
         summary: 'Retrieve all programming topics belonging to a given user',
       })
       @ApiQuery({
-        name: 'value',
+        name: 'userId',
         required: true,
         description: 'The id of the user',
       })
       @Get('find-by-userid')
-      findByUserId(@Query('value') userId: Pick<UserEntity, 'id'>) {
+      findByUserId(@Query('userId') userId: Pick<UserEntity, 'id'>) {
         return this.service.findAllForUser(userId);
       }
     }
