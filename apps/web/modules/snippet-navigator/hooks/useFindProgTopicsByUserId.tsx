@@ -4,12 +4,12 @@ import {
   DbSource,
 } from '../../api/types/endpoint.type';
 import { baseFetch } from '../../api/utils/api.util';
-import { ProgTopicEntity } from '@snip-man/entities';
+import { ProgTopicWithSnippets } from '@snip-man/entities';
 import { useDatabaseSource } from '../../snip-man-state/context/SnipManContext';
 import { useQuery } from 'react-query';
 
 function findProgTopicsByUserId(dbSource: DbSource, userId: string) {
-  return baseFetch<ProgTopicEntity[]>(
+  return baseFetch<ProgTopicWithSnippets[]>(
     constructApiEndpoint(ApiEndpoint.FindProgTopicsByUserId, dbSource),
     {
       method: 'GET',
