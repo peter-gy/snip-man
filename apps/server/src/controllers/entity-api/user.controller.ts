@@ -8,7 +8,7 @@ export class UserApiControllerBuilder {
   static build(dataSourceType: DataSourceType) {
     const openApiTag = 'User';
 
-    @Controller(`${dataSourceType}/users`)
+    @Controller(`${dataSourceType}/user`)
     class EndpointController {
       constructor(private readonly service: UserServices) {}
 
@@ -23,9 +23,9 @@ export class UserApiControllerBuilder {
 
       @ApiOperation({
         tags: [openApiTag],
-        summary: 'Find all user-selector',
+        summary: 'Retrieve all users',
       })
-      @Get('find-all')
+      @Get()
       findAll() {
         return this.service.findAll();
       }
