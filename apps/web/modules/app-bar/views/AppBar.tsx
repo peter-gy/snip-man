@@ -35,7 +35,7 @@ type UserAvatarProps = {
 function UserAvatar({ username, email }: UserAvatarProps) {
   return (
     <div className="text-lg font-bold">
-      <Tooltip text={email} placement="bottom">
+      <Tooltip text={email} placement="left">
         <Avatar
           text={username.charAt(0).toUpperCase()}
           isSquare={true}
