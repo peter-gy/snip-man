@@ -9,9 +9,9 @@ function AppBar() {
     state: { user },
   } = useSnipManState();
   return (
-    <div className="bg-navy-800">
-      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <div className="bg-navy-800 flex justify-center items-center">
+      <div className="w-[95vw] px-2 flex justify-center items-center">
+        <div className="grow flex items-center justify-between h-16">
           <Link href={Path.Home} passHref>
             <div className="flex items-center space-x-3 text-4xl text-white font-bold cursor-pointer">
               <TbHome />
