@@ -1,17 +1,13 @@
 import {
   DataSourceType,
   IBaseDataServices,
-  IBaseRepository,
-  IBaseRepositoryWeak,
+  IProgLanguageRepository,
+  IProgSnippetRepository,
+  IProgTopicRepository,
+  ITagRepository,
+  IUserRepository,
 } from '../../../core';
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
-import {
-  ProgLanguageEntity,
-  ProgSnippetEntity,
-  ProgTopicEntity,
-  TagEntity,
-  UserEntity,
-} from '@snip-man/entities';
 import {
   ProgLanguageRepository,
   ProgSnippetRepository,
@@ -25,11 +21,11 @@ export class MongoDataServices
   implements IBaseDataServices, OnApplicationBootstrap
 {
   dataSourceType: DataSourceType = 'mongo';
-  users: IBaseRepository<UserEntity>;
-  progTopics: IBaseRepository<ProgTopicEntity>;
-  tags: IBaseRepository<TagEntity>;
-  progSnippets: IBaseRepositoryWeak<ProgSnippetEntity, ProgTopicEntity>;
-  progLanguages: IBaseRepository<ProgLanguageEntity>;
+  users: IUserRepository;
+  progTopics: IProgTopicRepository;
+  tags: ITagRepository;
+  progSnippets: IProgSnippetRepository;
+  progLanguages: IProgLanguageRepository;
 
   constructor(
     private readonly _users: UserRepository,

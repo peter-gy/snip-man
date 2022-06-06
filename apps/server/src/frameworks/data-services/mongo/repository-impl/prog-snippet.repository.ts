@@ -1,12 +1,10 @@
-import { IBaseRepositoryWeak } from '../../../../core';
+import { IProgSnippetRepository } from '../../../../core';
 import { ProgSnippetEntity, ProgTopicEntity } from '@snip-man/entities';
 import { Injectable } from '@nestjs/common';
 import { PrismaMongoService } from '../prisma-mongo.service';
 
 @Injectable()
-export class ProgSnippetRepository
-  implements IBaseRepositoryWeak<ProgSnippetEntity, ProgTopicEntity>
-{
+export class ProgSnippetRepository implements IProgSnippetRepository {
   constructor(private readonly prisma: PrismaMongoService) {}
 
   create(

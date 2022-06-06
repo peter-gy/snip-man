@@ -4,6 +4,7 @@ import {
   CreateProgTopicDto,
   ProgTopicEntity,
   UpdateProgTopicDto,
+  UserEntity,
 } from '@snip-man/entities';
 
 @Injectable()
@@ -23,6 +24,14 @@ export class ProgTopicServices {
    */
   findAll() {
     return this.dataServices.progTopics.findAll();
+  }
+
+  /**
+   * Retrieves all topics belonging to the specified user.
+   * @param userId id of the user whose topics should be retrieved
+   */
+  findAllForUser(userId: Pick<UserEntity, 'id'>) {
+    return this.dataServices.progTopics.findAllForUser(userId);
   }
 
   /**

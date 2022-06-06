@@ -1,10 +1,10 @@
-import { IBaseRepository } from '../../../../core';
-import { ProgTopicEntity } from '@snip-man/entities';
+import { IProgTopicRepository } from '../../../../core';
+import { ProgTopicEntity, UserEntity } from '@snip-man/entities';
 import { Injectable } from '@nestjs/common';
 import { PrismaMongoService } from '../prisma-mongo.service';
 
 @Injectable()
-export class ProgTopicRepository implements IBaseRepository<ProgTopicEntity> {
+export class ProgTopicRepository implements IProgTopicRepository {
   constructor(private readonly prisma: PrismaMongoService) {}
 
   create(item: Partial<ProgTopicEntity>): Promise<ProgTopicEntity> {
@@ -27,5 +27,9 @@ export class ProgTopicRepository implements IBaseRepository<ProgTopicEntity> {
     item: Partial<ProgTopicEntity>
   ): Promise<ProgTopicEntity> {
     return Promise.resolve(undefined);
+  }
+
+  findAllForUser(userId: Pick<UserEntity, 'id'>): Promise<ProgTopicEntity[]> {
+    return Promise.resolve([]);
   }
 }
