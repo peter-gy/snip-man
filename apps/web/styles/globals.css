@@ -16,3 +16,11 @@ a {
 * {
   box-sizing: border-box;
 }
+
+#topic-tree span.extra {
+  display: none;
+}
+
+#topic-tree span.status {
+  background-color: transparent;
+}

@@ -1,7 +1,11 @@
 /**
  * Possible actions to dispatch to the reducer
  */
-import { ProgSnippetEntity, ProgTopicEntity } from '@snip-man/entities';
+import {
+  ProgSnippetEntity,
+  ProgTopicEntity,
+  ProgTopicWithSnippets,
+} from '@snip-man/entities';
 import { SnippetNavigatorState } from '../types/snippet-navigator.state';
 import {
   createContext,
@@ -14,9 +18,9 @@ import { initialState } from '../data/initial-state';
 import useFindProgTopicsByUserId from '../hooks/useFindProgTopicsByUserId';
 
 type Action =
-  | { type: 'setTopics'; data: ProgTopicEntity[] }
+  | { type: 'setTopics'; data: ProgTopicWithSnippets[] }
   | { type: 'setSelectedTopic'; data: ProgTopicEntity }
-  | { type: 'setSnippets'; data: ProgSnippetEntity[] };
+  | { type: 'setSelectedSnippet'; data: ProgSnippetEntity };
 
 /**
  * Dispatch callback signature
@@ -41,8 +45,8 @@ function snippetNavigatorStateReducer(
       return { ...state, topics: action.data };
     case 'setSelectedTopic':
       return { ...state, selectedTopic: action.data };
-    case 'setSnippets':
-      return { ...state, snippets: action.data };
+    case 'setSelectedSnippet':
+      return { ...state, selectedSnippet: action.data };
     default:
       throw new Error(`Unhandled action type: ${action}`);
   }

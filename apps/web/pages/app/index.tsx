@@ -15,7 +15,7 @@ const AppIndex: NextPage = () => {
       <div className="grid grid-cols-4 grow">
         {user && (
           <SnippetNavigatorStateProvider userId={user.id}>
-            <div className="bg-[red] col-span-1">
+            <div className="col-span-1">
               <TopicTree />
             </div>
             <div className="bg-[blue] col-span-3">Snippets</div>
