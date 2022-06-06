@@ -24,7 +24,7 @@ function UserSelector() {
         <Select
           placeholder="Choose one"
           onChange={selectUser}
-          initialValue={JSON.stringify(user)}
+          initialValue={user !== null ? JSON.stringify(user) : null}
         >
           {queryRes.data.map((user) => (
             <Select.Option key={user.id} value={JSON.stringify(user)}>
