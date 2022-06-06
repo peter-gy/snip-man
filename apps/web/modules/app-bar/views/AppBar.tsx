@@ -20,7 +20,7 @@ function AppBar() {
               </div>
             </div>
           </Link>
-          {user && (<UserAvatar username={user.username} email={user.email} />)}
+          {user && <UserAvatar username={user.username} email={user.email} />}
         </div>
       </div>
     </div>
@@ -36,7 +36,12 @@ function UserAvatar({ username, email }: UserAvatarProps) {
   return (
     <div className="text-lg font-bold">
       <Tooltip text={email} placement="bottom">
-        <Avatar text={username.charAt(0).toUpperCase()} isSquare={true} width={1.25} height={1.25} />
+        <Avatar
+          text={username.charAt(0).toUpperCase()}
+          isSquare={true}
+          width={1.25}
+          height={1.25}
+        />
       </Tooltip>
     </div>
   );
