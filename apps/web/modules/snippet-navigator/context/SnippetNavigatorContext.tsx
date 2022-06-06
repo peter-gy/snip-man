@@ -12,7 +12,6 @@ import {
 } from 'react';
 import { initialState } from '../data/initial-state';
 import useProgTopicsByUserId from '../hooks/useProgTopicsByUserId';
-import { useSnipManState } from '../../snip-man-state/context/SnipManContext';
 
 type Action =
   | { type: 'setTopics'; data: ProgTopicEntity[] }

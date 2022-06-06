@@ -4,7 +4,7 @@ import {
   DbSource,
 } from '../../api/types/endpoint.type';
 import { baseFetch } from '../../api/utils/api.util';
-import { ProgTopicEntity, UserEntity } from '@snip-man/entities';
+import { ProgTopicEntity } from '@snip-man/entities';
 import { useDatabaseSource } from '../../snip-man-state/context/SnipManContext';
 import { useQuery } from 'react-query';
 

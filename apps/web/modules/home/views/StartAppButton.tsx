@@ -11,6 +11,7 @@ function StartAppButton(): ReactElement {
   const {
     state: { user },
   } = useSnipManState();
+
   async function handleProceed() {
     if (user === null) {
       setVisible(true);
@@ -18,6 +19,7 @@ function StartAppButton(): ReactElement {
       await router.push(Path.App);
     }
   }
+
   return (
     <>
       <Button

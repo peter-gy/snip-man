@@ -1,7 +1,7 @@
 // Adapted from https://stackoverflow.com/questions/55093055/logging-request-response-in-nest-js#56855684
-import { Injectable, NestMiddleware, Logger } from '@nestjs/common';
+import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 @Injectable()
 export class AppLoggerMiddleware implements NestMiddleware {

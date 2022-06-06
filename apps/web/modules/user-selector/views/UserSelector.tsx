@@ -10,10 +10,12 @@ function UserSelector() {
   } = useSnipManState();
   const { data: queryRes, isLoading } = useAppUsers();
   const { dispatch } = useSnipManState();
+
   function selectUser(userJson: string) {
     const user = JSON.parse(userJson) as UserEntity;
     dispatch({ type: 'setUser', data: user });
   }
+
   return (
     <DashedContainer title="User Selection">
       {isLoading && <div>Loading...</div>}

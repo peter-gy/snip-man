@@ -9,7 +9,6 @@ import {
   TagEntity,
   UserEntity,
 } from '@snip-man/entities';
-import { User } from '@geist-ui/core';
 
 /**
  * Possible types of the database underlying the application.

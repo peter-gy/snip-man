@@ -9,12 +9,15 @@ function DatabaseSelector(): ReactElement {
     state: { databaseSource },
     dispatch,
   } = useSnipManState();
+
   function selectPostgres() {
     dispatch({ type: 'setDatabaseSource', data: 'postgres' });
   }
+
   function selectMongo() {
     dispatch({ type: 'setDatabaseSource', data: 'mongo' });
   }
+
   return (
     <DashedContainer title="Database Selection">
       <div className="flex justify-between items-center space-x-5">
