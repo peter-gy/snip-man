@@ -1,5 +1,9 @@
 import { IProgTopicRepository } from '../../../../core';
-import { ProgTopicEntity, UserEntity } from '@snip-man/entities';
+import {
+  ProgTopicEntity,
+  ProgTopicWithSnippets,
+  UserEntity,
+} from '@snip-man/entities';
 import { Injectable, NotImplementedException } from '@nestjs/common';
 import { PrismaPostgresService } from '../prisma-postgres.service';
 
@@ -74,10 +78,12 @@ export class ProgTopicRepository implements IProgTopicRepository {
       }));
   }
 
-  findAllForUser(userId: Pick<UserEntity, 'id'>): Promise<ProgTopicEntity[]> {
+  findAllForUser(
+    userId: Pick<UserEntity, 'id'>
+  ): Promise<ProgTopicWithSnippets[]> {
     return this.prisma.progTopic
       .findMany({
-        include: { tags: { include: { tag: true } } },
+        include: { tags: { include: { tag: true } }, progSnippets: true },
         where: { userId: userId as unknown as string },
       })
       .then((r) =>

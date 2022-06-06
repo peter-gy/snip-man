@@ -6,6 +6,7 @@ import {
   ProgLanguageEntity,
   ProgSnippetEntity,
   ProgTopicEntity,
+  ProgTopicWithSnippets,
   TagEntity,
   UserEntity,
 } from '@snip-man/entities';
@@ -34,12 +35,13 @@ export abstract class IUserRepository extends IBaseRepository<UserEntity> {}
 
 export abstract class IProgTopicRepository extends IBaseRepository<ProgTopicEntity> {
   /**
-   * Retrieves all topics belonging to the specified user.
+   * Retrieves all topics belonging to the specified user
+   * including the attached snippets.
    * @param userId id of the user whose topics should be retrieved
    */
   abstract findAllForUser(
     userId: Pick<UserEntity, 'id'>
-  ): Promise<ProgTopicEntity[]>;
+  ): Promise<ProgTopicWithSnippets[]>;
 }
 
 export abstract class ITagRepository extends IBaseRepository<TagEntity> {}

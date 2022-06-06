@@ -1,5 +1,9 @@
 import { IProgTopicRepository } from '../../../../core';
-import { ProgTopicEntity, UserEntity } from '@snip-man/entities';
+import {
+  ProgTopicEntity,
+  ProgTopicWithSnippets,
+  UserEntity,
+} from '@snip-man/entities';
 import { Injectable } from '@nestjs/common';
 import { PrismaMongoService } from '../prisma-mongo.service';
 
@@ -29,7 +33,9 @@ export class ProgTopicRepository implements IProgTopicRepository {
     return Promise.resolve(undefined);
   }
 
-  findAllForUser(userId: Pick<UserEntity, 'id'>): Promise<ProgTopicEntity[]> {
+  findAllForUser(
+    userId: Pick<UserEntity, 'id'>
+  ): Promise<ProgTopicWithSnippets[]> {
     return Promise.resolve([]);
   }
 }
