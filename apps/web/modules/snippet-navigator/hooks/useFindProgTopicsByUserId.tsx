@@ -18,11 +18,11 @@ function findProgTopicsByUserId(dbSource: DbSource, userId: string) {
   );
 }
 
-function useProgTopicsByUserId(userId: string) {
+function useFindProgTopicsByUserId(userId: string) {
   const dbSource = useDatabaseSource();
   return useQuery(ApiEndpoint.FindProgTopicsByUserId, () =>
     findProgTopicsByUserId(dbSource, userId)
   );
 }
 
-export default useProgTopicsByUserId;
+export default useFindProgTopicsByUserId;

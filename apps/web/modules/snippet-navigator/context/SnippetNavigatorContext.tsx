@@ -11,7 +11,7 @@ import {
   useReducer,
 } from 'react';
 import { initialState } from '../data/initial-state';
-import useProgTopicsByUserId from '../hooks/useProgTopicsByUserId';
+import useFindProgTopicsByUserId from '../hooks/useFindProgTopicsByUserId';
 
 type Action =
   | { type: 'setTopics'; data: ProgTopicEntity[] }
@@ -62,7 +62,7 @@ function SnippetNavigatorStateProvider({
     initialState
   );
 
-  const { data } = useProgTopicsByUserId(userId);
+  const { data } = useFindProgTopicsByUserId(userId);
   useEffect(() => {
     if (data?.data) {
       dispatch({ type: 'setTopics', data: data.data });
