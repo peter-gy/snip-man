@@ -18,7 +18,6 @@ export class ProgTopicApiControllerBuilder {
       })
       @Post()
       create(@Body() dto: CreateProgTopicDto) {
-        console.log(dto);
         return this.service.create(dto);
       }
 
