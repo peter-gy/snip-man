@@ -1,6 +1,17 @@
 import { Path, Route } from '../types/route.type';
 
 /**
+ * @returns all routes except `Home`
+ */
+export function getRoutes() {
+  return Object.keys(Path)
+    .filter((key) => key.toLowerCase() !== 'home')
+    .map((key) => {
+      return getRoute(Path[key]);
+    });
+}
+
+/**
  * Retrieves the route info based on the supplied `Path`
  * @param path the path to retrieve the route info for
  * @returns the `Route` corresponding to the supplied `Path`
