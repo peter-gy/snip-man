@@ -89,7 +89,7 @@ function TopicTree() {
   }, [selectedSnippet]);
 
   return (
-    <div id="topic-tree" className="p-2">
+    <div id="topic-tree">
       <Tree value={fileTreeFromTopicsWithSnippets(topics)} />
     </div>
   );

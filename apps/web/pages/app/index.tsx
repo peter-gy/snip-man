@@ -4,6 +4,7 @@ import { SnippetNavigatorStateProvider } from '../../modules/snippet-navigator/c
 import { useSnipManState } from '../../modules/snip-man-state/context/SnipManContext';
 import UserSelector from '../../modules/user-selector/views/UserSelector';
 import TopicTree from '../../modules/snippet-navigator/views/TopicTree';
+import CreateTopicButton from '../../modules/snippet-navigator/views/CreateTopicButton';
 
 const AppIndex: NextPage = () => {
   const {
@@ -15,8 +16,11 @@ const AppIndex: NextPage = () => {
       <div className="grid grid-cols-4 grow">
         {user && (
           <SnippetNavigatorStateProvider userId={user.id}>
-            <div className="col-span-1">
-              <TopicTree />
+            <div className="col-span-1 p-2">
+              <div className="flex flex-col space-y-5">
+                <CreateTopicButton />
+                <TopicTree />
+              </div>
             </div>
             <div className="bg-[blue] col-span-3">Snippets</div>
           </SnippetNavigatorStateProvider>
