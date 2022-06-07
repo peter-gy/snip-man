@@ -16,7 +16,7 @@ export class ReportService implements IReportService {
 
   findUsersActiveInSpecificLanguage(
     progLanguage: ProgLanguageEntity
-  ): Promise<UserEntity[]> {
+  ): Promise<string[]> {
     console.log('mongo - findUsersActiveInSpecificLanguage');
     throw NotImplementedException;
   }

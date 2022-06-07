@@ -16,7 +16,7 @@ export abstract class IReportService {
    */
   abstract findUsersActiveInSpecificLanguage(
     progLanguage: ProgLanguageEntity
-  ): Promise<UserEntity[]>;
+  ): Promise<string[]>;
 
   /**
    * This report enumerates the programming languages in which

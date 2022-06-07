@@ -1,6 +1,6 @@
 import { IReportService } from '../../../core/reports/report-service.abstract';
 import { Injectable, NotImplementedException } from '@nestjs/common';
-import { ProgLanguageEntity, TagEntity, UserEntity } from '@snip-man/entities';
+import { ProgLanguageEntity, TagEntity } from '@snip-man/entities';
 import { PrismaPostgresService } from './prisma-postgres.service';
 
 @Injectable()
@@ -14,10 +14,20 @@ export class ReportService implements IReportService {
     throw NotImplementedException;
   }
 
-  findUsersActiveInSpecificLanguage(
+  async findUsersActiveInSpecificLanguage(
     progLanguage: ProgLanguageEntity
-  ): Promise<UserEntity[]> {
-    console.log('postgres - findUsersActiveInSpecificLanguage');
-    throw NotImplementedException;
+  ): Promise<string[]> {
+    const result: {user_email: string}[] = await this.prisma.$queryRaw`
+                  SELECT "user".email AS user_email
+                  FROM prog_topic
+                  JOIN "user" ON "user".id = prog_topic.user_id
+                  JOIN prog_snippet ON prog_snippet.prog_topic_id = prog_topic.id AND
+                                       prog_snippet.prog_language_id = ${progLanguage.id} AND
+                                       prog_snippet.created_at BETWEEN (now() - INTERVAL '1 month') AND now()
+                  JOIN prog_language ON prog_language.id = prog_snippet.prog_language_id
+                  GROUP BY user_email
+                  HAVING COUNT(prog_snippet.id) >= 3;
+                  `;
+    return result.map(({user_email}) => user_email);
   }
 }
