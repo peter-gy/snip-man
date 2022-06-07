@@ -1,4 +1,4 @@
-import { ProgLanguageEntity, TagEntity, UserEntity } from '@snip-man/entities';
+import { ProgLanguageEntity, TagEntity } from '@snip-man/entities';
 
 /**
  * Interface defining the signatures of the report-generating methods.
@@ -12,10 +12,10 @@ export abstract class IReportService {
    * Example: The language TypeScript, for which the email addresses of users
    * with at least 3 new snippets in the last month get listed.
    *
-   * @param progLanguage the language to query by
+   * @param progLanguageId the id of the language to query by
    */
   abstract findUsersActiveInSpecificLanguage(
-    progLanguage: ProgLanguageEntity
+    progLanguageId: Pick<ProgLanguageEntity, 'id'>
   ): Promise<string[]>;
 
   /**
@@ -25,9 +25,9 @@ export abstract class IReportService {
    * Example: The tag “data science”,
    * under which languages like Python or Julia get ranked.
    *
-   * @param tag the tah to query by
+   * @param tagId the id of the tag to query by
    */
   abstract findMostDominantLanguagesByTag(
-    tag: TagEntity
+    tagId: Pick<TagEntity, 'id'>
   ): Promise<ProgLanguageEntity[]>;
 }

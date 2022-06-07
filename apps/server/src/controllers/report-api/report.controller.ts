@@ -1,6 +1,6 @@
 import { DataSourceType, IBaseDataServices } from '../../core';
-import { Body, Controller, Post } from '@nestjs/common';
-import { ApiOperation } from '@nestjs/swagger';
+import { Controller, Get, Post, Query } from '@nestjs/common';
+import { ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { ProgLanguageEntity, TagEntity } from '@snip-man/entities';
 
 export class ReportApiControllerBuilder {
@@ -15,12 +15,17 @@ export class ReportApiControllerBuilder {
         tags: [openApiTag],
         summary: 'Find users active in specific languages',
       })
-      @Post('language-users')
+      @ApiQuery({
+        name: 'progLanguageId',
+        required: true,
+        description: 'The id of the programming language',
+      })
+      @Get('language-users')
       findUsersActiveInSpecificLanguage(
-        @Body() progLanguage: ProgLanguageEntity
+        @Query('progLanguageId') progLanguageId: Pick<ProgLanguageEntity, 'id'>
       ) {
         return this.dataServices.reportService.findUsersActiveInSpecificLanguage(
-          progLanguage
+          progLanguageId
         );
       }
 
@@ -28,10 +33,17 @@ export class ReportApiControllerBuilder {
         tags: [openApiTag],
         summary: 'Find most dominant languages by tags',
       })
-      @Post('language-dominance')
-      findMostDominantLanguagesByTag(@Body() tag: TagEntity) {
+      @ApiQuery({
+        name: 'tagId',
+        required: true,
+        description: 'The id of the tag',
+      })
+      @Get('language-dominance')
+      findMostDominantLanguagesByTag(
+        @Query('tagId') tagId: Pick<TagEntity, 'id'>
+      ) {
         return this.dataServices.reportService.findMostDominantLanguagesByTag(
-          tag
+          tagId
         );
       }
     }
