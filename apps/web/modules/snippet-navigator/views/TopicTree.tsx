@@ -21,6 +21,7 @@ function TopicTree() {
     }
 
     const folders = Array.from(document.getElementsByClassName('folder'));
+
     function onFolderClicked(e: Event) {
       const target = e.target as HTMLElement;
       const nameWasClicked = target.classList.contains('name');
@@ -32,11 +33,13 @@ function TopicTree() {
       const topic = JSON.parse(topicJson) as ProgTopicEntity;
       handleTopicClicked(topic);
     }
+
     folders.forEach((folder) =>
       folder.addEventListener('click', onFolderClicked)
     );
 
     const files = Array.from(document.getElementsByClassName('file'));
+
     function onFileClicked(e: Event) {
       const target = e.target as HTMLElement;
       const nameWasClicked = target.classList.contains('name');
@@ -48,6 +51,7 @@ function TopicTree() {
       const snippet = JSON.parse(snippetJson) as ProgSnippetEntity;
       handleSnippetClicked(snippet);
     }
+
     files.forEach((file) => file.addEventListener('click', onFileClicked));
     return () => {
       folders.forEach((folder) =>

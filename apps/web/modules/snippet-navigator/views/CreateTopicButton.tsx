@@ -21,12 +21,15 @@ function CreateTopicButton() {
   const [topicDescription, setTopicDescription] = useState<string | undefined>(
     undefined
   );
+
   function onNewTopic() {
     setVisible(true);
   }
+
   function onModalCancel() {
     setVisible(false);
   }
+
   function onSaveTopic() {
     setDidSubmit(true);
     if (!topicName || !user) return;
@@ -39,6 +42,7 @@ function CreateTopicButton() {
     };
     createProgTopic(dto);
   }
+
   return (
     <>
       <Button onClick={onNewTopic} type="success-light">
