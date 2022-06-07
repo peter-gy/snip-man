@@ -18,7 +18,7 @@ function UserSelector() {
 
   return (
     <DashedContainer title="User Selection">
-      {isLoading && <Loading>...</Loading>}
+      {isLoading && <Loading>Loading</Loading>}
       {queryRes?.data && queryRes?.data.length === 0 && (
         <div>Please populate the database</div>
       )}
