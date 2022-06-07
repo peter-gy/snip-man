@@ -17,7 +17,7 @@ export class ReportService implements IReportService {
   async findUsersActiveInSpecificLanguage(
     progLanguage: ProgLanguageEntity
   ): Promise<string[]> {
-    const result: {user_email: string}[] = await this.prisma.$queryRaw`
+    const result: { user_email: string }[] = await this.prisma.$queryRaw`
                   SELECT "user".email AS user_email
                   FROM prog_topic
                   JOIN "user" ON "user".id = prog_topic.user_id
@@ -28,6 +28,6 @@ export class ReportService implements IReportService {
                   GROUP BY user_email
                   HAVING COUNT(prog_snippet.id) >= 3;
                   `;
-    return result.map(({user_email}) => user_email);
+    return result.map(({ user_email }) => user_email);
   }
 }
