@@ -3,6 +3,7 @@ import { Button } from '@geist-ui/core';
 import { SiMongodb, SiPostgresql } from 'react-icons/si';
 import { useSnipManState } from '../../snip-man-state/context/SnipManContext';
 import DashedContainer from '../../components/DashedContainer';
+import { MongoIcon, PostgresIcon } from '../../components/DatabaseIcons';
 
 function DatabaseSelector(): ReactElement {
   const {
@@ -25,7 +26,7 @@ function DatabaseSelector(): ReactElement {
           onClick={selectPostgres}
           width={1.5}
           height={1.75}
-          icon={<SiPostgresql fill="#32638c" />}
+          icon={<PostgresIcon />}
         >
           <p className="font-bold text-xl">
             SQL{' '}
@@ -40,7 +41,7 @@ function DatabaseSelector(): ReactElement {
           onClick={selectMongo}
           width={1.5}
           height={1.75}
-          icon={<SiMongodb fill="#0f914e" />}
+          icon={<MongoIcon />}
         >
           <p className="font-bold text-xl">
             NoSQL{' '}
