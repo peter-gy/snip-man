@@ -4,9 +4,13 @@ import { ProgLanguageEntity } from '@snip-man/entities';
 
 type ProgLanguageSelectorProps = {
   onChange: (value: ProgLanguageEntity) => void;
+  initialValue?: ProgLanguageEntity;
 };
 
-function ProgLanguageSelector({ onChange }: ProgLanguageSelectorProps) {
+function ProgLanguageSelector({
+  onChange,
+  initialValue,
+}: ProgLanguageSelectorProps) {
   const { data: queryRes, isLoading } = useProgLanguages();
   function onSelection(value: string) {
     const progLanguage = JSON.parse(value) as ProgLanguageEntity;
@@ -16,7 +20,11 @@ function ProgLanguageSelector({ onChange }: ProgLanguageSelectorProps) {
     <>
       {isLoading && <Loading>Loading</Loading>}
       {queryRes?.data && (
-        <Select placeholder="Choose a language" onChange={onSelection}>
+        <Select
+          placeholder="Choose a language"
+          initialValue={initialValue ? JSON.stringify(initialValue) : undefined}
+          onChange={onSelection}
+        >
           {queryRes.data.map((progLanguage) => (
             <Select.Option
               key={progLanguage.id}
