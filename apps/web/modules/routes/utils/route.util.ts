@@ -12,10 +12,15 @@ export function getRoute(path: Path): Route {
         label: 'Home',
         path: Path.Home,
       };
-    case Path.App:
+    case Path.Dashboard:
       return {
-        label: 'App',
-        path: Path.App,
+        label: 'Dashboard',
+        path: Path.Dashboard,
+      };
+    case Path.Reports:
+      return {
+        label: 'Reports',
+        path: Path.Reports,
       };
     default:
       throw Error('Unknown path: ' + path);

@@ -16,7 +16,7 @@ function StartAppButton(): ReactElement {
     if (user === null) {
       setVisible(true);
     } else {
-      await router.push(Path.App);
+      await router.push(Path.Dashboard);
     }
   }
 

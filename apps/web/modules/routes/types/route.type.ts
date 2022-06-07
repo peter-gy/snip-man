@@ -3,7 +3,8 @@
  */
 export enum Path {
   Home = '/',
-  App = '/app',
+  Dashboard = '/dashboard',
+  Reports = '/reports',
 }
 
 /**

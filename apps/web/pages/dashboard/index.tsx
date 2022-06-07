@@ -6,7 +6,7 @@ import UserSelector from '../../modules/user-selector/views/UserSelector';
 import TopicTree from '../../modules/snippet-navigator/views/TopicTree';
 import CreateTopicButton from '../../modules/snippet-navigator/views/CreateTopicButton';
 
-const AppIndex: NextPage = () => {
+const Dashboard: NextPage = () => {
   const {
     state: { user },
   } = useSnipManState();
@@ -39,4 +39,4 @@ const AppIndex: NextPage = () => {
   );
 };
 
-export default AppIndex;
+export default Dashboard;
