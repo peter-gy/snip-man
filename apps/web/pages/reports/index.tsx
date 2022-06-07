@@ -9,7 +9,7 @@ const Reports: NextPage = () => {
       <AppBar />
       <div className="h-[70vh] mt-4 flex flex-col justify-start items-center">
         <h2>Data Analytics 🔎</h2>
-        <div className="grow w-full flex justify-around items-center">
+        <div className="grow w-full grid grid-cols-2 items-center justify-items-center">
           <div className="p-2 md:p-4 max-w-[35vw]">
             <LanguageUsersReportCard />
           </div>
