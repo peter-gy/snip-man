@@ -22,7 +22,8 @@ export class CreateProgTopicDto {
   @ApiProperty({ example: 'Integration of OpenAPI standards with NestJS' })
   @IsString()
   @IsNotEmpty()
-  description: string;
+  @IsOptional()
+  description?: string;
 
   @ApiProperty({ example: [], description: 'Array of Tag ids on this topic' })
   tagIds: string[] = [];

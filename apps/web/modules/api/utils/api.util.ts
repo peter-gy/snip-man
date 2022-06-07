@@ -6,6 +6,9 @@ function constructFetchUrl(
   baseUrl: string,
   params: Record<string, string>
 ): string {
+  if (Object.keys(params).length === 0) {
+    return baseUrl;
+  }
   const queryString = Object.keys(params)
     .map(
       (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`

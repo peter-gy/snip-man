@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Header, Post, Query } from '@nestjs/common';
 import { DataSourceType } from '../../core';
 import { ProgTopicServices } from '../../services/use-cases/prog-topic/prog-topic-services.service';
 import { CreateProgTopicDto, UserEntity } from '@snip-man/entities';
@@ -18,6 +18,7 @@ export class ProgTopicApiControllerBuilder {
       })
       @Post()
       create(@Body() dto: CreateProgTopicDto) {
+        console.log(dto);
         return this.service.create(dto);
       }
 
