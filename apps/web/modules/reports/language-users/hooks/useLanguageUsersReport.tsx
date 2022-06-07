@@ -5,7 +5,7 @@ import {
 } from '../../../api/types/endpoint.type';
 import { baseFetch } from '../../../api/utils/api.util';
 import { useDatabaseSource } from '../../../snip-man-state/context/SnipManContext';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation } from 'react-query';
 
 function getLanguageUsersReport(dbSource: DbSource, progLanguageId: string) {
   return baseFetch<string[]>(

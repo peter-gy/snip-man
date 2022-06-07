@@ -12,10 +12,12 @@ function ProgLanguageSelector({
   initialValue,
 }: ProgLanguageSelectorProps) {
   const { data: queryRes, isLoading } = useProgLanguages();
+
   function onSelection(value: string) {
     const progLanguage = JSON.parse(value) as ProgLanguageEntity;
     onChange(progLanguage);
   }
+
   return (
     <>
       {isLoading && <Loading>Loading</Loading>}

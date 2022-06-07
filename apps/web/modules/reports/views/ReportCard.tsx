@@ -1,4 +1,4 @@
-import { Text, Card, Button } from '@geist-ui/core';
+import { Button, Card, Text } from '@geist-ui/core';
 import { ReactNode } from 'react';
 
 type ReportCardProps = {

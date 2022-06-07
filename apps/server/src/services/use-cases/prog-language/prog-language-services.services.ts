@@ -1,5 +1,5 @@
 import { Injectable, NotImplementedException } from '@nestjs/common';
-import { IBaseDataServices, IBaseRepository } from '../../../core';
+import { IBaseDataServices } from '../../../core';
 import {
   CreateProgLanguageDto,
   ProgLanguageEntity,

@@ -97,4 +97,5 @@ function LanguageUsersReportCard() {
     </>
   );
 }
+
 export default LanguageUsersReportCard;

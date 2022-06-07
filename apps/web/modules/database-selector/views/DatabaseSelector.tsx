@@ -1,6 +1,5 @@
 import { ReactElement } from 'react';
 import { Button } from '@geist-ui/core';
-import { SiMongodb, SiPostgresql } from 'react-icons/si';
 import { useSnipManState } from '../../snip-man-state/context/SnipManContext';
 import DashedContainer from '../../components/DashedContainer';
 import { MongoIcon, PostgresIcon } from '../../components/DatabaseIcons';
