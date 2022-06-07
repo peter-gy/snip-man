@@ -2,7 +2,6 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { configuration } from './config/configuration';
-import { validationSchema } from './config/validation';
 import { EntityApiModule } from './controllers/entity-api/entity-api.module';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { AllExceptionsFilter } from './core/controller/all-exceptions.filter';
@@ -16,7 +15,6 @@ import { AppLoggerMiddleware } from './core/middleware/app-logger.middleware';
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],
-      validationSchema: validationSchema,
     }),
     // EntityApiModule.register('mongo'),
     EntityApiModule.register('postgres'),

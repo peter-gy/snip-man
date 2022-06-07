@@ -13,7 +13,9 @@ if (result.error) {
   Logger.error(`Error loading file: ${envPath}`);
   throw result.error;
 } else {
-  Logger.log(`Loaded env file: ${envPath}`);
+  Logger.log(
+    `Loaded env file: ${envPath} (${Object.keys(result.parsed).join(', ')})`
+  );
 }
 
 async function bootstrap() {
