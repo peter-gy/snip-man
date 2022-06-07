@@ -1,18 +1,13 @@
 import { Button, Dot, Input, Loading, Modal, useModal } from '@geist-ui/core';
 import { BsFolderPlus } from 'react-icons/bs';
 import { useSnippetNavigatorState } from '../context/SnippetNavigatorContext';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSnipManState } from '../../snip-man-state/context/SnipManContext';
 import useCreateProgTopic from '../hooks/useCreateProgTopic';
 import { CreateProgTopicDto } from '@snip-man/entities';
 
 function CreateTopicButton() {
-  const {
-    mutate: createProgTopic,
-    isLoading,
-    isSuccess,
-    status,
-  } = useCreateProgTopic();
+  const { mutate: createProgTopic, isLoading } = useCreateProgTopic();
   const { setVisible, bindings: modalBindings } = useModal();
   const {
     state: { selectedTopic },

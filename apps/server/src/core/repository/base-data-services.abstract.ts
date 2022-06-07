@@ -10,6 +10,7 @@ import {
   TagEntity,
   UserEntity,
 } from '@snip-man/entities';
+import { IReportService } from '../reports/report-service.abstract';
 
 /**
  * Possible types of the database underlying the application.
@@ -29,6 +30,7 @@ export abstract class IBaseDataServices {
   abstract tags: ITagRepository;
   abstract progSnippets: IProgSnippetRepository;
   abstract progLanguages: IProgLanguageRepository;
+  abstract reportService: IReportService;
 }
 
 export abstract class IUserRepository extends IBaseRepository<UserEntity> {}

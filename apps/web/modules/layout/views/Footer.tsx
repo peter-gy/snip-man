@@ -33,7 +33,7 @@ type DeveloperProps = {
   studentId: string;
 };
 
-function Developer({
+export function Developer({
   name,
   githubHandle,
   studentId,

@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { IBaseDataServices, IBaseRepository } from '../../../core';
+import { Injectable, NotImplementedException } from '@nestjs/common';
+import { IBaseDataServices } from '../../../core';
 import {
   CreateProgLanguageDto,
   ProgLanguageEntity,
@@ -8,25 +8,21 @@ import {
 
 @Injectable()
 export class ProgLanguageServices {
-  repo: IBaseRepository<ProgLanguageEntity>;
-
-  constructor(private readonly dataServices: IBaseDataServices) {
-    this.repo = dataServices.progLanguages;
-  }
+  constructor(private readonly dataServices: IBaseDataServices) {}
 
   /**
    * Creates a new programming language
    * @param dto data transfer object passed from the outside world
    */
   create(dto: CreateProgLanguageDto) {
-    return this.repo.create(dto);
+    return this.dataServices.progLanguages.create(dto);
   }
 
   /**
    * Retrieves all programming languages from the database
    */
   findAll() {
-    return this.repo.findAll();
+    return this.dataServices.progLanguages.findAll();
   }
 
   /**
@@ -35,6 +31,6 @@ export class ProgLanguageServices {
    * @param dto the data transfer object containing the updated attributes
    */
   update(id: Pick<ProgLanguageEntity, 'id'>, dto: UpdateProgLanguageDto) {
-    return this.repo.update(id, dto);
+    throw NotImplementedException;
   }
 }

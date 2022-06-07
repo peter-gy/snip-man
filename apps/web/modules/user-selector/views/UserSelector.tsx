@@ -2,7 +2,7 @@ import DashedContainer from '../../components/DashedContainer';
 import useAppUsers from '../hooks/useAppUsers';
 import { useSnipManState } from '../../snip-man-state/context/SnipManContext';
 import { UserEntity } from '@snip-man/entities';
-import { Select } from '@geist-ui/core';
+import { Loading, Select } from '@geist-ui/core';
 
 function UserSelector() {
   const {
@@ -18,7 +18,7 @@ function UserSelector() {
 
   return (
     <DashedContainer title="User Selection">
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <Loading>Loading</Loading>}
       {queryRes?.data && queryRes?.data.length === 0 && (
         <div>Please populate the database</div>
       )}

@@ -9,6 +9,7 @@ import { TransformInterceptor } from './core/controller/transform.interceptor';
 import { TagApiModule } from './api/postgres/tag-api/tag-api.module';
 import { MiscApiModule } from './controllers/misc-api/misc-api.module';
 import { AppLoggerMiddleware } from './core/middleware/app-logger.middleware';
+import { ReportApiModule } from './controllers/report-api/report-api.module';
 
 @Module({
   imports: [
@@ -18,6 +19,8 @@ import { AppLoggerMiddleware } from './core/middleware/app-logger.middleware';
     }),
     // EntityApiModule.register('mongo'),
     EntityApiModule.register('postgres'),
+    // ReportApiModule.register('mongo'),
+    ReportApiModule.register('postgres'),
     TagApiModule,
     MiscApiModule,
   ],

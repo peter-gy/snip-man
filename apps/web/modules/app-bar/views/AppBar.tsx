@@ -1,29 +1,71 @@
-import { TbHome } from 'react-icons/tb';
 import Link from 'next/link';
 import { Path } from '../../routes/types/route.type';
 import { Avatar, Tooltip } from '@geist-ui/core';
-import { useSnipManState } from '../../snip-man-state/context/SnipManContext';
+import {
+  useDatabaseSource,
+  useSnipManState,
+} from '../../snip-man-state/context/SnipManContext';
+import { getRoutes } from '../../routes/utils/route.util';
+import { useRouter } from 'next/router';
+import { MongoIcon, PostgresIcon } from '../../components/DatabaseIcons';
 
 function AppBar() {
+  const router = useRouter();
   const {
     state: { user },
   } = useSnipManState();
+  const dbSource = useDatabaseSource();
   return (
-    <div className="bg-navy-800 flex justify-center items-center">
-      <div className="w-[95vw] px-2 flex justify-center items-center">
-        <div className="grow flex items-center justify-between h-16">
-          <Link href={Path.Home} passHref>
-            <div className="flex items-center space-x-3 text-4xl text-white font-bold cursor-pointer">
-              <TbHome />
-              <div>
-                Snip<span className="text-highlight">Man</span>
+    <nav className="bg-navy-800">
+      <div className="max-w-full mx-auto px-2 sm:px-6 lg:px-8">
+        <div className="relative flex items-center justify-between h-16">
+          <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+            <div className="flex-shrink-0 flex items-center mr-8">
+              <div className="mr-2.5 p-1 bg-white rounded-md">
+                {dbSource === 'postgres' && <PostgresIcon />}
+                {dbSource === 'mongo' && <MongoIcon />}
+              </div>
+              <Link href={Path.Home} passHref>
+                <div className="text-2xl lg:text-4xl text-white font-bold cursor-pointer">
+                  <div>
+                    Snip<span className="text-highlight">Man</span>
+                  </div>
+                </div>
+              </Link>
+            </div>
+            <div>
+              <div className="flex space-x-4">
+                {getRoutes().map((route) => {
+                  const isSelected = router.asPath === route.path;
+                  const selectedStyle =
+                    'bg-navy-700 text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer';
+                  const unselectedStyle =
+                    'text-gray-300 hover:bg-navy-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer';
+                  return (
+                    <Link key={route.label} href={route.path} passHref>
+                      <div
+                        className={isSelected ? selectedStyle : unselectedStyle}
+                      >
+                        {route.label}
+                      </div>
+                    </Link>
+                  );
+                })}
               </div>
             </div>
-          </Link>
-          {user && <UserAvatar username={user.username} email={user.email} />}
+          </div>
+          {user && (
+            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              <div className="ml-3 relative">
+                <div>
+                  <UserAvatar username={user.username} email={user.email} />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
-    </div>
+    </nav>
   );
 }
 
