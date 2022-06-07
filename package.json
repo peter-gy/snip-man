@@ -13,7 +13,9 @@
     "generate:prisma:mongo": "prisma generate --schema=./services/mongo/schema.prisma",
     "prisma-studio:mongo": "prisma studio --schema=./services/mongo/schema.prisma --port 5555",
     "prisma-studio:postgres": "prisma studio --schema=./services/postgres/schema.prisma --port 5556",
-    "server:serve": "nx run server:serve"
+    "server:serve": "nx run server:serve",
+    "web:serve": "nx run web:serve",
+    "project:serve": "nx run-many --target=serve --projects=web,server"
   },
   "private": true,
   "dependencies": {
@@ -33,9 +35,13 @@
     "dotenv": "^16.0.0",
     "joi": "^17.6.0",
     "next": "12.1.0",
+    "performant-array-to-tree": "^1.11.0",
+    "prismjs": "^1.28.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-query": "^3.34.19",
+    "react-icons": "^4.4.0",
+    "react-query": "^3.39.1",
+    "react-simple-code-editor": "^0.11.2",
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.7",
     "rxjs": "^7.0.0",
@@ -61,6 +67,7 @@
     "@testing-library/react-hooks": "7.0.2",
     "@types/jest": "27.0.2",
     "@types/node": "16.11.7",
+    "@types/prismjs": "^1.26.0",
     "@types/react": "17.0.40",
     "@types/react-dom": "17.0.13",
     "@typescript-eslint/eslint-plugin": "~5.10.0",

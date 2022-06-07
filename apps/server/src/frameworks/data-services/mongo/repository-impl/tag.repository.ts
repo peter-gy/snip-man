@@ -1,10 +1,10 @@
-import { IBaseRepository } from '../../../../core';
+import { ITagRepository } from '../../../../core';
 import { TagEntity } from '@snip-man/entities';
 import { Injectable } from '@nestjs/common';
 import { PrismaMongoService } from '../prisma-mongo.service';
 
 @Injectable()
-export class TagRepository implements IBaseRepository<TagEntity> {
+export class TagRepository implements ITagRepository {
   constructor(private readonly prisma: PrismaMongoService) {}
 
   create(item: Partial<TagEntity>): Promise<TagEntity> {

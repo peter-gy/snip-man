@@ -27,7 +27,7 @@ export class DatabasePopulatorService implements DatabasePopulator {
   ) {}
 
   async populate(): Promise<void> {
-    // Generate random users
+    // Generate random user-selector
     const userIds = await this.generateUsers();
     Logger.debug(`Generated ${userIds.length} users`);
 

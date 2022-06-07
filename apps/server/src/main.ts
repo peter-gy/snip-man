@@ -13,11 +13,19 @@ if (result.error) {
   Logger.error(`Error loading file: ${envPath}`);
   throw result.error;
 } else {
-  Logger.log(`Loaded env file: ${envPath}`);
+  Logger.log(
+    `Loaded env file: ${envPath} (${Object.keys(result.parsed).join(', ')})`
+  );
 }
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const config = app.get(ConfigService);
+  const env = config.get<string>('environment');
+
+  // Handle CORS
+  app.enableCors({ origin: '*' });
+
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
 
@@ -48,8 +56,6 @@ async function bootstrap() {
     production: '🚀',
   };
 
-  const config = app.get(ConfigService);
-  const env = config.get<string>('environment');
   Logger.log(`${configEmojiMap[env]} Running in \`${env}\` mode`);
 }
 

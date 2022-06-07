@@ -15,6 +15,13 @@ export class UserServices {
   }
 
   /**
+   * Retrieves all user-selector
+   */
+  findAll() {
+    return this.dataServices.users.findAll();
+  }
+
+  /**
    * Retrieves a user by username
    *
    * @param username the username of the user

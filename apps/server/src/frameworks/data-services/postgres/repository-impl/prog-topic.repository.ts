@@ -1,10 +1,14 @@
-import { IBaseRepository } from '../../../../core';
-import { ProgTopicEntity } from '@snip-man/entities';
+import { IProgTopicRepository } from '../../../../core';
+import {
+  ProgTopicEntity,
+  ProgTopicWithSnippets,
+  UserEntity,
+} from '@snip-man/entities';
 import { Injectable, NotImplementedException } from '@nestjs/common';
 import { PrismaPostgresService } from '../prisma-postgres.service';
 
 @Injectable()
-export class ProgTopicRepository implements IBaseRepository<ProgTopicEntity> {
+export class ProgTopicRepository implements IProgTopicRepository {
   constructor(private readonly prisma: PrismaPostgresService) {}
 
   create(item: Partial<ProgTopicEntity>): Promise<ProgTopicEntity> {
@@ -72,5 +76,22 @@ export class ProgTopicRepository implements IBaseRepository<ProgTopicEntity> {
         tagIds: r.tags.map((t) => t.tagId),
         tags: r.tags.map(({ tag }) => tag),
       }));
+  }
+
+  findAllForUser(
+    userId: Pick<UserEntity, 'id'>
+  ): Promise<ProgTopicWithSnippets[]> {
+    return this.prisma.progTopic
+      .findMany({
+        include: { tags: { include: { tag: true } }, progSnippets: true },
+        where: { userId: userId as unknown as string },
+      })
+      .then((r) =>
+        r.map((t) => ({
+          ...t,
+          tagIds: t.tags.map((t) => t.tagId),
+          tags: t.tags.map(({ tag }) => tag),
+        }))
+      );
   }
 }

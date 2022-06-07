@@ -9,9 +9,9 @@ export class CreateProgTopicDto {
   userId: string;
 
   @ApiPropertyOptional({ default: null })
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
-  @IsOptional()
   parentId?: string;
 
   @ApiProperty({ example: 'NestJS & Swagger' })
@@ -19,10 +19,12 @@ export class CreateProgTopicDto {
   @IsNotEmpty({ always: true })
   name: string;
 
-  @ApiProperty({ example: 'Integration of OpenAPI standards with NestJS' })
+  @ApiPropertyOptional({
+    example: 'Integration of OpenAPI standards with NestJS',
+  })
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  description: string;
+  description?: string;
 
   @ApiProperty({ example: [], description: 'Array of Tag ids on this topic' })
   tagIds: string[] = [];

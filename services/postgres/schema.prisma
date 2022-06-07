@@ -28,7 +28,7 @@ model ProgTopic {
   // Simple attributes
   id          String @id @default(cuid())
   name        String
-  description String
+  description String @default("")
 
   // ProgTopic <has nested> ProgTopic (1:N)
   parentId String?     @map("parent_id") // null implies that this is a top-level ProgTopic with no parent

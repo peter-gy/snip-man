@@ -1,10 +1,10 @@
-import { IBaseRepository } from '../../../../core';
+import { IUserRepository } from '../../../../core';
 import { UserEntity } from '@snip-man/entities';
 import { Injectable } from '@nestjs/common';
 import { PrismaMongoService } from '../prisma-mongo.service';
 
 @Injectable()
-export class UserRepository implements IBaseRepository<UserEntity> {
+export class UserRepository implements IUserRepository {
   constructor(private readonly prisma: PrismaMongoService) {}
 
   create(item: Partial<UserEntity>): Promise<UserEntity> {

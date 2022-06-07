@@ -20,10 +20,11 @@ export class FakeDataGeneratorService
   }
 
   public generateUser(): CreateUserDto {
+    const email = faker.internet.email();
     return {
-      email: faker.internet.email(),
+      email: email,
+      username: email.split('@')[0],
       password: faker.internet.password(),
-      username: faker.internet.userName(),
     };
   }
 

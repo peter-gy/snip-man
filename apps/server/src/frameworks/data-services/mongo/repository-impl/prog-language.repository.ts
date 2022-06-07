@@ -1,12 +1,10 @@
-import { IBaseRepository } from '../../../../core';
+import { IProgLanguageRepository } from '../../../../core';
 import { ProgLanguageEntity } from '@snip-man/entities';
 import { Injectable } from '@nestjs/common';
 import { PrismaMongoService } from '../prisma-mongo.service';
 
 @Injectable()
-export class ProgLanguageRepository
-  implements IBaseRepository<ProgLanguageEntity>
-{
+export class ProgLanguageRepository implements IProgLanguageRepository {
   constructor(private readonly prisma: PrismaMongoService) {}
 
   create(item: Partial<ProgLanguageEntity>): Promise<ProgLanguageEntity> {

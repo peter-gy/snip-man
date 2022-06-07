@@ -1,8 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { DataSourceType } from '../../core';
 import { ProgTopicServices } from '../../services/use-cases/prog-topic/prog-topic-services.service';
-import { CreateProgTopicDto } from '@snip-man/entities';
-import { ApiOperation } from '@nestjs/swagger';
+import { CreateProgTopicDto, UserEntity } from '@snip-man/entities';
+import { ApiOperation, ApiQuery } from '@nestjs/swagger';
 
 export class ProgTopicApiControllerBuilder {
   static build(dataSourceType: DataSourceType) {
@@ -28,6 +28,20 @@ export class ProgTopicApiControllerBuilder {
       @Get()
       findAll() {
         return this.service.findAll();
+      }
+
+      @ApiOperation({
+        tags: [openApiTag],
+        summary: 'Retrieve all programming topics belonging to a given user',
+      })
+      @ApiQuery({
+        name: 'userId',
+        required: true,
+        description: 'The id of the user',
+      })
+      @Get('find-by-userid')
+      findByUserId(@Query('userId') userId: Pick<UserEntity, 'id'>) {
+        return this.service.findAllForUser(userId);
       }
     }
 

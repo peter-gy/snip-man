@@ -27,6 +27,8 @@ Note that the repository root gets mounted bi-directionally into the `/usr/snip-
 service, therefore file-system changes made on the host will be immediately present inside the container, and
 vice-versa.
 
+The `web` and `server` components can be served in development mode at once by executing `npm run project:serve`.
+
 ## Production Build & Run
 
 The system can be built using Docker only:
@@ -117,18 +119,6 @@ The whole project source code can be formatted by executing:
 ```shell
 npx nx format:write
 ```
-
-### Running unit tests
-
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-### Running end-to-end tests
-
-Run `nx e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
 
 ### Understand your workspace
 
