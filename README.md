@@ -29,6 +29,14 @@ vice-versa.
 
 The `web` and `server` components can be served in development mode at once by executing `npm run project:serve`.
 
+### Truly Local Development
+
+Start the database instances with Docker and serve the project from your local machine:
+
+```shell
+make dev-up-local
+```
+
 ## Production Build & Run
 
 The system can be built using Docker only:
