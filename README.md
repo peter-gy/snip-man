@@ -103,6 +103,11 @@ about security risks when visiting any of the below HTTPS links.
   - [http://localhost:3333/api](http://localhost:3333/api)
   - [https://localhost:8443/api](https://localhost:8443/api)
 
+Please note that it is necessary to ignore SSL certificate errors with browsers when visiting the above links.
+
+- `macOS`, `Chromium`: `open /Applications/Chromium.app --args --ignore-certificate-errors`
+- `Windows`, `Chrome`: using flag `-ignore-certificates-errors`
+
 ## Working with `nx`
 
 ### Serving Project `web`
