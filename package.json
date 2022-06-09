@@ -15,7 +15,9 @@
     "prisma-studio:postgres": "prisma studio --schema=./services/postgres/schema.prisma --port 5556",
     "server:serve": "nx run server:serve",
     "web:serve": "nx run web:serve",
-    "project:serve": "nx run-many --target=serve --projects=web,server"
+    "project:serve": "nx run-many --target=serve --projects=web,server",
+    "local:migrate:prisma:postgres": "dotenv -e ./services/postgres/.env.dev -e ./services/mongo/.env.dev -- npm run migrate:prisma:postgres",
+    "local:project:serve": "npm run local:migrate:prisma:postgres && npm run generate:prisma && dotenv -e ./services/postgres/.env.dev -e ./services/mongo/.env.dev -- nx run-many --target=serve --projects=web,server"
   },
   "private": true,
   "dependencies": {
