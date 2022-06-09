@@ -31,11 +31,24 @@ The `web` and `server` components can be served in development mode at once by e
 
 ### Truly Local Development
 
+Install node modules:
+
+```shell
+npm install
+```
+
 Start the database instances with Docker and serve the project from your local machine:
 
 ```shell
 make dev-up-local
 ```
+
+The following services will be started:
+
+- `postgres`: `localhost:15432`
+- `mongo`: `localhost:37017`
+- `server`: `localhost:3333`
+- `web`: `localhost:4200`
 
 ## Production Build & Run
 
