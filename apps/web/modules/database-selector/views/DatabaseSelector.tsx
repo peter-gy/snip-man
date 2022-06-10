@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Button } from '@geist-ui/core';
+import { Button, useMediaQuery } from '@geist-ui/core';
 import { useSnipManState } from '../../snip-man-state/context/SnipManContext';
 import DashedContainer from '../../components/DashedContainer';
 import { MongoIcon, PostgresIcon } from '../../components/DatabaseIcons';
@@ -17,13 +17,14 @@ function DatabaseSelector(): ReactElement {
   function selectMongo() {
     dispatch({ type: 'setDatabaseSource', data: 'mongo' });
   }
+  const upXS = useMediaQuery('xs', { match: 'up' });
 
   return (
     <DashedContainer title="Database Selection">
-      <div className="flex justify-between items-center space-x-5">
+      <div className="flex flex-col space-y-1.5 sm:flex-row sm:space-y-0 sm:space-x-4 justify-between items-center">
         <Button
           onClick={selectPostgres}
-          width={1.5}
+          width={upXS ? 1.45 : 1.1}
           height={1.75}
           icon={<PostgresIcon />}
         >
@@ -38,7 +39,7 @@ function DatabaseSelector(): ReactElement {
         </Button>
         <Button
           onClick={selectMongo}
-          width={1.5}
+          width={upXS ? 1.45 : 1.1}
           height={1.75}
           icon={<MongoIcon />}
         >

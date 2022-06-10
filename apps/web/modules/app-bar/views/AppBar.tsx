@@ -55,7 +55,7 @@ function AppBar() {
             </div>
           </div>
           {user && (
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            <div className="absolute inset-y-0 right-0 flex items-center pr-2 hidden sm:block sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <div className="ml-3 relative">
                 <div>
                   <UserAvatar username={user.username} email={user.email} />

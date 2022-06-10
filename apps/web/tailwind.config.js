@@ -12,6 +12,9 @@ module.exports = {
       fontFamily: {
         code: ['Menlo', 'Monaco', 'Lucida Console', 'Liberation Mono'],
       },
+      screens: {
+        tall: { raw: '(max-height: 800px)' },
+      },
       colors: {
         highlight: '#7affe1',
         navy: {

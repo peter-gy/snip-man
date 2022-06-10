@@ -16,9 +16,11 @@ const developers = [
 
 function Footer(): ReactElement {
   return (
-    <div className="py-8 px-2 min-h-[10vh] bg-navy-800 rounded-t-2xl flex flex-col items-center space-y-5">
-      <h3 className="text-white font-bold">Developed By</h3>
-      <div className="w-full grow flex flex-row justify-around">
+    <div className="bg-navy-800 py-2 px-2 rounded-t-2xl flex flex-col items-center space-y-1 sm:py-6 sm:space-y-5">
+      <h3 className="text-white font-bold text-base sm:text-2xl tall:hidden">
+        Developed By
+      </h3>
+      <div className="w-full grow flex justify-around tall:hidden">
         {developers.map((developer) => (
           <Developer key={developer.name} {...developer} />
         ))}
@@ -39,7 +41,7 @@ export function Developer({
   studentId,
 }: DeveloperProps): ReactElement {
   return (
-    <div className="flex flex-col space-y-2 items-center justify-center text-lg text-white font-bold">
+    <div className="flex flex-col space-y-2 items-center justify-center text-xs sm:text-lg text-white font-bold">
       <div className="italic">{name}</div>
       <div className="w-[25px] border-white border-t-[1px]"></div>
       <div className="px-2 flex items-center space-x-2">

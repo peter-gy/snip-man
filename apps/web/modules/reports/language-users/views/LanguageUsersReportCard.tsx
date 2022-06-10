@@ -53,8 +53,8 @@ function LanguageUsersReportCard() {
         <Modal.Title>{title}</Modal.Title>
         <Modal.Subtitle>Actionable Insights ⚡️</Modal.Subtitle>
         <Modal.Content>
-          <div className="flex flex-col justify-center items-center space-y-6">
-            <p className="text-justify">{description}</p>
+          <div className="flex flex-col justify-center items-center space-y-2 sm:space-y-6">
+            <p className="text-justify hidden sm:block">{description}</p>
             <div className="flex flex-col items-center justify-center">
               <h4>Please choose a language</h4>
               <ProgLanguageSelector onChange={onLanguageSelected} />
@@ -63,20 +63,20 @@ function LanguageUsersReportCard() {
             {queryResult?.data && (
               <>
                 {
-                  <div className="p-4 border-dashed border-black border-2 rounded-md w-full flex justify-center items-start h-[30vh]">
+                  <div className="p-4 border-dashed border-black border-2 rounded-md flex justify-center items-start w-full">
                     {queryResult?.data.length === 0 && (
                       <p className="font-medium">No results were found</p>
                     )}
                     {queryResult?.data.length !== 0 && (
-                      <div className="flex flex-col">
+                      <div className="flex flex-col overflow-auto">
                         <p className="font-medium">
                           The following email addresses were found:
                         </p>
-                        <div className="max-h-[20vh] overflow-scroll flex flex-col space-y-1.5">
+                        <div className="flex flex-col space-y-1.5">
                           {[...queryResult.data, ''].map((email) => (
                             <div
                               key={email}
-                              className="border-gray-300 border-t-[0.5px] my-1 italic"
+                              className="border-gray-300 border-t-[0.5px] my-1 italic min-h-fit"
                             >
                               {email}
                             </div>
