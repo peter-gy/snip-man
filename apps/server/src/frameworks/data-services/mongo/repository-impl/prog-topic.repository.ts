@@ -1,10 +1,6 @@
 import { IProgTopicRepository } from '../../../../core';
-import {
-  ProgTopicEntity,
-  ProgTopicWithSnippets,
-  UserEntity,
-} from '@snip-man/entities';
-import { Injectable } from '@nestjs/common';
+import { ProgTopicEntity, ProgTopicWithSnippets } from '@snip-man/entities';
+import { Injectable, NotImplementedException } from '@nestjs/common';
 import { PrismaMongoService } from '../prisma-mongo.service';
 
 @Injectable()
@@ -12,25 +8,36 @@ export class ProgTopicRepository implements IProgTopicRepository {
   constructor(private readonly prisma: PrismaMongoService) {}
 
   create(item: Partial<ProgTopicEntity>): Promise<ProgTopicEntity> {
-    return Promise.resolve(undefined);
+    return this.prisma.progTopic.create({
+      data: {
+        parentId: item.parentId,
+        userId: item.userId,
+        name: item.name,
+        description: item.description,
+        tags: item.tags?.map((tag) => ({ name: tag.name, color: tag.color })),
+      },
+    });
   }
 
   findUnique<A extends keyof ProgTopicEntity>(
     by: keyof ProgTopicEntity,
     attribute: Pick<ProgTopicEntity, A>
   ): Promise<ProgTopicEntity | null> {
-    return Promise.resolve(undefined);
+    throw NotImplementedException;
   }
 
   findAll(): Promise<ProgTopicEntity[]> {
-    return Promise.resolve([]);
+    return this.prisma.progTopic.findMany();
   }
 
   update(id: string, item: Partial<ProgTopicEntity>): Promise<ProgTopicEntity> {
-    return Promise.resolve(undefined);
+    throw NotImplementedException;
   }
 
   findAllForUser(userId: string): Promise<ProgTopicWithSnippets[]> {
-    return Promise.resolve([]);
+    return this.prisma.progTopic.findMany({
+      where: { user: { id: userId } },
+      include: { progSnippets: true },
+    });
   }
 }

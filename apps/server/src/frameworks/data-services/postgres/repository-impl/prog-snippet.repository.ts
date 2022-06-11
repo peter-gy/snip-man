@@ -1,5 +1,5 @@
 import { IProgSnippetRepository } from '../../../../core';
-import { ProgSnippetEntity, ProgTopicEntity } from '@snip-man/entities';
+import { ProgSnippetEntity } from '@snip-man/entities';
 import { Injectable } from '@nestjs/common';
 import { PrismaPostgresService } from '../prisma-postgres.service';
 
@@ -11,12 +11,16 @@ export class ProgSnippetRepository implements IProgSnippetRepository {
     parentId: string,
     item: Partial<ProgSnippetEntity>
   ): Promise<ProgSnippetEntity> {
+    if (!item.progLanguage.id) {
+      throw new Error('Prog language id is required');
+    }
     return this.prisma.progSnippet.create({
+      include: { progLanguage: true },
       data: {
         content: item.content,
         headline: item.headline,
         progTopicId: parentId,
-        progLanguageId: item.progLanguageId,
+        progLanguageId: item.progLanguage.id,
       },
     });
   }

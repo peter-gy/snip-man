@@ -2,7 +2,6 @@ import { DatabasePopulator } from '../../../core/populator/database-populator.ab
 import { Injectable, Logger } from '@nestjs/common';
 import { DataGenerator } from '../../../core/populator/data-generator.abstract';
 import { IBaseDataServices } from '../../../core';
-import { ProgTopicEntity } from '@snip-man/entities';
 
 function range(start: number, end: number) {
   return Array.from({ length: end - start }, (_, i) => i + start);
@@ -59,7 +58,7 @@ export class DatabasePopulatorService implements DatabasePopulator {
           randomArrayElement(tagIds)
         );
         await this.dataServices.progTopics.update(progTopicId, {
-          tagIds: randomTagIds,
+          tags: randomTagIds.map((id) => ({ id })),
         });
       }
     }

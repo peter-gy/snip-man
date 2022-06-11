@@ -37,7 +37,7 @@ export class FakeDataGeneratorService
       parentId: parentId,
       name: faker.hacker.verb(),
       description: faker.hacker.phrase(),
-      tagIds: [],
+      tags: [],
     };
   }
 
@@ -54,7 +54,7 @@ export class FakeDataGeneratorService
   ): CreateProgSnippetDto {
     return {
       progTopicId: progTopicId,
-      progLanguageId: progLanguageId,
+      progLanguage: { id: progLanguageId },
       headline: faker.git.commitMessage(),
       content: faker.lorem.paragraphs(2),
       createdAt: faker.date.past(),
