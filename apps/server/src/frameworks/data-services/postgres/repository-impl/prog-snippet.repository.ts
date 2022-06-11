@@ -34,7 +34,10 @@ export class ProgSnippetRepository implements IProgSnippetRepository {
   }
 
   findAll(parentId: string): Promise<ProgSnippetEntity[]> {
-    return Promise.resolve([]);
+    return this.prisma.progSnippet.findMany({
+      include: { progLanguage: true },
+      where: { progTopicId: parentId },
+    });
   }
 
   update(

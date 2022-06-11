@@ -31,12 +31,21 @@ export class ProgTopicRepository implements IProgTopicRepository {
   }
 
   update(id: string, item: Partial<ProgTopicEntity>): Promise<ProgTopicEntity> {
-    throw NotImplementedException;
+    return this.prisma.progTopic.update({
+      where: { id },
+      data: {
+        parentId: item.parentId,
+        userId: item.userId,
+        name: item.name,
+        description: item.description,
+        tags: item.tags?.map((tag) => ({ name: tag.name, color: tag.color })),
+      },
+    });
   }
 
   findAllForUser(userId: string): Promise<ProgTopicWithSnippets[]> {
     return this.prisma.progTopic.findMany({
-      where: { user: { id: userId } },
+      where: { userId },
       include: { progSnippets: true },
     });
   }
