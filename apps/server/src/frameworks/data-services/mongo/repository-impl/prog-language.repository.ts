@@ -23,9 +23,17 @@ export class ProgLanguageRepository implements IProgLanguageRepository {
       .findMany()
       .then((res) => res.map((item) => item.progLanguage));
     // remove duplicates
-    const uniqueLanguages = languages.filter(
-      (item, index) => languages.indexOf(item) === index
-    );
+    const uniqueLanguages: ProgLanguageEntity[] = [];
+    for (const language of languages) {
+      const exists =
+        uniqueLanguages.find(
+          (item) =>
+            item.version === language.version && item.name === language.name
+        ) !== undefined;
+      if (!exists) {
+        uniqueLanguages.push({ ...language, id: '' });
+      }
+    }
     return uniqueLanguages.map((item) => ({ id: '', ...item }));
   }
 
