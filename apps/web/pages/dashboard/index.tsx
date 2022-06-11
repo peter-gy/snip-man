@@ -16,13 +16,13 @@ const Dashboard: NextPage = () => {
       <div className="grid grid-cols-4 grow">
         {user && (
           <SnippetNavigatorStateProvider userId={user.id}>
-            <div className="col-span-1 p-2 bg-navy-50 drop-shadow-2xl">
+            <div className="col-span-2 lg:col-span-1 p-2 bg-navy-50 drop-shadow-2xl">
               <div className="flex flex-col space-y-5">
                 <CreateTopicButton />
                 <TopicTree />
               </div>
             </div>
-            <div className="col-span-3">
+            <div className="col-span-2 lg:col-span-3">
               <div className="p-8 flex justify-center items-center">
                 Snippets will come here
               </div>
