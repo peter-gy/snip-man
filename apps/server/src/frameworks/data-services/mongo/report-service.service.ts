@@ -8,14 +8,14 @@ export class ReportService implements IReportService {
   constructor(private readonly prisma: PrismaMongoService) {}
 
   findMostDominantLanguagesByTag(
-    tagId: Pick<TagEntity, 'id'>
+    tag: Partial<TagEntity>
   ): Promise<ProgLanguageEntity[]> {
     console.log('mongo - findMostDominantLanguagesByTag');
     throw NotImplementedException;
   }
 
   findUsersActiveInSpecificLanguage(
-    progLanguageId: Pick<ProgLanguageEntity, 'id'>
+    progLanguage: Partial<ProgLanguageEntity>
   ): Promise<string[]> {
     console.log('mongo - findUsersActiveInSpecificLanguage');
     throw NotImplementedException;

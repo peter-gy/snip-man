@@ -8,15 +8,16 @@ export class ReportService implements IReportService {
   constructor(private readonly prisma: PrismaPostgresService) {}
 
   findMostDominantLanguagesByTag(
-    tagId: Pick<TagEntity, 'id'>
+    tag: Partial<TagEntity>
   ): Promise<ProgLanguageEntity[]> {
     console.log('postgres - findMostDominantLanguagesByTag');
     throw NotImplementedException;
   }
 
   async findUsersActiveInSpecificLanguage(
-    progLanguageId: Pick<ProgLanguageEntity, 'id'>
+    progLanguage: Partial<ProgLanguageEntity>
   ): Promise<string[]> {
+    const { id: progLanguageId } = progLanguage;
     const result: { user_email: string }[] = await this.prisma.$queryRaw`
       SELECT "user".email AS user_email
       FROM prog_topic

@@ -6,14 +6,18 @@ import {
 import { baseFetch } from '../../../api/utils/api.util';
 import { useDatabaseSource } from '../../../snip-man-state/context/SnipManContext';
 import { useMutation } from 'react-query';
+import { ProgLanguageEntity } from '@snip-man/entities';
 
-function getLanguageUsersReport(dbSource: DbSource, progLanguageId: string) {
+function getLanguageUsersReport(
+  dbSource: DbSource,
+  progLanguage: Partial<ProgLanguageEntity>
+) {
   return baseFetch<string[]>(
     constructApiEndpoint(ApiEndpoint.ReportLanguageUsers, dbSource),
     {
       method: 'GET',
     },
-    { progLanguageId }
+    { progLanguage: JSON.stringify(progLanguage) }
   );
 }
 
@@ -21,7 +25,8 @@ function useLanguageUsersReport() {
   const dbSource = useDatabaseSource();
   return useMutation(
     ApiEndpoint.ReportLanguageUsers,
-    (progLanguageId: string) => getLanguageUsersReport(dbSource, progLanguageId)
+    (progLanguage: Partial<ProgLanguageEntity>) =>
+      getLanguageUsersReport(dbSource, progLanguage)
   );
 }
 
