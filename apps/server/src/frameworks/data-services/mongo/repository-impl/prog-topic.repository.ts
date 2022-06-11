@@ -49,4 +49,8 @@ export class ProgTopicRepository implements IProgTopicRepository {
       include: { progSnippets: true },
     });
   }
+
+  async clear(): Promise<void> {
+    await this.prisma.progTopic.deleteMany({});
+  }
 }

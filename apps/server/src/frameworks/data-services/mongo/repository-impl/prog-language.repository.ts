@@ -35,4 +35,8 @@ export class ProgLanguageRepository implements IProgLanguageRepository {
   ): Promise<ProgLanguageEntity> {
     throw NotImplementedException;
   }
+
+  async clear(): Promise<void> {
+    // Embedded
+  }
 }

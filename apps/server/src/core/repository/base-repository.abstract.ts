@@ -36,6 +36,11 @@ export abstract class IBaseRepository<T extends BaseEntity> {
    * @param item The entity with updated values.
    */
   abstract update(id: T['id'], item: Partial<T>): Promise<T>;
+
+  /**
+   * Deletes all entities from the database.
+   */
+  abstract clear(): Promise<void>;
 }
 
 /**
@@ -90,4 +95,9 @@ export abstract class IBaseRepositoryWeak<
     id: Weak['id'],
     item: Partial<Weak>
   ): Promise<Weak>;
+
+  /**
+   * Deletes all weak entities from the database.
+   */
+  abstract clear(): Promise<void>;
 }

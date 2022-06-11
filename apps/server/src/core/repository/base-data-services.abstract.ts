@@ -31,6 +31,8 @@ export abstract class IBaseDataServices {
   abstract progSnippets: IProgSnippetRepository;
   abstract progLanguages: IProgLanguageRepository;
   abstract reportService: IReportService;
+
+  abstract clear(): Promise<void>;
 }
 
 export abstract class IUserRepository extends IBaseRepository<UserEntity> {}

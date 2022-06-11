@@ -11,6 +11,10 @@ export class DatabaseMigratorService {
   ) {}
 
   async migrate() {
+    // Clear all data first
+    Logger.debug('Clearing all data from Mongo before migrating...');
+    await this.mongo.clear();
+
     const postgresUsers = await this.postgres.users.findAll();
     Logger.debug(
       `Migrating ${postgresUsers.length} users from Postgres to Mongo`

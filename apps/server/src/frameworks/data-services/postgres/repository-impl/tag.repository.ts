@@ -39,4 +39,8 @@ export class TagRepository implements ITagRepository {
     });
     return Promise.resolve(promise);
   }
+
+  async clear(): Promise<void> {
+    await this.prisma.tag.deleteMany({});
+  }
 }

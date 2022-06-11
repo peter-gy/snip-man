@@ -41,4 +41,8 @@ export class UserRepository implements IUserRepository {
     });
     return Promise.resolve(promise);
   }
+
+  async clear(): Promise<void> {
+    await this.prisma.user.deleteMany({});
+  }
 }

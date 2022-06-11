@@ -47,4 +47,8 @@ export class ProgSnippetRepository implements IProgSnippetRepository {
   ): Promise<ProgSnippetEntity> {
     return Promise.resolve(undefined);
   }
+
+  async clear(): Promise<void> {
+    await this.prisma.progSnippet.deleteMany({});
+  }
 }

@@ -36,7 +36,7 @@ model ProgTopic {
 
   // User <creates> ProgTopic (1:N)
   userId String @map("user_id")
-  user   User   @relation(fields: [userId], references: [id]) // topic author
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade) // topic author
 
   // [Embedded] ProgTopic <has> Tag (N:M)
   tags Tag[]
@@ -62,7 +62,7 @@ model ProgSnippet {
 
   // ProgTopic <has> ProgSnippet (1:N)
   progTopicId String
-  progTopic   ProgTopic @relation(fields: [progTopicId], references: [id])
+  progTopic   ProgTopic @relation(fields: [progTopicId], references: [id], onDelete: Cascade)
 
   // [Embedded] ProgLanguage <has> ProgSnippet (1:N)
   progLanguage ProgLanguage

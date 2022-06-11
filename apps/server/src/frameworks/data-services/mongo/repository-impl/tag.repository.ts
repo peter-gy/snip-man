@@ -39,4 +39,8 @@ export class TagRepository implements ITagRepository {
   update(id: string, item: Partial<TagEntity>): Promise<TagEntity> {
     throw NotImplementedException;
   }
+
+  async clear(): Promise<void> {
+    // Embedded
+  }
 }

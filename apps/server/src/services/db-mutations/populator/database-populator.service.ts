@@ -26,6 +26,10 @@ export class DatabasePopulatorService implements DatabasePopulator {
   ) {}
 
   async populate(): Promise<void> {
+    // Clear all data first
+    Logger.debug('Clearing all data from Postgres before populating...');
+    await this.dataServices.clear();
+
     // Generate random user-selector
     const userIds = await this.generateUsers();
     Logger.debug(`Generated ${userIds.length} users`);

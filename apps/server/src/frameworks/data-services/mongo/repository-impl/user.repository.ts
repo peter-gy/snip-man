@@ -31,4 +31,8 @@ export class UserRepository implements IUserRepository {
   update(id: string, item: Partial<UserEntity>): Promise<UserEntity> {
     throw NotImplementedException;
   }
+
+  async clear(): Promise<void> {
+    await this.prisma.user.deleteMany({});
+  }
 }
