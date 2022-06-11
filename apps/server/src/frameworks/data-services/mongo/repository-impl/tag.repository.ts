@@ -22,10 +22,7 @@ export class TagRepository implements ITagRepository {
     return Promise.resolve([]);
   }
 
-  update(
-    id: Pick<TagEntity, 'id'>,
-    item: Partial<TagEntity>
-  ): Promise<TagEntity> {
+  update(id: string, item: Partial<TagEntity>): Promise<TagEntity> {
     return Promise.resolve(undefined);
   }
 }

@@ -49,10 +49,10 @@ export class ProgTopicRepository implements IProgTopicRepository {
   }
 
   async update(
-    id: Pick<ProgTopicEntity, 'id'>,
+    id: string,
     item: Partial<ProgTopicEntity>
   ): Promise<ProgTopicEntity> {
-    const progTopicId = id as unknown as string;
+    const progTopicId = id;
     for (const tagId of item.tagIds) {
       await this.prisma.tagsOnProgTopics.upsert({
         where: { tagId_progTopicId: { tagId, progTopicId } },
@@ -78,9 +78,7 @@ export class ProgTopicRepository implements IProgTopicRepository {
       }));
   }
 
-  findAllForUser(
-    userId: Pick<UserEntity, 'id'>
-  ): Promise<ProgTopicWithSnippets[]> {
+  findAllForUser(userId: string): Promise<ProgTopicWithSnippets[]> {
     return this.prisma.progTopic
       .findMany({
         include: { tags: { include: { tag: true } }, progSnippets: true },

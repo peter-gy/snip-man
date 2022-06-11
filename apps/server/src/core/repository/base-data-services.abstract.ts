@@ -42,7 +42,7 @@ export abstract class IProgTopicRepository extends IBaseRepository<ProgTopicEnti
    * @param userId id of the user whose topics should be retrieved
    */
   abstract findAllForUser(
-    userId: Pick<UserEntity, 'id'>
+    userId: UserEntity['id']
   ): Promise<ProgTopicWithSnippets[]>;
 }
 

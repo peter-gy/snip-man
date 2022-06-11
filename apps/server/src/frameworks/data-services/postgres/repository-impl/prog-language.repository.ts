@@ -30,11 +30,11 @@ export class ProgLanguageRepository implements IProgLanguageRepository {
   }
 
   update(
-    id: Pick<ProgLanguageEntity, 'id'>,
+    id: string,
     item: Partial<ProgLanguageEntity>
   ): Promise<ProgLanguageEntity> {
     const promise = this.prisma.progLanguage.update({
-      where: { id: id as unknown as string },
+      where: { id: id },
       data: {
         name: item.name,
         version: item.version,

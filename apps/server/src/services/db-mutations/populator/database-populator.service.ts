@@ -58,10 +58,9 @@ export class DatabasePopulatorService implements DatabasePopulator {
         const randomTagIds = range(0, NUM_TAGS_PER_TOPIC).map((_) =>
           randomArrayElement(tagIds)
         );
-        await this.dataServices.progTopics.update(
-          progTopicId as unknown as Pick<ProgTopicEntity, 'id'>,
-          { tagIds: randomTagIds }
-        );
+        await this.dataServices.progTopics.update(progTopicId, {
+          tagIds: randomTagIds,
+        });
       }
     }
   }
@@ -132,10 +131,7 @@ export class DatabasePopulatorService implements DatabasePopulator {
     );
 
     const snippetPromises = snippetDtos.map((dto) =>
-      this.dataServices.progSnippets.create(
-        topicId as unknown as Pick<ProgTopicEntity, 'id'>,
-        dto
-      )
+      this.dataServices.progSnippets.create(topicId, dto)
     );
     const snippetIds = (await Promise.all(snippetPromises)).map(({ id }) => id);
     return snippetIds.map((id) => ({ id, parentId: topicId }));

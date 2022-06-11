@@ -22,10 +22,7 @@ export class UserRepository implements IUserRepository {
     return Promise.resolve([]);
   }
 
-  update(
-    id: Pick<UserEntity, 'id'>,
-    item: Partial<UserEntity>
-  ): Promise<UserEntity> {
+  update(id: string, item: Partial<UserEntity>): Promise<UserEntity> {
     return Promise.resolve(undefined);
   }
 }

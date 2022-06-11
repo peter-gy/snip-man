@@ -1,5 +1,5 @@
 import { IProgSnippetRepository } from '../../../../core';
-import { ProgSnippetEntity, ProgTopicEntity } from '@snip-man/entities';
+import { ProgSnippetEntity } from '@snip-man/entities';
 import { Injectable } from '@nestjs/common';
 import { PrismaMongoService } from '../prisma-mongo.service';
 
@@ -8,27 +8,27 @@ export class ProgSnippetRepository implements IProgSnippetRepository {
   constructor(private readonly prisma: PrismaMongoService) {}
 
   create(
-    parentId: Pick<ProgTopicEntity, 'id'>,
+    parentId: string,
     item: Partial<ProgSnippetEntity>
   ): Promise<ProgSnippetEntity> {
     return Promise.resolve(undefined);
   }
 
   findUnique<A extends keyof ProgSnippetEntity>(
-    parentId: Pick<ProgTopicEntity, 'id'>,
+    parentId: string,
     by: keyof ProgSnippetEntity,
     attribute: Pick<ProgSnippetEntity, A>
   ): Promise<ProgSnippetEntity> {
     throw new Error('Method not implemented.');
   }
 
-  findAll(parentId: Pick<ProgTopicEntity, 'id'>): Promise<ProgSnippetEntity[]> {
+  findAll(parentId: string): Promise<ProgSnippetEntity[]> {
     return Promise.resolve([]);
   }
 
   update(
-    parentId: Pick<ProgTopicEntity, 'id'>,
-    id: Pick<ProgSnippetEntity, 'id'>,
+    parentId: string,
+    id: string,
     item: Partial<ProgSnippetEntity>
   ): Promise<ProgSnippetEntity> {
     return Promise.resolve(undefined);

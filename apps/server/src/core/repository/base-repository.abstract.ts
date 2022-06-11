@@ -35,7 +35,7 @@ export abstract class IBaseRepository<T extends BaseEntity> {
    * @param id: The id of the entity to update.
    * @param item The entity with updated values.
    */
-  abstract update(id: Pick<T, 'id'>, item: Partial<T>): Promise<T>;
+  abstract update(id: T['id'], item: Partial<T>): Promise<T>;
 }
 
 /**
@@ -55,7 +55,7 @@ export abstract class IBaseRepositoryWeak<
    * Retrieves all weak entities from the database linked to the entity with `parentId`.
    * @param parentId The id of the `Strong` `BaseEntity` whose weak entities shall be retrieved.
    */
-  abstract findAll(parentId: Pick<Strong, 'id'>): Promise<Weak[]>;
+  abstract findAll(parentId: Strong['id']): Promise<Weak[]>;
 
   /**
    * Finds a single weak entity by a given unique property.
@@ -65,7 +65,7 @@ export abstract class IBaseRepositoryWeak<
    * @param attribute the property to use in the query.
    */
   abstract findUnique<A extends keyof Weak>(
-    parentId: Pick<Strong, 'id'>,
+    parentId: Strong['id'],
     by: keyof Weak,
     attribute: Pick<Weak, A>
   ): Promise<Weak | null>;
@@ -76,10 +76,7 @@ export abstract class IBaseRepositoryWeak<
    * @param parentId The id of the `Strong` `BaseEntity` whose weak entities shall be retrieved.
    * @param item The weak entity to create.
    */
-  abstract create(
-    parentId: Pick<Strong, 'id'>,
-    item: Partial<Weak>
-  ): Promise<Weak>;
+  abstract create(parentId: Strong['id'], item: Partial<Weak>): Promise<Weak>;
 
   /**
    * Updates an existing weak entity in the database.
@@ -89,8 +86,8 @@ export abstract class IBaseRepositoryWeak<
    * @param item The weak entity with updated values.
    */
   abstract update(
-    parentId: Pick<Strong, 'id'>,
-    id: Pick<Weak, 'id'>,
+    parentId: Strong['id'],
+    id: Weak['id'],
     item: Partial<Weak>
   ): Promise<Weak>;
 }

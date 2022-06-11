@@ -8,34 +8,34 @@ export class ProgSnippetRepository implements IProgSnippetRepository {
   constructor(private readonly prisma: PrismaPostgresService) {}
 
   create(
-    parentId: Pick<ProgTopicEntity, 'id'>,
+    parentId: string,
     item: Partial<ProgSnippetEntity>
   ): Promise<ProgSnippetEntity> {
     return this.prisma.progSnippet.create({
       data: {
         content: item.content,
         headline: item.headline,
-        progTopicId: parentId as unknown as string,
+        progTopicId: parentId,
         progLanguageId: item.progLanguageId,
       },
     });
   }
 
   findUnique<A extends keyof ProgSnippetEntity>(
-    parentId: Pick<ProgTopicEntity, 'id'>,
+    parentId: string,
     by: keyof ProgSnippetEntity,
     attribute: Pick<ProgSnippetEntity, A>
   ): Promise<ProgSnippetEntity> {
     throw new Error('Method not implemented.');
   }
 
-  findAll(parentId: Pick<ProgTopicEntity, 'id'>): Promise<ProgSnippetEntity[]> {
+  findAll(parentId: string): Promise<ProgSnippetEntity[]> {
     return Promise.resolve([]);
   }
 
   update(
-    parentId: Pick<ProgTopicEntity, 'id'>,
-    id: Pick<ProgSnippetEntity, 'id'>,
+    parentId: string,
+    id: string,
     item: Partial<ProgSnippetEntity>
   ): Promise<ProgSnippetEntity> {
     return Promise.resolve(undefined);

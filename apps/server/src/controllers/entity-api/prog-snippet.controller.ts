@@ -22,7 +22,7 @@ export class ProgSnippetApiControllerBuilder {
           'ID of the parent topic from which snippets should be returned',
       })
       @Get(':parentId')
-      findAll(@Param('parentId') parentId: Pick<ProgTopicEntity, 'id'>) {
+      findAll(@Param('parentId') parentId: string) {
         return this.service.findAll(parentId);
       }
     }

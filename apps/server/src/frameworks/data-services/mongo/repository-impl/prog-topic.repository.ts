@@ -26,16 +26,11 @@ export class ProgTopicRepository implements IProgTopicRepository {
     return Promise.resolve([]);
   }
 
-  update(
-    id: Pick<ProgTopicEntity, 'id'>,
-    item: Partial<ProgTopicEntity>
-  ): Promise<ProgTopicEntity> {
+  update(id: string, item: Partial<ProgTopicEntity>): Promise<ProgTopicEntity> {
     return Promise.resolve(undefined);
   }
 
-  findAllForUser(
-    userId: Pick<UserEntity, 'id'>
-  ): Promise<ProgTopicWithSnippets[]> {
+  findAllForUser(userId: string): Promise<ProgTopicWithSnippets[]> {
     return Promise.resolve([]);
   }
 }

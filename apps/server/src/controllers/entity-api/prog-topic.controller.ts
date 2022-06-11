@@ -40,7 +40,7 @@ export class ProgTopicApiControllerBuilder {
         description: 'The id of the user',
       })
       @Get('find-by-userid')
-      findByUserId(@Query('userId') userId: Pick<UserEntity, 'id'>) {
+      findByUserId(@Query('userId') userId: string) {
         return this.service.findAllForUser(userId);
       }
     }

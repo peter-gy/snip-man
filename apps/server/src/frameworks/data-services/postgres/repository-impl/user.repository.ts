@@ -30,10 +30,7 @@ export class UserRepository implements IUserRepository {
     return this.prisma.user.findMany();
   }
 
-  update(
-    id: Pick<UserEntity, 'id'>,
-    item: Partial<UserEntity>
-  ): Promise<UserEntity> {
+  update(id: string, item: Partial<UserEntity>): Promise<UserEntity> {
     const promise = this.prisma.user.update({
       where: { id: id as unknown as string },
       data: {

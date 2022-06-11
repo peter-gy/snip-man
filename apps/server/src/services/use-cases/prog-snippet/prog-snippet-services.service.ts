@@ -21,10 +21,7 @@ export class ProgSnippetServices {
    */
   async create(dto: CreateProgSnippetDto) {
     const { progTopicId, ...item } = dto;
-    return this.repo.create(
-      progTopicId as unknown as Pick<ProgTopicEntity, 'id'>,
-      item
-    );
+    return this.repo.create(progTopicId, item);
   }
 
   /**
@@ -33,18 +30,15 @@ export class ProgSnippetServices {
    * @param parentId the id of the topic
    * @param id the id of the snippet
    */
-  find(
-    parentId: Pick<ProgTopicEntity, 'id'>,
-    id: Pick<ProgSnippetEntity, 'id'>
-  ) {
-    return this.repo.findUnique<'id'>(parentId, 'id', id);
+  find(parentId: string, id: string) {
+    return this.repo.findUnique<'id'>(parentId, 'id', { id });
   }
 
   /**
    * Retrieves all snippets from the database for a given topic
    * @param parentId the id of the topic to which the snippet belongs
    */
-  findAll(parentId: Pick<ProgTopicEntity, 'id'>) {
+  findAll(parentId: string) {
     return this.dataServices.progSnippets.findAll(parentId);
   }
 

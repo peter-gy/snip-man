@@ -23,7 +23,7 @@ export class ProgLanguageRepository implements IProgLanguageRepository {
   }
 
   update(
-    id: Pick<ProgLanguageEntity, 'id'>,
+    id: string,
     item: Partial<ProgLanguageEntity>
   ): Promise<ProgLanguageEntity> {
     return Promise.resolve(undefined);
