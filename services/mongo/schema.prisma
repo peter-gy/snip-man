@@ -13,7 +13,7 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(cuid()) @map("_id") @db.ObjectId
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
   email    String @unique
   username String @unique
   password String
@@ -25,7 +25,7 @@ model User {
 
 model ProgTopic {
   // Simple attributes
-  id          String @id @default(cuid()) @map("_id") @db.ObjectId
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String @default("")
 
@@ -38,9 +38,12 @@ model ProgTopic {
   userId String @map("user_id")
   user   User   @relation(fields: [userId], references: [id]) // topic author
 
-  // ProgTopic <has> Tag (N:M)
-  tags        Tag[]
-  ProgSnippet ProgSnippet[]
+  // [Embedded] ProgTopic <has> Tag (N:M)
+  tags Tag[]
+
+  // ProgTopic <has> ProgSnippet (1:N)
+  progSnippets ProgSnippet[]
+  @@map("prog_topic")
 }
 
 // Embedding tags
@@ -51,16 +54,17 @@ type Tag {
 
 model ProgSnippet {
   // Simple attributes
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
   headline     String
   content      String
   createdAt    DateTime @default(now()) @map("created_at")
   lastModified DateTime @updatedAt @map("last_modified")
 
   // ProgTopic <has> ProgSnippet (1:N)
-  progTopicId String    @id @map("_id")
+  progTopicId String
   progTopic   ProgTopic @relation(fields: [progTopicId], references: [id])
 
-  // ProgLanguage <has> ProgSnippet (1:N)
+  // [Embedded] ProgLanguage <has> ProgSnippet (1:N)
   progLanguage ProgLanguage
 
   // Weak Entity, primary key composes the progTopicId

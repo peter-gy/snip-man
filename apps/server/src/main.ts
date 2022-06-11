@@ -26,6 +26,7 @@ if (shouldLoadConfig()) {
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = app.get(ConfigService);
+  Logger.debug(JSON.stringify(config, null, 2));
   const env = config.get<string>('environment');
 
   // Handle CORS
