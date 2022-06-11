@@ -19,7 +19,10 @@ function findAllUsers(dbSource: DbSource) {
 
 function useAppUsers() {
   const dbSource = useDatabaseSource();
-  return useQuery(ApiEndpoint.FindAllUsers, () => findAllUsers(dbSource));
+  return useQuery(
+    constructApiEndpoint(ApiEndpoint.FindAllUsers, dbSource),
+    () => findAllUsers(dbSource)
+  );
 }
 
 export default useAppUsers;

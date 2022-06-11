@@ -10,12 +10,14 @@ function DatabaseSelector(): ReactElement {
     dispatch,
   } = useSnipManState();
 
-  function selectPostgres() {
+  async function selectPostgres() {
     dispatch({ type: 'setDatabaseSource', data: 'postgres' });
+    dispatch({ type: 'setUser', data: null });
   }
 
-  function selectMongo() {
+  async function selectMongo() {
     dispatch({ type: 'setDatabaseSource', data: 'mongo' });
+    dispatch({ type: 'setUser', data: null });
   }
 
   return (
