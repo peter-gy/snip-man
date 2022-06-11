@@ -1,6 +1,6 @@
 import { IProgLanguageRepository } from '../../../../core';
 import { ProgLanguageEntity } from '@snip-man/entities';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotImplementedException } from '@nestjs/common';
 import { PrismaMongoService } from '../prisma-mongo.service';
 
 @Injectable()
@@ -8,24 +8,35 @@ export class ProgLanguageRepository implements IProgLanguageRepository {
   constructor(private readonly prisma: PrismaMongoService) {}
 
   create(item: Partial<ProgLanguageEntity>): Promise<ProgLanguageEntity> {
-    return Promise.resolve(undefined);
+    throw NotImplementedException;
   }
 
   findUnique<A extends keyof ProgLanguageEntity>(
     by: keyof ProgLanguageEntity,
     attribute: Pick<ProgLanguageEntity, A>
   ): Promise<ProgLanguageEntity> {
-    throw new Error('Method not implemented.');
+    throw NotImplementedException;
   }
 
-  findAll(): Promise<ProgLanguageEntity[]> {
-    return Promise.resolve([]);
+  async findAll(): Promise<ProgLanguageEntity[]> {
+    const languages = await this.prisma.progSnippet
+      .findMany()
+      .then((res) => res.map((item) => item.progLanguage));
+    // remove duplicates
+    const uniqueLanguages = languages.filter(
+      (item, index) => languages.indexOf(item) === index
+    );
+    return uniqueLanguages.map((item) => ({ id: '', ...item }));
   }
 
   update(
-    id: Pick<ProgLanguageEntity, 'id'>,
+    id: string,
     item: Partial<ProgLanguageEntity>
   ): Promise<ProgLanguageEntity> {
-    return Promise.resolve(undefined);
+    throw NotImplementedException;
+  }
+
+  async clear(): Promise<void> {
+    // Embedded
   }
 }

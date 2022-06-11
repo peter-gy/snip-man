@@ -25,8 +25,9 @@ import { ReportService } from './report-service.service';
       provide: IBaseDataServices,
       useClass: MongoDataServices,
     },
+    MongoDataServices,
   ],
   // Only expose the facade
-  exports: [IBaseDataServices],
+  exports: [IBaseDataServices, MongoDataServices],
 })
 export class MongoDataServicesModule {}

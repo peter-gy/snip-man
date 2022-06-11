@@ -39,6 +39,12 @@ export class MongoDataServices
     private readonly _reportService: ReportService
   ) {}
 
+  async clear(): Promise<void> {
+    await this.progSnippets.clear();
+    await this.progTopics.clear();
+    await this.users.clear();
+  }
+
   onApplicationBootstrap() {
     this.users = this._users;
     this.progTopics = this._progTopics;

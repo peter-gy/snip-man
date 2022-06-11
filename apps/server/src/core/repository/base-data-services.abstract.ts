@@ -31,6 +31,8 @@ export abstract class IBaseDataServices {
   abstract progSnippets: IProgSnippetRepository;
   abstract progLanguages: IProgLanguageRepository;
   abstract reportService: IReportService;
+
+  abstract clear(): Promise<void>;
 }
 
 export abstract class IUserRepository extends IBaseRepository<UserEntity> {}
@@ -42,7 +44,7 @@ export abstract class IProgTopicRepository extends IBaseRepository<ProgTopicEnti
    * @param userId id of the user whose topics should be retrieved
    */
   abstract findAllForUser(
-    userId: Pick<UserEntity, 'id'>
+    userId: UserEntity['id']
   ): Promise<ProgTopicWithSnippets[]>;
 }
 

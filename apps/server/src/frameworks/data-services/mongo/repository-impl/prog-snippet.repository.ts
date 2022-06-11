@@ -1,6 +1,6 @@
 import { IProgSnippetRepository } from '../../../../core';
-import { ProgSnippetEntity, ProgTopicEntity } from '@snip-man/entities';
-import { Injectable } from '@nestjs/common';
+import { ProgSnippetEntity } from '@snip-man/entities';
+import { Injectable, NotImplementedException } from '@nestjs/common';
 import { PrismaMongoService } from '../prisma-mongo.service';
 
 @Injectable()
@@ -8,29 +8,45 @@ export class ProgSnippetRepository implements IProgSnippetRepository {
   constructor(private readonly prisma: PrismaMongoService) {}
 
   create(
-    parentId: Pick<ProgTopicEntity, 'id'>,
+    parentId: string,
     item: Partial<ProgSnippetEntity>
   ): Promise<ProgSnippetEntity> {
-    return Promise.resolve(undefined);
+    return this.prisma.progSnippet.create({
+      data: {
+        progTopicId: parentId,
+        headline: item.headline,
+        content: item.content,
+        createdAt: item.createdAt,
+        lastModified: item.lastModified,
+        progLanguage: {
+          name: item.progLanguage.name,
+          version: item.progLanguage.version,
+        },
+      },
+    });
   }
 
   findUnique<A extends keyof ProgSnippetEntity>(
-    parentId: Pick<ProgTopicEntity, 'id'>,
+    parentId: string,
     by: keyof ProgSnippetEntity,
     attribute: Pick<ProgSnippetEntity, A>
   ): Promise<ProgSnippetEntity> {
-    throw new Error('Method not implemented.');
+    throw NotImplementedException;
   }
 
-  findAll(parentId: Pick<ProgTopicEntity, 'id'>): Promise<ProgSnippetEntity[]> {
-    return Promise.resolve([]);
+  findAll(parentId: string): Promise<ProgSnippetEntity[]> {
+    throw NotImplementedException;
   }
 
   update(
-    parentId: Pick<ProgTopicEntity, 'id'>,
-    id: Pick<ProgSnippetEntity, 'id'>,
+    parentId: string,
+    id: string,
     item: Partial<ProgSnippetEntity>
   ): Promise<ProgSnippetEntity> {
-    return Promise.resolve(undefined);
+    throw NotImplementedException;
+  }
+
+  async clear(): Promise<void> {
+    await this.prisma.progSnippet.deleteMany({});
   }
 }

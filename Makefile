@@ -23,6 +23,6 @@ dev-up: build-dev
 dev-down:
 	docker-compose -f docker-compose.dev.yml down
 
-dev-up-local:
-	docker-compose -f docker-compose.dev.yml up -d mongo postgres
+dev-up-local: build-dev
+	docker-compose -f docker-compose.dev.yml up -d postgres mongo-local
 	npm run local:project:serve

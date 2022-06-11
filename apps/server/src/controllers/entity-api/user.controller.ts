@@ -54,7 +54,7 @@ export class UserApiControllerBuilder {
         description: 'The email of the user to find',
       })
       @Get('find-by-email')
-      findByEmail(@Query('value') email: Pick<UserEntity, 'email'>) {
+      findByEmail(@Query('value') email: string) {
         return this.service.findByEmail(email);
       }
     }

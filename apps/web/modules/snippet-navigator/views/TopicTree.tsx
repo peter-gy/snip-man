@@ -66,7 +66,7 @@ function TopicTree() {
     if (!selectedTopic) return;
     const contentNode = Array.from(
       document.getElementsByClassName('extra')
-    ).filter((e) => e.textContent.startsWith(`{"id":"${selectedTopic.id}"`))[0];
+    ).filter((e) => e.textContent.includes(`"id":"${selectedTopic.id}"`))[0];
     const folderName = contentNode.parentElement;
     folderName.classList.add('font-bold');
     folderName.classList.add('underline');

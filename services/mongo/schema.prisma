@@ -13,8 +13,67 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(cuid()) @map("_id") @db.ObjectId
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
   email    String @unique
   username String @unique
   password String
+
+  // User <creates> ProgTopic (1:N)
+  progTopics ProgTopic[]
+  @@map("user")
+}
+
+model ProgTopic {
+  // Simple attributes
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String @default("")
+
+  // ProgTopic <has nested> ProgTopic (1:N)
+  parentId String?     @map("parent_id") // null implies that this is a top-level ProgTopic with no parent
+  parent   ProgTopic?  @relation("nested_topics", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  children ProgTopic[] @relation("nested_topics") // nested topics
+
+  // User <creates> ProgTopic (1:N)
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade) // topic author
+
+  // [Embedded] ProgTopic <has> Tag (N:M)
+  tags Tag[]
+
+  // ProgTopic <has> ProgSnippet (1:N)
+  progSnippets ProgSnippet[]
+  @@map("prog_topic")
+}
+
+// Embedding tags
+type Tag {
+  name  String
+  color String
+}
+
+model ProgSnippet {
+  // Simple attributes
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  headline     String
+  content      String
+  createdAt    DateTime @default(now()) @map("created_at")
+  lastModified DateTime @updatedAt @map("last_modified")
+
+  // ProgTopic <has> ProgSnippet (1:N)
+  progTopicId String
+  progTopic   ProgTopic @relation(fields: [progTopicId], references: [id], onDelete: Cascade)
+
+  // [Embedded] ProgLanguage <has> ProgSnippet (1:N)
+  progLanguage ProgLanguage
+
+  // Weak Entity, primary key composes the progTopicId
+  @@map("prog_snippet")
+}
+
+// Embedding languages
+type ProgLanguage {
+  // Simple attributes
+  name    String
+  version String
 }

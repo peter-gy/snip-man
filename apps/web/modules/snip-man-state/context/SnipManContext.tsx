@@ -7,7 +7,7 @@ import { initialState } from '../data/initial-state';
  * Possible actions to dispatch to the reducer
  */
 type Action =
-  | { type: 'setUser'; data: UserEntity }
+  | { type: 'setUser'; data: UserEntity | null }
   | { type: 'setDatabaseSource'; data: 'postgres' | 'mongo' };
 
 /**

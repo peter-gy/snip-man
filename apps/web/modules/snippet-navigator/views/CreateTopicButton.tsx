@@ -38,7 +38,7 @@ function CreateTopicButton() {
       name: topicName,
       description: topicDescription || '',
       parentId: selectedTopic?.id || null,
-      tagIds: [],
+      tags: [],
     };
     createProgTopic(dto);
     setDidSubmit(false);

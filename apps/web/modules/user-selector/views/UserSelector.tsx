@@ -7,9 +7,9 @@ import { Loading, Select } from '@geist-ui/core';
 function UserSelector() {
   const {
     state: { user },
+    dispatch,
   } = useSnipManState();
   const { data: queryRes, isLoading } = useAppUsers();
-  const { dispatch } = useSnipManState();
 
   function selectUser(userJson: string) {
     const user = JSON.parse(userJson) as UserEntity;
@@ -26,7 +26,7 @@ function UserSelector() {
         <Select
           placeholder="Choose one"
           onChange={selectUser}
-          initialValue={user !== null ? JSON.stringify(user) : null}
+          initialValue={user !== null ? JSON.stringify(user) : undefined}
         >
           {queryRes.data.map((user) => (
             <Select.Option key={user.id} value={JSON.stringify(user)}>

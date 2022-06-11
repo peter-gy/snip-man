@@ -15,7 +15,7 @@ import { PostgresDataServicesModule } from '../../../frameworks/data-services/po
     {
       // seed for Faker
       provide: Number,
-      useValue: 42,
+      useValue: Math.random(),
     },
     {
       provide: DatabasePopulator,
