@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Button, Loading, Modal, useModal } from '@geist-ui/core';
+import { Button, Modal, useModal } from '@geist-ui/core';
 import { useSnipManState } from '../../snip-man-state/context/SnipManContext';
 import DashedContainer from '../../components/DashedContainer';
 import { MongoIcon, PostgresIcon } from '../../components/DatabaseIcons';

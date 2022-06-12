@@ -18,47 +18,15 @@ export class ReportService implements IReportService {
     progLanguage: Partial<ProgLanguageEntity>
   ): Promise<string[]> {
     const progLanguageName = progLanguage.name as string;
-    const result = await this.prisma.user.aggregateRaw({
+    const result = await this.prisma.progSnippet.aggregateRaw({
       pipeline: [
         {
           $project: {
-            email: 1,
-          },
-        },
-        {
-          $lookup: {
-            from: 'prog_topic',
-            localField: '_id',
-            foreignField: 'user_id',
-            as: 'prog_topic',
-          },
-        },
-        {
-          $unwind: '$prog_topic',
-        },
-        {
-          $project: {
-            email: 1,
-            prog_topic_id: '$prog_topic._id',
-          },
-        },
-        {
-          $lookup: {
-            from: 'prog_snippet',
-            localField: 'prog_topic_id',
-            foreignField: 'prog_topic_id',
-            as: 'prog_snippet',
-          },
-        },
-        {
-          $unwind: '$prog_snippet',
-        },
-        {
-          $project: {
-            email: 1,
-            prog_snippet_language_name: '$prog_snippet.prog_language.name',
+            prog_language_name: '$prog_language.name',
+            created_at: 1,
+            prog_topic_id: 1,
             prog_snippet_created_at: {
-              $convert: { input: '$prog_snippet.created_at', to: 'string' },
+              $convert: { input: '$created_at', to: 'string' },
             },
           },
         },
@@ -66,7 +34,7 @@ export class ReportService implements IReportService {
           $match: {
             $expr: {
               $and: [
-                { $eq: ['$prog_snippet_language_name', progLanguageName] },
+                { $eq: ['$prog_language_name', progLanguageName] },
                 {
                   $gte: [
                     '$prog_snippet_created_at',
@@ -83,24 +51,52 @@ export class ReportService implements IReportService {
           },
         },
         {
+          $project: {
+            prog_topic_id: 1,
+          },
+        },
+        {
+          $lookup: {
+            from: 'prog_topic',
+            localField: 'prog_topic_id',
+            foreignField: '_id',
+            as: 'prog_topic',
+          },
+        },
+        {
+          $unwind: '$prog_topic',
+        },
+        {
           $group: {
-            _id: '$email',
+            _id: '$prog_topic.user_id',
             count: { $sum: 1 },
           },
         },
         {
-          $match: {
-            count: { $gte: 3 },
+          $lookup: {
+            from: 'user',
+            localField: '_id',
+            foreignField: '_id',
+            as: 'user',
           },
         },
         {
+          $unwind: '$user',
+        },
+        {
           $project: {
-            _id: 1,
+            _id: 0,
+            email: '$user.email',
+          },
+        },
+        {
+          $sort: {
+            email: 1,
           },
         },
       ],
     });
-    const castedResult = result as unknown as { _id: string }[];
-    return castedResult.map(({ _id: email }) => email);
+    const castedResult = result as unknown as { email: string }[];
+    return castedResult.map(({ email }) => email);
   }
 }
