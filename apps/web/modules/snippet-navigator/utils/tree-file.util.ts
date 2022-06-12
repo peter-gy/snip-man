@@ -32,7 +32,7 @@ function treeFileFromProgSnippet(
     ...progSnippet,
     type: 'file',
     name: progSnippet.headline,
-    extra: JSON.stringify(progSnippet),
+    extra: JSON.stringify({ ...progSnippet, type: 'file' }),
   };
 }
 
@@ -45,7 +45,7 @@ function treeFileFromProgTopic(
     progSnippets: snippets,
     type: 'directory',
     name: progTopic.name,
-    extra: JSON.stringify(progTopic),
+    extra: JSON.stringify({ ...progTopic, type: 'directory' }),
   };
 }
 

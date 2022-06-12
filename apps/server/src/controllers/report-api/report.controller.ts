@@ -16,16 +16,19 @@ export class ReportApiControllerBuilder {
         summary: 'Find users active in specific languages',
       })
       @ApiQuery({
-        name: 'progLanguageId',
+        name: 'progLanguage',
         required: true,
-        description: 'The id of the programming language',
+        description:
+          'The id of the language to query by in case of RDBMS ' +
+          'and the actual values in case of NoSQL. ' +
+          'Always needs to be a stringified JSON object.',
       })
       @Get('language-users')
       findUsersActiveInSpecificLanguage(
-        @Query('progLanguageId') progLanguageId: Pick<ProgLanguageEntity, 'id'>
+        @Query('progLanguage') progLanguage: string
       ) {
         return this.dataServices.reportService.findUsersActiveInSpecificLanguage(
-          progLanguageId
+          JSON.parse(progLanguage) as Partial<ProgLanguageEntity>
         );
       }
 
@@ -34,16 +37,17 @@ export class ReportApiControllerBuilder {
         summary: 'Find most dominant languages by tags',
       })
       @ApiQuery({
-        name: 'tagId',
+        name: 'tag',
         required: true,
-        description: 'The id of the tag',
+        description:
+          'The id of the tag to query by in case of RDBMS ' +
+          'and the actual values in case of NoSQL. ' +
+          'Always needs to be a stringified JSON object.',
       })
       @Get('language-dominance')
-      findMostDominantLanguagesByTag(
-        @Query('tagId') tagId: Pick<TagEntity, 'id'>
-      ) {
+      findMostDominantLanguagesByTag(@Query('tag') tag: string) {
         return this.dataServices.reportService.findMostDominantLanguagesByTag(
-          tagId
+          JSON.parse(tag) as Partial<TagEntity>
         );
       }
     }

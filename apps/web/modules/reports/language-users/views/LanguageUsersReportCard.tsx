@@ -34,7 +34,7 @@ function LanguageUsersReportCard() {
 
   async function onLanguageSelected(selectedLang: ProgLanguageEntity) {
     if (!selectedLang) return;
-    await getLanguageUsersReport(selectedLang.id);
+    await getLanguageUsersReport(selectedLang);
   }
 
   return (

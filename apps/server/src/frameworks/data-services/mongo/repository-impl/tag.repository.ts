@@ -33,7 +33,17 @@ export class TagRepository implements ITagRepository {
     // flatten
     const tags = tagsNested.reduce((acc, curr) => acc.concat(curr), []);
     // remove duplicates
-    return tags.filter((item, index) => tags.indexOf(item) === index);
+    const uniqueTags: TagEntity[] = [];
+    for (const tag of tags) {
+      const exists =
+        uniqueTags.find(
+          (item) => item.name === tag.name && item.color === tag.color
+        ) !== undefined;
+      if (!exists) {
+        uniqueTags.push({ ...tag, id: '' });
+      }
+    }
+    return uniqueTags;
   }
 
   update(id: string, item: Partial<TagEntity>): Promise<TagEntity> {

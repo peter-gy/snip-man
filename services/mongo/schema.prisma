@@ -35,7 +35,7 @@ model ProgTopic {
   children ProgTopic[] @relation("nested_topics") // nested topics
 
   // User <creates> ProgTopic (1:N)
-  userId String @map("user_id")
+  userId String @map("user_id") @db.ObjectId
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade) // topic author
 
   // [Embedded] ProgTopic <has> Tag (N:M)
@@ -61,11 +61,11 @@ model ProgSnippet {
   lastModified DateTime @updatedAt @map("last_modified")
 
   // ProgTopic <has> ProgSnippet (1:N)
-  progTopicId String
+  progTopicId String    @map("prog_topic_id") @db.ObjectId
   progTopic   ProgTopic @relation(fields: [progTopicId], references: [id], onDelete: Cascade)
 
   // [Embedded] ProgLanguage <has> ProgSnippet (1:N)
-  progLanguage ProgLanguage
+  progLanguage ProgLanguage @map("prog_language")
 
   // Weak Entity, primary key composes the progTopicId
   @@map("prog_snippet")

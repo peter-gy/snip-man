@@ -12,10 +12,10 @@ export abstract class IReportService {
    * Example: The language TypeScript, for which the email addresses of users
    * with at least 3 new snippets in the last month get listed.
    *
-   * @param progLanguageId the id of the language to query by
+   * @param progLanguage the id of the language to query by in case of RDBMS and the actual values in case of NoSQL
    */
   abstract findUsersActiveInSpecificLanguage(
-    progLanguageId: Pick<ProgLanguageEntity, 'id'>
+    progLanguage: Partial<ProgLanguageEntity>
   ): Promise<string[]>;
 
   /**
@@ -25,9 +25,9 @@ export abstract class IReportService {
    * Example: The tag “data science”,
    * under which languages like Python or Julia get ranked.
    *
-   * @param tagId the id of the tag to query by
+   * @param tag the id of the tag to query by in case of RDBMS and the actual values in case of NoSQL
    */
   abstract findMostDominantLanguagesByTag(
-    tagId: Pick<TagEntity, 'id'>
+    tag: Partial<TagEntity>
   ): Promise<ProgLanguageEntity[]>;
 }
