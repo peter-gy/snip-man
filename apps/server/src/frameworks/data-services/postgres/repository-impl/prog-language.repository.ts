@@ -26,7 +26,7 @@ export class ProgLanguageRepository implements IProgLanguageRepository {
   }
 
   findAll(): Promise<ProgLanguageEntity[]> {
-    return this.prisma.progLanguage.findMany();
+    return this.prisma.progLanguage.findMany({ orderBy: { name: 'asc' } });
   }
 
   update(

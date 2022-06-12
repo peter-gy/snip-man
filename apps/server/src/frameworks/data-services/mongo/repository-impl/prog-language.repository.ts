@@ -2,6 +2,7 @@ import { IProgLanguageRepository } from '../../../../core';
 import { ProgLanguageEntity } from '@snip-man/entities';
 import { Injectable, NotImplementedException } from '@nestjs/common';
 import { PrismaMongoService } from '../prisma-mongo.service';
+import { progLanguages } from '../../../../assets/data';
 
 @Injectable()
 export class ProgLanguageRepository implements IProgLanguageRepository {
@@ -19,22 +20,13 @@ export class ProgLanguageRepository implements IProgLanguageRepository {
   }
 
   async findAll(): Promise<ProgLanguageEntity[]> {
-    const languages = await this.prisma.progSnippet
-      .findMany()
-      .then((res) => res.map((item) => item.progLanguage));
-    // remove duplicates
-    const uniqueLanguages: ProgLanguageEntity[] = [];
-    for (const language of languages) {
-      const exists =
-        uniqueLanguages.find(
-          (item) =>
-            item.version === language.version && item.name === language.name
-        ) !== undefined;
-      if (!exists) {
-        uniqueLanguages.push({ ...language, id: '' });
-      }
-    }
-    return uniqueLanguages.map((item) => ({ id: '', ...item }));
+    return progLanguages
+      .map((item) => ({
+        id: '',
+        name: item.name,
+        version: item.version,
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name));
   }
 
   update(
