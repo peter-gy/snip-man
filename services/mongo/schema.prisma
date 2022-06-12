@@ -61,11 +61,11 @@ model ProgSnippet {
   lastModified DateTime @updatedAt @map("last_modified")
 
   // ProgTopic <has> ProgSnippet (1:N)
-  progTopicId String    @db.ObjectId
+  progTopicId String    @map("prog_topic_id") @db.ObjectId
   progTopic   ProgTopic @relation(fields: [progTopicId], references: [id], onDelete: Cascade)
 
   // [Embedded] ProgLanguage <has> ProgSnippet (1:N)
-  progLanguage ProgLanguage
+  progLanguage ProgLanguage @map("prog_language")
 
   // Weak Entity, primary key composes the progTopicId
   @@map("prog_snippet")
