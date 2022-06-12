@@ -63,24 +63,26 @@ function LanguageUsersReportCard() {
             {queryResult?.data && (
               <>
                 {
-                  <div className="p-4 border-dashed border-black border-2 rounded-md flex justify-center items-start w-full">
+                  <div className="p-4 border-dashed border-black border-2 rounded-md flex justify-center items-start w-full max-h-[35vh] overflow-hidden">
                     {queryResult?.data.length === 0 && (
                       <p className="font-medium">No results were found</p>
                     )}
                     {queryResult?.data.length !== 0 && (
-                      <div className="flex flex-col overflow-auto">
+                      <div className="flex flex-col overflow-hidden">
                         <p className="font-medium">
                           The following email addresses were found:
                         </p>
-                        <div className="flex flex-col space-y-1.5">
-                          {[...queryResult.data, ''].map((email) => (
-                            <div
-                              key={email}
-                              className="border-gray-300 border-t-[0.5px] my-1 italic min-h-fit"
-                            >
-                              {email}
-                            </div>
-                          ))}
+                        <div className="flex flex-1 items-center justify-center overflow-y-scroll max-h-[25vh]">
+                          <div className="flex flex-col space-y-1.5 min-h-min">
+                            {[...queryResult.data, ''].map((email) => (
+                              <div
+                                key={email}
+                                className="border-gray-300 border-t-[0.5px] my-1 italic"
+                              >
+                                {email}
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     )}
