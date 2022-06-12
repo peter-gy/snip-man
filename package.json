@@ -17,10 +17,10 @@
     "server:serve": "nx run server:serve",
     "web:serve": "nx run web:serve",
     "project:serve": "nx run-many --target=serve --projects=web,server",
-    "local:migrate:prisma:postgres": "dotenv -e ./services/postgres/.env.local -- npm run migrate:prisma:postgres",
+    "local:migrate:prisma:postgres": "npx --yes dotenv-cli -e ./services/postgres/.env.local -- npm run migrate:prisma:postgres",
     "local:migrate:prisma:mongo": "echo 'Sorry, mongo does not work locally, consider using the dockerized dev-env'",
     "local:migrate:prisma": "npm run local:migrate:prisma:postgres && npm run local:migrate:prisma:mongo",
-    "local:project:serve": "npm run local:migrate:prisma && npm run generate:prisma && dotenv -e ./services/postgres/.env.local -e ./services/mongo/.env.local -- nx run-many --target=serve --projects=web,server"
+    "local:project:serve": "npm run local:migrate:prisma && npm run generate:prisma && npx --yes dotenv-cli -e ./services/postgres/.env.local -e ./services/mongo/.env.local -- nx run-many --target=serve --projects=web,server"
   },
   "private": true,
   "dependencies": {
@@ -80,7 +80,6 @@
     "autoprefixer": "^10.4.4",
     "babel-jest": "27.2.3",
     "cypress": "^9.1.0",
-    "dotenv-cli": "^5.1.0",
     "eslint": "~8.7.0",
     "eslint-config-next": "12.1.1-canary.3",
     "eslint-config-prettier": "8.1.0",
