@@ -29,7 +29,7 @@ function TopicTree() {
       // The topic as an object is stored to the 'extra' attribute as a JSON string.
       const topicJson = target.getElementsByClassName('extra')[0].textContent;
       // Make sure that this is actually a topic
-      if (!topicJson.includes('description')) return;
+      if (!topicJson.includes(`"type":"directory"`)) return;
       const topic = JSON.parse(topicJson) as ProgTopicEntity;
       handleTopicClicked(topic);
     }
@@ -47,7 +47,7 @@ function TopicTree() {
       // The snippet as an object is stored to the 'extra' attribute as a JSON string.
       const snippetJson = target.getElementsByClassName('extra')[0].textContent;
       // Make sure that this is actually a snippet
-      if (!snippetJson.includes('content')) return;
+      if (!snippetJson.includes(`"type":"file"`)) return;
       const snippet = JSON.parse(snippetJson) as ProgSnippetEntity;
       handleSnippetClicked(snippet);
     }
