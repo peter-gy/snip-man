@@ -14,10 +14,8 @@ import { progLanguages } from '../../../assets/data';
 export class FakeDataGeneratorService
   implements DataGenerator, OnApplicationBootstrap
 {
-  constructor(private readonly seed: number) {}
-
   onApplicationBootstrap() {
-    faker.seed(this.seed);
+    // faker.seed(42);
   }
 
   public generateUser(): CreateUserDto {
