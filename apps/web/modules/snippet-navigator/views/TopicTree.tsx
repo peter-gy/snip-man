@@ -1,4 +1,4 @@
-import { Tree } from '@geist-ui/core';
+import { Loading, Tree } from "@geist-ui/core";
 import { useSnippetNavigatorState } from '../context/SnippetNavigatorContext';
 import { fileTreeFromTopicsWithSnippets } from '../utils/tree-file.util';
 import { useEffect } from 'react';
@@ -98,9 +98,16 @@ function TopicTree() {
     };
   }, [selectedSnippet]);
 
+  const treeValue = fileTreeFromTopicsWithSnippets(topics);
+  if (treeValue.length === 0) {
+    return <div className="p-4 flex justify-center items-center">
+      <Loading>Waiting for topics....</Loading>
+    </div>
+  }
+
   return (
     <div id="topic-tree">
-      <Tree value={fileTreeFromTopicsWithSnippets(topics)} />
+      <Tree value={treeValue} />
     </div>
   );
 }
