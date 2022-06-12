@@ -1,11 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { IBaseDataServices } from '../../../core';
-import {
-  CreateProgTopicDto,
-  ProgTopicEntity,
-  UpdateProgTopicDto,
-  UserEntity,
-} from '@snip-man/entities';
+import { CreateProgTopicDto, UpdateProgTopicDto } from '@snip-man/entities';
 
 @Injectable()
 export class ProgTopicServices {
