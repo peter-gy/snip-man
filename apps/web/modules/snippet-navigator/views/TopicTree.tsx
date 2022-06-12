@@ -66,7 +66,11 @@ function TopicTree() {
     if (!selectedTopic) return;
     const contentNode = Array.from(
       document.getElementsByClassName('extra')
-    ).filter((e) => e.textContent.includes(`"id":"${selectedTopic.id}"`))[0];
+    ).filter(
+      (e) =>
+        e.textContent.includes(`"id":"${selectedTopic.id}"`) &&
+        e.textContent.includes(`"type":"directory"`)
+    )[0];
     const folderName = contentNode.parentElement;
     folderName.classList.add('font-bold');
     folderName.classList.add('underline');
@@ -80,8 +84,10 @@ function TopicTree() {
     if (!selectedSnippet) return;
     const contentNode = Array.from(
       document.getElementsByClassName('extra')
-    ).filter((e) =>
-      e.textContent.startsWith(`{"id":"${selectedSnippet.id}"`)
+    ).filter(
+      (e) =>
+        e.textContent.includes(`"id":"${selectedSnippet.id}"`) &&
+        e.textContent.includes(`"type":"file"`)
     )[0];
     const fileName = contentNode.parentElement;
     fileName.classList.add('italic');
