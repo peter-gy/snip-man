@@ -106,7 +106,9 @@ about security risks when visiting any of the below HTTPS links.
 Please note that it is necessary to ignore SSL certificate errors with browsers when visiting the above links.
 
 - `macOS`, `Chromium`: `open /Applications/Chromium.app --args --ignore-certificate-errors`
-- `Windows`, `Chrome`: using flag `-ignore-certificates-errors`
+- `Windows`, `Chrome`: using flag `-ignore-certificate-errors`
+
+![helper](https://easywebfixes.com/wp-content/uploads/2018/08/ignore-certificate-errors-google-chrome.png)
 
 ## Working with `nx`
 
