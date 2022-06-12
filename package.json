@@ -18,7 +18,7 @@
     "web:serve": "nx run web:serve",
     "project:serve": "nx run-many --target=serve --projects=web,server",
     "local:migrate:prisma:postgres": "dotenv -e ./services/postgres/.env.local -- npm run migrate:prisma:postgres",
-    "local:migrate:prisma:mongo": "dotenv -e ./services/mongo/.env.local -- npm run migrate:prisma:mongo",
+    "local:migrate:prisma:mongo": "echo 'Sorry, mongo does not work locally, consider using the dockerized dev-env'",
     "local:migrate:prisma": "npm run local:migrate:prisma:postgres && npm run local:migrate:prisma:mongo",
     "local:project:serve": "npm run local:migrate:prisma && npm run generate:prisma && dotenv -e ./services/postgres/.env.local -e ./services/mongo/.env.local -- nx run-many --target=serve --projects=web,server"
   },
