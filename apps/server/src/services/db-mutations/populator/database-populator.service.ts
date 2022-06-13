@@ -2,7 +2,6 @@ import { DatabasePopulator } from '../../../core/populator/database-populator.ab
 import { Injectable, Logger } from '@nestjs/common';
 import { DataGenerator } from '../../../core/populator/data-generator.abstract';
 import { IBaseDataServices } from '../../../core';
-import { ProgTopicEntity } from '@snip-man/entities';
 
 function range(start: number, end: number) {
   return Array.from({ length: end - start }, (_, i) => i + start);
@@ -27,6 +26,10 @@ export class DatabasePopulatorService implements DatabasePopulator {
   ) {}
 
   async populate(): Promise<void> {
+    // Clear all data first
+    Logger.debug('Clearing all data from Postgres before populating...');
+    await this.dataServices.clear();
+
     // Generate random user-selector
     const userIds = await this.generateUsers();
     Logger.debug(`Generated ${userIds.length} users`);
@@ -58,10 +61,9 @@ export class DatabasePopulatorService implements DatabasePopulator {
         const randomTagIds = range(0, NUM_TAGS_PER_TOPIC).map((_) =>
           randomArrayElement(tagIds)
         );
-        await this.dataServices.progTopics.update(
-          progTopicId as unknown as Pick<ProgTopicEntity, 'id'>,
-          { tagIds: randomTagIds }
-        );
+        await this.dataServices.progTopics.update(progTopicId, {
+          tags: randomTagIds.map((id) => ({ id })),
+        });
       }
     }
   }
@@ -132,10 +134,7 @@ export class DatabasePopulatorService implements DatabasePopulator {
     );
 
     const snippetPromises = snippetDtos.map((dto) =>
-      this.dataServices.progSnippets.create(
-        topicId as unknown as Pick<ProgTopicEntity, 'id'>,
-        dto
-      )
+      this.dataServices.progSnippets.create(topicId, dto)
     );
     const snippetIds = (await Promise.all(snippetPromises)).map(({ id }) => id);
     return snippetIds.map((id) => ({ id, parentId: topicId }));

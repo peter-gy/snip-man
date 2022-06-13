@@ -1,6 +1,10 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { ApiEndpoint } from '../../api/types/endpoint.type';
+import {
+  ApiEndpoint,
+  constructApiEndpoint,
+} from '../../api/types/endpoint.type';
 import { baseFetch, EmptyObject } from '../../api/utils/api.util';
+import { useSnipManState } from '../../snip-man-state/context/SnipManContext';
 
 function populateDatabase() {
   return baseFetch<EmptyObject>(ApiEndpoint.PopulateDatabase, {
@@ -10,9 +14,15 @@ function populateDatabase() {
 
 function usePopulateDatabase() {
   const queryClient = useQueryClient();
+  const { dispatch } = useSnipManState();
   return useMutation(ApiEndpoint.PopulateDatabase, populateDatabase, {
     // Automatically updates the user selector dropdown
-    onSuccess: () => queryClient.refetchQueries(ApiEndpoint.FindAllUsers),
+    onSuccess: async () => {
+      dispatch({ type: 'setUser', data: null });
+      await queryClient.refetchQueries(
+        constructApiEndpoint(ApiEndpoint.FindAllUsers, 'postgres')
+      );
+    },
   });
 }
 

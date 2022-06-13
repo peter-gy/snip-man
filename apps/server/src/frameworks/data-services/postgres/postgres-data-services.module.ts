@@ -25,8 +25,9 @@ import { ReportService } from './report-service.service';
       provide: IBaseDataServices,
       useClass: PostgresDataServices,
     },
+    PostgresDataServices,
   ],
   // Only expose the facade
-  exports: [IBaseDataServices],
+  exports: [IBaseDataServices, PostgresDataServices],
 })
 export class PostgresDataServicesModule {}

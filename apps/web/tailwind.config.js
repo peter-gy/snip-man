@@ -1,5 +1,6 @@
 const { join } = require('path');
 
+/** @type {import("tailwindcss").Config} */
 module.exports = {
   presets: [require('../../tailwind-workspace-preset.js')],
   mode: 'jit',
@@ -11,6 +12,9 @@ module.exports = {
     extend: {
       fontFamily: {
         code: ['Menlo', 'Monaco', 'Lucida Console', 'Liberation Mono'],
+      },
+      screens: {
+        tall: { raw: '(max-height: 800px)' },
       },
       colors: {
         highlight: '#7affe1',

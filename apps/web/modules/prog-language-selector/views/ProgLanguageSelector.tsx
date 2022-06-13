@@ -29,7 +29,7 @@ function ProgLanguageSelector({
         >
           {queryRes.data.map((progLanguage) => (
             <Select.Option
-              key={progLanguage.id}
+              key={JSON.stringify(progLanguage)}
               value={JSON.stringify(progLanguage)}
             >
               {progLanguage.name} (v{progLanguage.version})

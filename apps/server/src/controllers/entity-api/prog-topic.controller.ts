@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { DataSourceType } from '../../core';
 import { ProgTopicServices } from '../../services/use-cases/prog-topic/prog-topic-services.service';
-import { CreateProgTopicDto, UserEntity } from '@snip-man/entities';
+import { CreateProgTopicDto } from '@snip-man/entities';
 import { ApiOperation, ApiQuery } from '@nestjs/swagger';
 
 export class ProgTopicApiControllerBuilder {
@@ -40,7 +40,7 @@ export class ProgTopicApiControllerBuilder {
         description: 'The id of the user',
       })
       @Get('find-by-userid')
-      findByUserId(@Query('userId') userId: Pick<UserEntity, 'id'>) {
+      findByUserId(@Query('userId') userId: string) {
         return this.service.findAllForUser(userId);
       }
     }

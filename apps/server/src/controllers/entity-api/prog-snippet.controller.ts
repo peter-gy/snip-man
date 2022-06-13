@@ -1,7 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { DataSourceType } from '../../core';
 import { ProgSnippetServices } from '../../services/use-cases/prog-snippet/prog-snippet-services.service';
-import { ProgTopicEntity } from '@snip-man/entities';
 import { ApiOperation, ApiParam } from '@nestjs/swagger';
 
 export class ProgSnippetApiControllerBuilder {
@@ -22,7 +21,7 @@ export class ProgSnippetApiControllerBuilder {
           'ID of the parent topic from which snippets should be returned',
       })
       @Get(':parentId')
-      findAll(@Param('parentId') parentId: Pick<ProgTopicEntity, 'id'>) {
+      findAll(@Param('parentId') parentId: string) {
         return this.service.findAll(parentId);
       }
     }

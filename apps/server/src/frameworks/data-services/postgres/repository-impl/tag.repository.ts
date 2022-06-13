@@ -29,10 +29,7 @@ export class TagRepository implements ITagRepository {
     return this.prisma.tag.findMany();
   }
 
-  update(
-    id: Pick<TagEntity, 'id'>,
-    item: Partial<TagEntity>
-  ): Promise<TagEntity> {
+  update(id: string, item: Partial<TagEntity>): Promise<TagEntity> {
     const promise = this.prisma.tag.update({
       where: { id: id as unknown as string },
       data: {
@@ -41,5 +38,9 @@ export class TagRepository implements ITagRepository {
       },
     });
     return Promise.resolve(promise);
+  }
+
+  async clear(): Promise<void> {
+    await this.prisma.tag.deleteMany({});
   }
 }

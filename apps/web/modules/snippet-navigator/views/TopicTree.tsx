@@ -1,4 +1,4 @@
-import { Tree } from '@geist-ui/core';
+import { Loading, Tree } from '@geist-ui/core';
 import { useSnippetNavigatorState } from '../context/SnippetNavigatorContext';
 import { fileTreeFromTopicsWithSnippets } from '../utils/tree-file.util';
 import { useEffect } from 'react';
@@ -29,7 +29,7 @@ function TopicTree() {
       // The topic as an object is stored to the 'extra' attribute as a JSON string.
       const topicJson = target.getElementsByClassName('extra')[0].textContent;
       // Make sure that this is actually a topic
-      if (!topicJson.includes('description')) return;
+      if (!topicJson.includes(`"type":"directory"`)) return;
       const topic = JSON.parse(topicJson) as ProgTopicEntity;
       handleTopicClicked(topic);
     }
@@ -47,7 +47,7 @@ function TopicTree() {
       // The snippet as an object is stored to the 'extra' attribute as a JSON string.
       const snippetJson = target.getElementsByClassName('extra')[0].textContent;
       // Make sure that this is actually a snippet
-      if (!snippetJson.includes('content')) return;
+      if (!snippetJson.includes(`"type":"file"`)) return;
       const snippet = JSON.parse(snippetJson) as ProgSnippetEntity;
       handleSnippetClicked(snippet);
     }
@@ -66,7 +66,11 @@ function TopicTree() {
     if (!selectedTopic) return;
     const contentNode = Array.from(
       document.getElementsByClassName('extra')
-    ).filter((e) => e.textContent.startsWith(`{"id":"${selectedTopic.id}"`))[0];
+    ).filter(
+      (e) =>
+        e.textContent.includes(`"id":"${selectedTopic.id}"`) &&
+        e.textContent.includes(`"type":"directory"`)
+    )[0];
     const folderName = contentNode.parentElement;
     folderName.classList.add('font-bold');
     folderName.classList.add('underline');
@@ -80,8 +84,10 @@ function TopicTree() {
     if (!selectedSnippet) return;
     const contentNode = Array.from(
       document.getElementsByClassName('extra')
-    ).filter((e) =>
-      e.textContent.startsWith(`{"id":"${selectedSnippet.id}"`)
+    ).filter(
+      (e) =>
+        e.textContent.includes(`"id":"${selectedSnippet.id}"`) &&
+        e.textContent.includes(`"type":"file"`)
     )[0];
     const fileName = contentNode.parentElement;
     fileName.classList.add('italic');
@@ -92,9 +98,18 @@ function TopicTree() {
     };
   }, [selectedSnippet]);
 
+  const treeValue = fileTreeFromTopicsWithSnippets(topics);
+  if (treeValue.length === 0) {
+    return (
+      <div className="p-4 flex justify-center items-center">
+        <Loading>Waiting for topics....</Loading>
+      </div>
+    );
+  }
+
   return (
     <div id="topic-tree">
-      <Tree value={fileTreeFromTopicsWithSnippets(topics)} />
+      <Tree value={treeValue} />
     </div>
   );
 }

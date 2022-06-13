@@ -13,11 +13,6 @@ import { PostgresDataServicesModule } from '../../../frameworks/data-services/po
       useClass: FakeDataGeneratorService,
     },
     {
-      // seed for Faker
-      provide: Number,
-      useValue: 42,
-    },
-    {
       provide: DatabasePopulator,
       useClass: DatabasePopulatorService,
     },

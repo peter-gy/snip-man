@@ -1,11 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { IBaseDataServices } from '../../../core';
-import {
-  CreateProgTopicDto,
-  ProgTopicEntity,
-  UpdateProgTopicDto,
-  UserEntity,
-} from '@snip-man/entities';
+import { CreateProgTopicDto, UpdateProgTopicDto } from '@snip-man/entities';
 
 @Injectable()
 export class ProgTopicServices {
@@ -30,7 +25,7 @@ export class ProgTopicServices {
    * Retrieves all topics belonging to the specified user.
    * @param userId id of the user whose topics should be retrieved
    */
-  findAllForUser(userId: Pick<UserEntity, 'id'>) {
+  findAllForUser(userId: string) {
     return this.dataServices.progTopics.findAllForUser(userId);
   }
 
@@ -39,7 +34,7 @@ export class ProgTopicServices {
    * @param id the id of the programming topic to update
    * @param dto the data transfer object containing the updated attributes
    */
-  update(id: Pick<ProgTopicEntity, 'id'>, dto: UpdateProgTopicDto) {
+  update(id: string, dto: UpdateProgTopicDto) {
     return this.dataServices.progTopics.update(id, dto);
   }
 }

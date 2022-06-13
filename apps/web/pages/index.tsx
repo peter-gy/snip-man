@@ -1,4 +1,3 @@
-import { Page } from '@geist-ui/core';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Header from '../modules/layout/views/Header';
@@ -13,17 +12,11 @@ const Index: NextPage = () => {
         <meta name="description" content="Another code snippet manager" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Page>
-        <Page.Header>
-          <Header />
-        </Page.Header>
-        <Page.Content>
-          <HomeContent />
-        </Page.Content>
-        <Page.Footer>
-          <Footer />
-        </Page.Footer>
-      </Page>
+      <div className="h-screen flex flex-col justify-between mx-4 sm:mx-6 md:mx-8">
+        <Header />
+        <HomeContent />
+        <Footer />
+      </div>
     </div>
   );
 };

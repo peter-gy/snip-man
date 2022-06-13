@@ -8,15 +8,14 @@ import {
 } from '@snip-man/entities';
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { DataGenerator } from '../../../core/populator/data-generator.abstract';
+import { progLanguages } from '../../../assets/data';
 
 @Injectable()
 export class FakeDataGeneratorService
   implements DataGenerator, OnApplicationBootstrap
 {
-  constructor(private readonly seed: number) {}
-
   onApplicationBootstrap() {
-    faker.seed(this.seed);
+    // faker.seed(42);
   }
 
   public generateUser(): CreateUserDto {
@@ -37,7 +36,7 @@ export class FakeDataGeneratorService
       parentId: parentId,
       name: faker.hacker.verb(),
       description: faker.hacker.phrase(),
-      tagIds: [],
+      tags: [],
     };
   }
 
@@ -54,7 +53,7 @@ export class FakeDataGeneratorService
   ): CreateProgSnippetDto {
     return {
       progTopicId: progTopicId,
-      progLanguageId: progLanguageId,
+      progLanguage: { id: progLanguageId },
       headline: faker.git.commitMessage(),
       content: faker.lorem.paragraphs(2),
       createdAt: faker.date.past(),
@@ -62,37 +61,12 @@ export class FakeDataGeneratorService
     };
   }
 
-  languages = [
-    { name: 'C#', version: '1.0' },
-    { name: 'C', version: '1.0' },
-    { name: 'C++', version: '1.0' },
-    { name: 'Clojure', version: '1.0' },
-    { name: 'CoffeeScript', version: '1.0' },
-    { name: 'Elixir', version: '1.0' },
-    { name: 'Elm', version: '1.0' },
-    { name: 'Erlang', version: '1.0' },
-    { name: 'F#', version: '1.0' },
-    { name: 'Go', version: '1.0' },
-    { name: 'Haskell', version: '1.0' },
-    { name: 'Java', version: '1.0' },
-    { name: 'JavaScript', version: '1.0' },
-    { name: 'Kotlin', version: '1.0' },
-    { name: 'Lua', version: '1.0' },
-    { name: 'Perl', version: '1.0' },
-    { name: 'PHP', version: '1.0' },
-    { name: 'Python', version: '1.0' },
-    { name: 'Ruby', version: '1.0' },
-    { name: 'Rust', version: '1.0' },
-    { name: 'Scala', version: '1.0' },
-    { name: 'Swift', version: '1.0' },
-    { name: 'TypeScript', version: '1.0' },
-  ];
   idx = 0;
 
   public generateProgLanguage(): CreateProgLanguageDto {
-    if (this.idx >= this.languages.length) {
+    if (this.idx >= progLanguages.length) {
       this.idx = 0;
     }
-    return this.languages[this.idx++];
+    return progLanguages[this.idx++];
   }
 }

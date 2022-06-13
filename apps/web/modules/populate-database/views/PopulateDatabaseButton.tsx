@@ -20,7 +20,7 @@ function PopulateDatabaseButton(): ReactElement {
         onClick={populateDatabase}
         loading={isLoading}
       >
-        <span className="text-lg">Populate Database</span>
+        <span className="text-lg">Initialise Database</span>
       </Button>
     </>
   );

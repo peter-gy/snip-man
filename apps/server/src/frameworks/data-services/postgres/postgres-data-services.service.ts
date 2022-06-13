@@ -39,6 +39,14 @@ export class PostgresDataServices
     private readonly _reportService: ReportService
   ) {}
 
+  async clear(): Promise<void> {
+    await this.users.clear();
+    await this.progTopics.clear();
+    await this.tags.clear();
+    await this.progSnippets.clear();
+    await this.progLanguages.clear();
+  }
+
   onApplicationBootstrap() {
     this.users = this._users;
     this.progTopics = this._progTopics;
