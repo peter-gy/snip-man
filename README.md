@@ -12,6 +12,24 @@ This project was generated using [Nx](https://nx.dev).
 - [Production Build & Run](#production-build--run)
 - [Working with `nx`](#working-with-nx)
 
+## One-liner App Start
+
+```shell
+docker build . -t snip-man:nx-base && docker-compose up --build
+```
+
+The app start might take up to 10-15 minutes based on your internet connection and your machine's performance. The
+system will be fully functional, once `snip-man-prisma-migrate` exits with code `0`. Please note that it is possible
+that `snip-man-prisma-migrate` will exit with code `1` first, indicating an error, but this will be the case iff the
+mongo replica set `snip-man-mongo` starts up too slow. The system will self-heal automatically, you should just wait
+until you see `snip-man-prisma-migrate exited with code 0` in your logs.
+
+You will be able to access the app via `https://localhost`. You will need to accept the self-signed certificates, or
+ignore them in your browser. Both of the urls below need to be accessible by your browser:
+
+- `https://localhost`
+- `https://localhost:8443/api-docs/`
+
 ## Development Environment
 
 The development environment of this project is fully dockerized via `Dockerfile.dev` and `docker-compose.dev.yml`. The
