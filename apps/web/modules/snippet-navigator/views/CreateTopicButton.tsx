@@ -43,6 +43,8 @@ function CreateTopicButton() {
     createProgTopic(dto);
     setDidSubmit(false);
     setVisible(false);
+    setTopicName(undefined);
+    setTopicDescription(undefined);
   }
 
   return (
