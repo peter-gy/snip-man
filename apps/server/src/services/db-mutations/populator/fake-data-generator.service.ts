@@ -1,19 +1,18 @@
 import { faker } from '@faker-js/faker';
+import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import {
   CreateProgLanguageDto,
   CreateProgSnippetDto,
   CreateProgTopicDto,
   CreateTagDto,
-  CreateUserDto,
+  CreateUserDto
 } from '@snip-man/entities';
-import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
-import { DataGenerator } from '../../../core/populator/data-generator.abstract';
 import { progLanguages } from '../../../assets/data';
+import { DataGenerator } from '../../../core/populator/data-generator.abstract';
 
 @Injectable()
 export class FakeDataGeneratorService
-  implements DataGenerator, OnApplicationBootstrap
-{
+  implements DataGenerator, OnApplicationBootstrap {
   onApplicationBootstrap() {
     // faker.seed(42);
   }
@@ -51,11 +50,12 @@ export class FakeDataGeneratorService
     progTopicId: string,
     progLanguageId: string
   ): CreateProgSnippetDto {
+    const mockSnippet = 'useEffect(() => {\n    Prism.highlightAll();\n}, []);';
     return {
       progTopicId: progTopicId,
       progLanguage: { id: progLanguageId },
       headline: faker.git.commitMessage(),
-      content: faker.lorem.paragraphs(2),
+      content: mockSnippet,
       createdAt: faker.date.past(),
       lastModified: faker.date.recent(),
     };
