@@ -65,7 +65,6 @@ services:
     depends_on:
       - prisma-migrate
     networks:
-      web-reverse-proxy:
       server-reverse-proxy:
       postgres-server:
       mongo-server:
