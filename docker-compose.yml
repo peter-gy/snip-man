@@ -13,9 +13,7 @@ services:
     restart: always
     # Ports as defined in the entries of ./services/reverse-proxy/nginx.conf
     ports:
-      - '80:80'
       - '443:443'
-      - '3333:3333'
       - '8443:8443'
     networks:
       web-reverse-proxy:
