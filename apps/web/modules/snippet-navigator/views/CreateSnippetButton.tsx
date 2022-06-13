@@ -1,7 +1,15 @@
-import { Button, Dot, Input, Loading, Modal, useModal } from '@geist-ui/core';
+import {
+  Button,
+  Dot,
+  Input,
+  Loading,
+  Modal,
+  Text,
+  useModal,
+} from '@geist-ui/core';
 import { CreateProgSnippetDto } from '@snip-man/entities';
 import { useState } from 'react';
-import { BsFolderPlus } from 'react-icons/bs';
+import { BsCodeSquare } from 'react-icons/bs';
 import { useSnipManState } from '../../snip-man-state/context/SnipManContext';
 import { useSnippetNavigatorState } from '../context/SnippetNavigatorContext';
 import useCreateProgSnippet from '../hooks/useCreateProgSnippet';
@@ -34,7 +42,7 @@ function CreateSnippetButton() {
 
   function onSaveSnippet() {
     setDidSubmit(true);
-    if (!snippetHeadline || !user) return;
+    if (!snippetHeadline || !snippetContent || !user) return;
     const dto: CreateProgSnippetDto = {
       // TODO: null? can it happen that no topic is selected?
       progTopicId: selectedTopic?.id || null,
@@ -53,12 +61,12 @@ function CreateSnippetButton() {
       <Button onClick={onNewSnippet} type="success-light">
         New Snippet{' '}
         <span className="ml-4">
-          <BsFolderPlus size={24} />
+          <BsCodeSquare size={24} />
         </span>
       </Button>
       <Modal {...modalBindings} width={1.5} height={25}>
         <Modal.Title>New Snippet</Modal.Title>
-        <Modal.Subtitle>🚀 Create something new!</Modal.Subtitle>
+        <Modal.Subtitle>🤓 Be efficient!</Modal.Subtitle>
         <Modal.Content>
           <div className="flex flex-col justify-center items-center space-y-5">
             {/* <p>
@@ -73,22 +81,27 @@ function CreateSnippetButton() {
              </p> */}
             <Input
               label="name"
-              placeholder="NestJS & Swagger"
+              placeholder="Factorial"
               width={30}
               onChange={(e) => setSnippetHeadline(e.target.value)}
             >
-              {didSubmit && !snippetHeadline && (
+              {/* {didSubmit && !snippetHeadline && (
                 <Dot type="error" className="text-sm text-gray-500">
-                  The headline of the snippet cannot be empty.
+                  The name of the snippet cannot be empty.
                 </Dot>
-              )}
+              )} */}
             </Input>
             <Input
-              label="description"
-              placeholder="Integration of OpenAPI standards with NestJS"
+              label="content"
+              placeholder="const f = (x) => x == 0 ? 1 : x*f(x-1)"
               width={30}
               onChange={(e) => setSnippetContent(e.target.value)}
-            />
+            ></Input>
+            {didSubmit && (!snippetContent || !snippetHeadline) && (
+              <Dot type="error" className="text-sm text-gray-500">
+                <Text small> No fields can be empty.</Text>
+              </Dot>
+            )}
             {isLoading && <Loading>Loading</Loading>}
           </div>
         </Modal.Content>

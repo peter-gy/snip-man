@@ -1,4 +1,4 @@
-import { Code, Snippet } from '@geist-ui/core';
+import { Snippet } from '@geist-ui/core';
 import { useSnippetNavigatorState } from '../context/SnippetNavigatorContext';
 
 function SnippetDisplay() {
@@ -19,9 +19,9 @@ function SnippetDisplay() {
           width="300px"
           symbol=""
         />
-        <Code block my={0}>
+        {/* <Code block my={0}>
           {snip}
-        </Code>
+        </Code> */}
       </pre>
     </>
   );
