@@ -8,7 +8,7 @@ export class UserApiControllerBuilder {
   static build(dataSourceType: DataSourceType) {
     const openApiTag = 'User';
 
-    @Controller(`${dataSourceType}/users`)
+    @Controller(`${dataSourceType}/user`)
     class EndpointController {
       constructor(private readonly service: UserServices) {}
 
@@ -19,6 +19,15 @@ export class UserApiControllerBuilder {
       @Post()
       create(@Body() dto: CreateUserDto) {
         return this.service.create(dto);
+      }
+
+      @ApiOperation({
+        tags: [openApiTag],
+        summary: 'Retrieve all users',
+      })
+      @Get()
+      findAll() {
+        return this.service.findAll();
       }
 
       @ApiOperation({
@@ -45,7 +54,7 @@ export class UserApiControllerBuilder {
         description: 'The email of the user to find',
       })
       @Get('find-by-email')
-      findByEmail(@Query('value') email: Pick<UserEntity, 'email'>) {
+      findByEmail(@Query('value') email: string) {
         return this.service.findByEmail(email);
       }
     }

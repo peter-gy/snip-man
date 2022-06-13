@@ -1,45 +1,54 @@
 import { Injectable } from '@nestjs/common';
-import { ProgSnippetEntity, ProgTopicEntity } from '@snip-man/entities';
-import { IBaseRepositoryWeak } from '../../../../core';
+import { ProgSnippetEntity } from '@snip-man/entities';
+import { IProgSnippetRepository } from '../../../../core';
 import { PrismaPostgresService } from '../prisma-postgres.service';
 
 @Injectable()
-export class ProgSnippetRepository
-  implements IBaseRepositoryWeak<ProgSnippetEntity, ProgTopicEntity>
-{
+export class ProgSnippetRepository implements IProgSnippetRepository {
   constructor(private readonly prisma: PrismaPostgresService) { }
 
   create(
-    parentId: Pick<ProgTopicEntity, 'id'>,
+    parentId: string,
     item: Partial<ProgSnippetEntity>
   ): Promise<ProgSnippetEntity> {
+    if (!item.progLanguage.id) {
+      throw new Error('Prog language id is required');
+    }
     return this.prisma.progSnippet.create({
+      include: { progLanguage: true },
       data: {
         content: item.content,
         headline: item.headline,
-        progTopicId: parentId as unknown as string,
-        progLanguageId: item.progLanguageId,
+        progTopicId: parentId,
+        progLanguageId: item.progLanguage.id,
       },
     });
   }
 
   findUnique<A extends keyof ProgSnippetEntity>(
-    parentId: Pick<ProgTopicEntity, 'id'>,
+    parentId: string,
     by: keyof ProgSnippetEntity,
     attribute: Pick<ProgSnippetEntity, A>
   ): Promise<ProgSnippetEntity> {
     throw new Error('Method not implemented.');
   }
 
-  findAll(parentId: Pick<ProgTopicEntity, 'id'>): Promise<ProgSnippetEntity[]> {
-    return this.prisma.progSnippet.findMany({ where: { progTopicId: parentId as unknown as string } });
+  findAll(parentId: string): Promise<ProgSnippetEntity[]> {
+    return this.prisma.progSnippet.findMany({
+      include: { progLanguage: true },
+      where: { progTopicId: parentId },
+    });
   }
 
   update(
-    parentId: Pick<ProgTopicEntity, 'id'>,
-    id: Pick<ProgSnippetEntity, 'id'>,
+    parentId: string,
+    id: string,
     item: Partial<ProgSnippetEntity>
   ): Promise<ProgSnippetEntity> {
     return Promise.resolve(undefined);
+  }
+
+  async clear(): Promise<void> {
+    await this.prisma.progSnippet.deleteMany({});
   }
 }

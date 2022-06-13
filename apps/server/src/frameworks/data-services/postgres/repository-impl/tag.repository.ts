@@ -1,10 +1,10 @@
-import { IBaseRepository } from '../../../../core';
+import { ITagRepository } from '../../../../core';
 import { TagEntity } from '@snip-man/entities';
 import { Injectable } from '@nestjs/common';
 import { PrismaPostgresService } from '../prisma-postgres.service';
 
 @Injectable()
-export class TagRepository implements IBaseRepository<TagEntity> {
+export class TagRepository implements ITagRepository {
   constructor(private readonly prisma: PrismaPostgresService) {}
 
   create(item: Partial<TagEntity>): Promise<TagEntity> {
@@ -29,10 +29,7 @@ export class TagRepository implements IBaseRepository<TagEntity> {
     return this.prisma.tag.findMany();
   }
 
-  update(
-    id: Pick<TagEntity, 'id'>,
-    item: Partial<TagEntity>
-  ): Promise<TagEntity> {
+  update(id: string, item: Partial<TagEntity>): Promise<TagEntity> {
     const promise = this.prisma.tag.update({
       where: { id: id as unknown as string },
       data: {
@@ -41,5 +38,9 @@ export class TagRepository implements IBaseRepository<TagEntity> {
       },
     });
     return Promise.resolve(promise);
+  }
+
+  async clear(): Promise<void> {
+    await this.prisma.tag.deleteMany({});
   }
 }

@@ -27,6 +27,29 @@ Note that the repository root gets mounted bi-directionally into the `/usr/snip-
 service, therefore file-system changes made on the host will be immediately present inside the container, and
 vice-versa.
 
+The `web` and `server` components can be served in development mode at once by executing `npm run project:serve`.
+
+### Truly Local Development
+
+Install node modules:
+
+```shell
+npm install
+```
+
+Start the database instances with Docker and serve the project from your local machine:
+
+```shell
+make dev-up-local
+```
+
+The following services will be started:
+
+- `postgres`: `localhost:15432`
+- `mongo`: `localhost:37017`
+- `server`: `localhost:3333`
+- `web`: `localhost:4200`
+
 ## Production Build & Run
 
 The system can be built using Docker only:
@@ -80,6 +103,13 @@ about security risks when visiting any of the below HTTPS links.
   - [http://localhost:3333/api](http://localhost:3333/api)
   - [https://localhost:8443/api](https://localhost:8443/api)
 
+Please note that it is necessary to ignore SSL certificate errors with browsers when visiting the above links.
+
+- `macOS`, `Chromium`: `open /Applications/Chromium.app --args --ignore-certificate-errors`
+- `Windows`, `Chrome`: using flag `-ignore-certificate-errors`
+
+![helper](https://easywebfixes.com/wp-content/uploads/2018/08/ignore-certificate-errors-google-chrome.png)
+
 ## Working with `nx`
 
 ### Serving Project `web`
@@ -117,18 +147,6 @@ The whole project source code can be formatted by executing:
 ```shell
 npx nx format:write
 ```
-
-### Running unit tests
-
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-### Running end-to-end tests
-
-Run `nx e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
 
 ### Understand your workspace
 

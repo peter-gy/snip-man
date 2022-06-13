@@ -30,7 +30,7 @@ export class TagServices {
    * @param id the id of the tag
    * @param dto data transfer object containing the updated attributes
    */
-  update(id: Pick<TagEntity, 'id'>, dto: UpdateTagDto) {
+  update(id: string, dto: UpdateTagDto) {
     return this.repo.update(id, dto);
   }
 }

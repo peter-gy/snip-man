@@ -1,10 +1,10 @@
-import { IBaseRepository } from '../../../../core';
+import { IUserRepository } from '../../../../core';
 import { UserEntity } from '@snip-man/entities';
 import { Injectable } from '@nestjs/common';
 import { PrismaPostgresService } from '../prisma-postgres.service';
 
 @Injectable()
-export class UserRepository implements IBaseRepository<UserEntity> {
+export class UserRepository implements IUserRepository {
   constructor(private readonly prisma: PrismaPostgresService) {}
 
   create(item: Partial<UserEntity>): Promise<UserEntity> {
@@ -30,10 +30,7 @@ export class UserRepository implements IBaseRepository<UserEntity> {
     return this.prisma.user.findMany();
   }
 
-  update(
-    id: Pick<UserEntity, 'id'>,
-    item: Partial<UserEntity>
-  ): Promise<UserEntity> {
+  update(id: string, item: Partial<UserEntity>): Promise<UserEntity> {
     const promise = this.prisma.user.update({
       where: { id: id as unknown as string },
       data: {
@@ -43,5 +40,9 @@ export class UserRepository implements IBaseRepository<UserEntity> {
       },
     });
     return Promise.resolve(promise);
+  }
+
+  async clear(): Promise<void> {
+    await this.prisma.user.deleteMany({});
   }
 }

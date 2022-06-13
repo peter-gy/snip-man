@@ -4,3 +4,4 @@ export * from './prog-snippet.entity';
 export * from './prog-topic.entity';
 export * from './tag.entity';
 export * from './user.entity';
+export * from './utils';

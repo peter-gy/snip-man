@@ -5,19 +5,33 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { join } from 'path';
 import { config as dotenvConfig } from 'dotenv';
 import { AppModule } from './app.module';
+import { shouldLoadConfig } from './config/configuration';
 
-// Load environment variables dynamically from 'assets/.env.development' or 'assets/.env.production'
-const envPath = join(__dirname, 'assets', `.env.${process.env.NODE_ENV}`);
-const result = dotenvConfig({ path: envPath });
-if (result.error) {
-  Logger.error(`Error loading file: ${envPath}`);
-  throw result.error;
+if (shouldLoadConfig()) {
+  // Load environment variables dynamically from 'assets/.env.development' or 'assets/.env.production'
+  const envPath = join(__dirname, 'assets', `.env.${process.env.NODE_ENV}`);
+  const result = dotenvConfig({ path: envPath });
+  if (result.error) {
+    Logger.error(`Error loading file: ${envPath}`);
+    throw result.error;
+  } else {
+    Logger.log(
+      `Loaded env file: ${envPath} (${Object.keys(result.parsed).join(', ')})`
+    );
+  }
 } else {
-  Logger.log(`Loaded env file: ${envPath}`);
+  Logger.log('Using environment variables directly.');
 }
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const config = app.get(ConfigService);
+  Logger.debug(JSON.stringify(config, null, 2));
+  const env = config.get<string>('environment');
+
+  // Handle CORS
+  app.enableCors({ origin: '*' });
+
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
 
@@ -48,8 +62,6 @@ async function bootstrap() {
     production: '🚀',
   };
 
-  const config = app.get(ConfigService);
-  const env = config.get<string>('environment');
   Logger.log(`${configEmojiMap[env]} Running in \`${env}\` mode`);
 }
 

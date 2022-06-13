@@ -1,33 +1,42 @@
-import { IBaseRepository } from '../../../../core';
+import { IProgLanguageRepository } from '../../../../core';
 import { ProgLanguageEntity } from '@snip-man/entities';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotImplementedException } from '@nestjs/common';
 import { PrismaMongoService } from '../prisma-mongo.service';
+import { progLanguages } from '../../../../assets/data';
 
 @Injectable()
-export class ProgLanguageRepository
-  implements IBaseRepository<ProgLanguageEntity>
-{
+export class ProgLanguageRepository implements IProgLanguageRepository {
   constructor(private readonly prisma: PrismaMongoService) {}
 
   create(item: Partial<ProgLanguageEntity>): Promise<ProgLanguageEntity> {
-    return Promise.resolve(undefined);
+    throw NotImplementedException;
   }
 
   findUnique<A extends keyof ProgLanguageEntity>(
     by: keyof ProgLanguageEntity,
     attribute: Pick<ProgLanguageEntity, A>
   ): Promise<ProgLanguageEntity> {
-    throw new Error('Method not implemented.');
+    throw NotImplementedException;
   }
 
-  findAll(): Promise<ProgLanguageEntity[]> {
-    return Promise.resolve([]);
+  async findAll(): Promise<ProgLanguageEntity[]> {
+    return progLanguages
+      .map((item) => ({
+        id: '',
+        name: item.name,
+        version: item.version,
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name));
   }
 
   update(
-    id: Pick<ProgLanguageEntity, 'id'>,
+    id: string,
     item: Partial<ProgLanguageEntity>
   ): Promise<ProgLanguageEntity> {
-    return Promise.resolve(undefined);
+    throw NotImplementedException;
+  }
+
+  async clear(): Promise<void> {
+    // Embedded
   }
 }

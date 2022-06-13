@@ -1,12 +1,10 @@
-import { IBaseRepository } from '../../../../core';
+import { IProgLanguageRepository } from '../../../../core';
 import { ProgLanguageEntity } from '@snip-man/entities';
 import { Injectable } from '@nestjs/common';
 import { PrismaPostgresService } from '../prisma-postgres.service';
 
 @Injectable()
-export class ProgLanguageRepository
-  implements IBaseRepository<ProgLanguageEntity>
-{
+export class ProgLanguageRepository implements IProgLanguageRepository {
   constructor(private readonly prisma: PrismaPostgresService) {}
 
   create(item: Partial<ProgLanguageEntity>): Promise<ProgLanguageEntity> {
@@ -28,20 +26,24 @@ export class ProgLanguageRepository
   }
 
   findAll(): Promise<ProgLanguageEntity[]> {
-    return this.prisma.progLanguage.findMany();
+    return this.prisma.progLanguage.findMany({ orderBy: { name: 'asc' } });
   }
 
   update(
-    id: Pick<ProgLanguageEntity, 'id'>,
+    id: string,
     item: Partial<ProgLanguageEntity>
   ): Promise<ProgLanguageEntity> {
     const promise = this.prisma.progLanguage.update({
-      where: { id: id as unknown as string },
+      where: { id: id },
       data: {
         name: item.name,
         version: item.version,
       },
     });
     return Promise.resolve(promise);
+  }
+
+  async clear(): Promise<void> {
+    await this.prisma.progLanguage.deleteMany({});
   }
 }

@@ -22,3 +22,8 @@ dev-up: build-dev
 
 dev-down:
 	docker-compose -f docker-compose.dev.yml down
+
+# Only for postgres
+dev-up-local: build-dev
+	docker-compose -f docker-compose.dev.yml up -d postgres
+	npm run local:project:serve

@@ -15,6 +15,13 @@ export class UserServices {
   }
 
   /**
+   * Retrieves all user-selector
+   */
+  findAll() {
+    return this.dataServices.users.findAll();
+  }
+
+  /**
    * Retrieves a user by username
    *
    * @param username the username of the user
@@ -28,8 +35,8 @@ export class UserServices {
    *
    * @param email the email of the user
    */
-  findByEmail(email: Pick<UserEntity, 'email'>) {
-    return this.dataServices.users.findUnique<'email'>('email', email);
+  findByEmail(email: string) {
+    return this.dataServices.users.findUnique<'email'>('email', { email });
   }
 
   /**
@@ -37,7 +44,7 @@ export class UserServices {
    * @param id the id of the user
    * @param dto data transfer object containing the updated attributes
    */
-  update(id: Pick<UserEntity, 'id'>, dto: UpdateUserDto) {
+  update(id: string, dto: UpdateUserDto) {
     return this.dataServices.users.update(id, dto);
   }
 }

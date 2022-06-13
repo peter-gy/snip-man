@@ -1,31 +1,21 @@
-import { Button } from '@geist-ui/core';
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Header from '../modules/layout/views/Header';
+import Footer from '../modules/layout/views/Footer';
+import HomeContent from '../modules/home/views/HomeContent';
 
 const Index: NextPage = () => {
   return (
-    <div>
+    <div className="bg-blue-100">
       <Head>
         <title>SnipMan</title>
         <meta name="description" content="Another code snippet manager" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="h-screen flex flex-col justify-center items-center">
-        <h1 className="text-4xl">Ready for some snippets?</h1>
-        <div className="p-2">
-          <div className="flex">
-            <div className="p-2">
-              <Button type="success">Hell Yes</Button>
-            </div>
-            <div className="p-2">
-              <Button type="secondary">Not really...</Button>
-            </div>
-          </div>
-          <div className="mt-8">
-            <h3>Env:</h3>
-            <p>{process.env.NEXT_PUBLIC_SNIPMAN_SERVER_URL}</p>
-          </div>
-        </div>
+      <div className="h-screen flex flex-col justify-between mx-4 sm:mx-6 md:mx-8">
+        <Header />
+        <HomeContent />
+        <Footer />
       </div>
     </div>
   );

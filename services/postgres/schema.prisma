@@ -28,16 +28,16 @@ model ProgTopic {
   // Simple attributes
   id          String @id @default(cuid())
   name        String
-  description String
+  description String @default("")
 
   // ProgTopic <has nested> ProgTopic (1:N)
   parentId String?     @map("parent_id") // null implies that this is a top-level ProgTopic with no parent
-  parent   ProgTopic?  @relation("nested_topics", fields: [parentId], references: [id])
+  parent   ProgTopic?  @relation("nested_topics", fields: [parentId], references: [id], onDelete: Cascade)
   children ProgTopic[] @relation("nested_topics") // nested topics
 
   // User <creates> ProgTopic (1:N)
   userId String @map("user_id")
-  user   User   @relation(fields: [userId], references: [id]) // topic author
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade) // topic author
 
   // ProgTopic <has> Tag (N:M)
   tags TagsOnProgTopics[]
@@ -65,11 +65,11 @@ model Tag {
 model TagsOnProgTopics {
   // ProgTopic <has> Tag (N:M)
   tagId String
-  tag   Tag    @relation(fields: [tagId], references: [id])
+  tag   Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
   // ProgTopic <has> Tag (N:M)
   progTopicId String
-  progTopic   ProgTopic @relation(fields: [progTopicId], references: [id])
+  progTopic   ProgTopic @relation(fields: [progTopicId], references: [id], onDelete: Cascade)
 
   @@id([tagId, progTopicId])
   @@map("tags_on_prog_topics")
@@ -85,11 +85,11 @@ model ProgSnippet {
 
   // ProgTopic <has> ProgSnippet (1:N)
   progTopicId String    @map("prog_topic_id")
-  progTopic   ProgTopic @relation(fields: [progTopicId], references: [id])
+  progTopic   ProgTopic @relation(fields: [progTopicId], references: [id], onDelete: Cascade)
 
   // ProgLanguage <has> ProgSnippet (1:N)
   progLanguageId String       @map("prog_language_id")
-  progLanguage   ProgLanguage @relation(fields: [progLanguageId], references: [id])
+  progLanguage   ProgLanguage @relation(fields: [progLanguageId], references: [id], onDelete: SetNull)
 
   // Weak Entity, primary key composes the progTopicId
   @@id([id, progTopicId])
