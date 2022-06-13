@@ -9,6 +9,7 @@ export enum ApiEndpoint {
   FindAllProgLanguages = '/$db/prog-language',
   FindProgTopicsByUserId = '/$db/prog-topic/find-by-userid',
   CreateProgTopic = '/$db/prog-topic',
+  CreateProgSnippet = '/$db/prog-snippet',
   ReportLanguageUsers = '/$db/report/language-users',
   MigrateDatabase = '/migrate',
 }

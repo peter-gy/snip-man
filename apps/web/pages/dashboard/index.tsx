@@ -1,3 +1,4 @@
+import CreateSnippetButton from 'apps/web/modules/snippet-navigator/views/CreateSnippetButton';
 import SnippetDisplay from 'apps/web/modules/snippet-navigator/views/SnippetDisplay';
 import { NextPage } from 'next';
 import AppBar from '../../modules/app-bar/views/AppBar';
@@ -20,6 +21,7 @@ const Dashboard: NextPage = () => {
             <div className="col-span-2 lg:col-span-1 p-2 bg-navy-50 drop-shadow-2xl">
               <div className="flex flex-col space-y-5">
                 <CreateTopicButton />
+                <CreateSnippetButton />
                 <TopicTree />
               </div>
             </div>
