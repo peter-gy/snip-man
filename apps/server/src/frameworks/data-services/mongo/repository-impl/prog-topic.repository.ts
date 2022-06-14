@@ -43,11 +43,13 @@ export class ProgTopicRepository implements IProgTopicRepository {
     });
   }
 
-  findAllForUser(userId: string): Promise<ProgTopicWithSnippets[]> {
-    return this.prisma.progTopic.findMany({
-      where: { userId },
-      include: { progSnippets: true },
-    });
+  async findAllForUser(userId: string): Promise<ProgTopicWithSnippets[]> {
+    return this.prisma.user
+      .findFirst({
+        where: { id: userId },
+        select: { progTopicCreatedByUser: { include: { progSnippets: true } } },
+      })
+      .then(({ progTopicCreatedByUser }) => progTopicCreatedByUser);
   }
 
   async clear(): Promise<void> {
