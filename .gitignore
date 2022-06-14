@@ -40,3 +40,6 @@ Thumbs.db
 
 # Prisma generated files
 migrations
+*.env
+*.dev
+*.local
