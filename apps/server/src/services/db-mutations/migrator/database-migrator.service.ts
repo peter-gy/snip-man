@@ -15,6 +15,14 @@ export class DatabaseMigratorService {
     Logger.debug('Clearing all data from Mongo before migrating...');
     await this.mongo.clear();
 
+    const postgresLanguages = await this.postgres.progLanguages.findAll();
+    Logger.debug(
+      `Migrating ${postgresLanguages.length} languages from Postgres to Mongo`
+    );
+    for (const language of postgresLanguages) {
+      await this.mongo.progLanguages.create(language);
+    }
+
     const postgresUsers = await this.postgres.users.findAll();
     Logger.debug(
       `Migrating ${postgresUsers.length} users from Postgres to Mongo`
@@ -59,6 +67,26 @@ export class DatabaseMigratorService {
         });
       }
     }
+    // Embed topic ids to user
+    const postgresTopicsByUserPostgresUserId = groupBy<ProgTopicEntity, string>(
+      postgresTopics,
+      ({ userId }) => userId
+    );
+    for (const postgresUserId of Object.keys(
+      postgresTopicsByUserPostgresUserId
+    )) {
+      const mongoProgTopicIds = postgresTopicsByUserPostgresUserId[
+        postgresUserId
+      ].map(({ id }) => topicIdMap.get(id));
+      const mongoUserId = userIdMap.get(postgresUserId);
+      if (!mongoUserId) {
+        throw new Error('Could not find migration id mapping');
+      }
+      await this.mongo.users.update(mongoUserId, {
+        progTopicIds: mongoProgTopicIds,
+      });
+    }
+
     // Migrate snippets
     for (const postgresTopic of postgresTopics) {
       const postgresTopicId = postgresTopic.id;
@@ -75,4 +103,13 @@ export class DatabaseMigratorService {
       }
     }
   }
+}
+
+function groupBy<T, K extends keyof any>(list: T[], getKey: (item: T) => K) {
+  return list.reduce((previous, currentItem) => {
+    const group = getKey(currentItem);
+    if (!previous[group]) previous[group] = [];
+    previous[group].push(currentItem);
+    return previous;
+  }, {} as Record<K, T[]>);
 }
