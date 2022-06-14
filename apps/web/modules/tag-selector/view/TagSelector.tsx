@@ -8,7 +8,6 @@ type TagSelectorProps = {
 };
 
 function TagSelector({ onChange, initialValue }: TagSelectorProps) {
-  // todo use own
   const { data: queryRes, isLoading } = useTags();
 
   function onSelection(value: string) {
@@ -30,7 +29,7 @@ function TagSelector({ onChange, initialValue }: TagSelectorProps) {
               key={JSON.stringify(tag)}
               value={JSON.stringify(tag)}
             >
-              {tag.name} (v{tag.version})
+              {tag.name}
             </Select.Option>
           ))}
         </Select>

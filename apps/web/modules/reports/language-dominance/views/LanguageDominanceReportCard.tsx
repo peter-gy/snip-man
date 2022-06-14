@@ -14,7 +14,7 @@ const developer = {
 
 const title = (
   <div className="flex justify-center items-center">
-    Some Text{' '}
+    Find the most dominant languages by tags{' '}
     <span className="ml-2 font-bold">
       <BsCodeSquare />
     </span>
@@ -22,7 +22,7 @@ const title = (
 );
 
 const description =
-  'Long Bla bnla lasb asdf jklöadsf jklöadfs jklöasdf öhjklasdf klödasf ljkö.';
+  'This report enumerates the programming languages in which the most lines of code snippets have been written under a specific tag.';
 
 function LanguageDominanceReportCard() {
   const { setVisible: setModalVisible, bindings: modalBindings } = useModal();
