@@ -1,7 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PostgresDataServices } from '../../../frameworks/data-services/postgres/postgres-data-services.service';
 import { MongoDataServices } from '../../../frameworks/data-services/mongo/mongo-data-services.service';
-import { ProgTopicEntity } from '@snip-man/entities';
+import {
+  ProgSnippetEntity,
+  ProgTopicEntity,
+  TagEntity,
+} from '@snip-man/entities';
 
 @Injectable()
 export class DatabaseMigratorService {
@@ -87,6 +91,25 @@ export class DatabaseMigratorService {
       });
     }
 
+    // Migrate tags
+    const tags: Partial<TagEntity>[] = [];
+    for (const postgresTopic of postgresTopics) {
+      for (const tag of postgresTopic.tags) {
+        // Add if not already added
+        if (
+          !tags.find(
+            ({ name, color }) => name === tag.name && color === tag.color
+          )
+        ) {
+          tags.push(tag);
+        }
+      }
+    }
+    Logger.debug(`Migrating ${tags.length} tags from Postgres to Mongo`);
+    for (const tag of tags) {
+      await this.mongo.tags.create(tag);
+    }
+
     // Migrate snippets
     for (const postgresTopic of postgresTopics) {
       const postgresTopicId = postgresTopic.id;
@@ -98,9 +121,18 @@ export class DatabaseMigratorService {
         `Migrating ${postgresSnippets.length} snippets of
         Postgres topic ${postgresTopicId} into Mongo topic ${mongoTopicId}`
       );
+      // Embed snipped ids to topic
+      const mongoSnippetIds: string[] = [];
       for (const postgresSnippet of postgresSnippets) {
-        await this.mongo.progSnippets.create(mongoTopicId, postgresSnippet);
+        const { id } = await this.mongo.progSnippets.create(
+          mongoTopicId,
+          postgresSnippet
+        );
+        mongoSnippetIds.push(id);
       }
+      await this.mongo.progTopics.update(mongoTopicId, {
+        progSnippetIds: mongoSnippetIds,
+      });
     }
   }
 }
