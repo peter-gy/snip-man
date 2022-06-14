@@ -38,7 +38,6 @@ function useCreateProgSnippet() {
     {
       // Automatically updates the prog topic viewer
       onSuccess: () =>
-        // TODO: check if necessary
         queryClient.refetchQueries(ApiEndpoint.FindProgTopicsByUserId),
     }
   );

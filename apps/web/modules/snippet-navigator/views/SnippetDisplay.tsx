@@ -39,6 +39,7 @@ function SnippetDisplay() {
             </Text>
           </div>
         )}
+        {!selectedTopic && <Loading>Select a Topic</Loading>}
         {selectedSnippet && (
           <>
             <div className="w-full py-2 border-t-2 border-navy-900"></div>
@@ -60,7 +61,7 @@ function SnippetDisplay() {
             </div>
           </>
         )}
-        {!selectedSnippet && <Loading>Waiting for a Snippet</Loading>}
+        {!selectedSnippet && <Loading>Select a Snippet</Loading>}
       </div>
     </>
   );

@@ -17,6 +17,7 @@ function TopicTree() {
     }
 
     function handleSnippetClicked(snippet: ProgSnippetEntity) {
+      console.log('Snippet clicked', snippet);
       dispatch({ type: 'setSelectedSnippetPreview', data: snippet });
     }
 

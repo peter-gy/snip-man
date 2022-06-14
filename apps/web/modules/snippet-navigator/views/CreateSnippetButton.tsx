@@ -9,7 +9,11 @@ import {
   useModal,
   useToasts,
 } from '@geist-ui/core';
-import { CreateProgSnippetDto, ProgLanguageEntity } from '@snip-man/entities';
+import {
+  CreateProgSnippetDto,
+  ProgLanguageEntity,
+  ProgSnippetEntity,
+} from '@snip-man/entities';
 import { useState } from 'react';
 import { BsCodeSquare } from 'react-icons/bs';
 import ProgLanguageSelector from '../../prog-language-selector/views/ProgLanguageSelector';
@@ -23,6 +27,7 @@ function CreateSnippetButton() {
   const { setToast } = useToasts();
   const {
     state: { selectedTopic },
+    dispatch,
   } = useSnippetNavigatorState();
   const {
     state: { user },
@@ -73,9 +78,26 @@ function CreateSnippetButton() {
         version: snippetLang?.version,
       },
     };
+    const entity: ProgSnippetEntity = {
+      id: '',
+      headline: snippetHeadline || '',
+      content: snippetContent || '',
+      createdAt: new Date(Date.now()),
+      lastModified: undefined,
+      progLanguage: {
+        id: snippetLang?.id,
+        name: snippetLang?.name,
+        version: snippetLang?.version,
+      },
+    };
+
     createProgSnippet(dto);
     setDidSubmit(false);
     setVisible(false);
+    dispatch({
+      type: 'setSelectedSnippet',
+      data: entity,
+    });
     // TODO show snippet
   }
 
