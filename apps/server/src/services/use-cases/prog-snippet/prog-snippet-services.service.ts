@@ -1,9 +1,9 @@
-import { Injectable, NotImplementedException } from '@nestjs/common';
+import { Injectable, Logger, NotImplementedException } from '@nestjs/common';
 import {
   CreateProgSnippetDto,
   ProgSnippetEntity,
   ProgTopicEntity,
-  UpdateProgSnippetDto,
+  UpdateProgSnippetDto
 } from '@snip-man/entities';
 import { IBaseDataServices } from '../../../core';
 
@@ -58,12 +58,13 @@ export class ProgSnippetServices {
   }
 
   /**
-   * Finds a tag by id
+   * Finds a snippet by id
    * @param id the id of the snippet
    */
   findById(id: string): Promise<ProgSnippetEntity> {
+    Logger.log(id);
     return this.dataServices.progSnippets.findUnique(
-      'placeholder',
+      'placeholder', // no need for parent id here // todo right?
       'id',
       id as unknown as Pick<ProgSnippetEntity, 'id'>
     );

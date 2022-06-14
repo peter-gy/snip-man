@@ -64,11 +64,14 @@ function CreateSnippetButton() {
     setDidSubmit(true);
     if (!snippetHeadline || !snippetContent || !snippetLang || !user) return;
     const dto: CreateProgSnippetDto = {
-      // TODO: null? can it happen that no topic is selected?
       progTopicId: selectedTopic?.id || null,
       headline: snippetHeadline || '',
       content: snippetContent || '',
-      progLanguage: { id: snippetLang?.id, name: snippetLang?.name },
+      progLanguage: {
+        id: snippetLang?.id,
+        name: snippetLang?.name,
+        version: snippetLang?.version,
+      },
     };
     createProgSnippet(dto);
     setDidSubmit(false);
