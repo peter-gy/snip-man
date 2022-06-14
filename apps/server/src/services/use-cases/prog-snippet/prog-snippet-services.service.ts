@@ -3,7 +3,7 @@ import {
   CreateProgSnippetDto,
   ProgSnippetEntity,
   ProgTopicEntity,
-  UpdateProgSnippetDto
+  UpdateProgSnippetDto,
 } from '@snip-man/entities';
 import { IBaseDataServices } from '../../../core';
 

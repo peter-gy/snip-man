@@ -5,7 +5,7 @@ import { PrismaPostgresService } from '../prisma-postgres.service';
 
 @Injectable()
 export class ProgSnippetRepository implements IProgSnippetRepository {
-  constructor(private readonly prisma: PrismaPostgresService) { }
+  constructor(private readonly prisma: PrismaPostgresService) {}
 
   create(
     parentId: string,
@@ -14,7 +14,11 @@ export class ProgSnippetRepository implements IProgSnippetRepository {
     if (!item.progLanguage.id) {
       throw new Error('Prog language id is required');
     }
-    Logger.log(`Creating prog snippet with parentId: ${parentId} and item: ${JSON.stringify(item)}`);
+    Logger.log(
+      `Creating prog snippet with parentId: ${parentId} and item: ${JSON.stringify(
+        item
+      )}`
+    );
 
     return this.prisma.progSnippet.create({
       include: { progLanguage: true },

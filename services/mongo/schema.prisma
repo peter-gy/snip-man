@@ -81,6 +81,7 @@ model ProgSnippet {
   content      String
   createdAt    DateTime @default(now()) @map("created_at")
   lastModified DateTime @updatedAt @map("last_modified")
+  userEmail    String   @map("user_email")
 
   // ProgSnippet <has> ProgTopic (N:1) --- Embeds `progTopicId: string` to ProgSnippet
   progTopicId               String    @map("prog_topic_id") @db.ObjectId

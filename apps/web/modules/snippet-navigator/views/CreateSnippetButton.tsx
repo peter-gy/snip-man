@@ -77,6 +77,7 @@ function CreateSnippetButton() {
         name: snippetLang?.name,
         version: snippetLang?.version,
       },
+      userEmail: user.email,
     };
     const entity: ProgSnippetEntity = {
       id: '',
@@ -89,6 +90,7 @@ function CreateSnippetButton() {
         name: snippetLang?.name,
         version: snippetLang?.version,
       },
+      userEmail: user.email,
     };
 
     createProgSnippet(dto);

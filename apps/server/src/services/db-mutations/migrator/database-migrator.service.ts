@@ -8,7 +8,7 @@ export class DatabaseMigratorService {
   constructor(
     private readonly postgres: PostgresDataServices,
     private readonly mongo: MongoDataServices
-  ) { }
+  ) {}
 
   async migrate() {
     // Clear all data first
@@ -109,10 +109,15 @@ export class DatabaseMigratorService {
       );
       // Embed snippet ids to topic
       const mongoSnippetIds: string[] = [];
+      const { email } = postgresUsers.find(
+        ({ id }) => id === postgresTopic.userId
+      );
       for (const postgresSnippet of postgresSnippets) {
+        // Attach user email to snippet
+        const mongoSnippet = { ...postgresSnippet, userEmail: email };
         const { id } = await this.mongo.progSnippets.create(
           mongoTopicId,
-          postgresSnippet
+          mongoSnippet
         );
         mongoSnippetIds.push(id);
       }
