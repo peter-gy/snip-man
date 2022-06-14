@@ -5,11 +5,14 @@ import {
   Loading,
   Modal,
   Text,
+  Textarea,
   useModal,
+  useToasts,
 } from '@geist-ui/core';
-import { CreateProgSnippetDto } from '@snip-man/entities';
+import { CreateProgSnippetDto, ProgLanguageEntity } from '@snip-man/entities';
 import { useState } from 'react';
 import { BsCodeSquare } from 'react-icons/bs';
+import ProgLanguageSelector from '../../prog-language-selector/views/ProgLanguageSelector';
 import { useSnipManState } from '../../snip-man-state/context/SnipManContext';
 import { useSnippetNavigatorState } from '../context/SnippetNavigatorContext';
 import useCreateProgSnippet from '../hooks/useCreateProgSnippet';
@@ -17,6 +20,7 @@ import useCreateProgSnippet from '../hooks/useCreateProgSnippet';
 function CreateSnippetButton() {
   const { mutate: createProgSnippet, isLoading } = useCreateProgSnippet();
   const { setVisible, bindings: modalBindings } = useModal();
+  const { setToast } = useToasts();
   const {
     state: { selectedTopic },
   } = useSnippetNavigatorState();
@@ -31,8 +35,23 @@ function CreateSnippetButton() {
   const [snippetContent, setSnippetContent] = useState<string | undefined>(
     undefined
   );
+  const [snippetLang, setSnippetLang] = useState<
+    ProgLanguageEntity | undefined
+  >(undefined);
+  // TODO lang version
 
   function onNewSnippet() {
+    if (!selectedTopic) {
+      setToast({
+        text: 'Please select a topic first!',
+        delay: 3000,
+        type: 'warning',
+      });
+      return;
+    }
+    setSnippetContent(undefined);
+    setSnippetHeadline(undefined);
+    setSnippetLang(undefined);
     setVisible(true);
   }
 
@@ -42,75 +61,76 @@ function CreateSnippetButton() {
 
   function onSaveSnippet() {
     setDidSubmit(true);
-    if (!snippetHeadline || !snippetContent || !user) return;
+    if (!snippetHeadline || !snippetContent || !snippetLang || !user) return;
     const dto: CreateProgSnippetDto = {
       // TODO: null? can it happen that no topic is selected?
       progTopicId: selectedTopic?.id || null,
       headline: snippetHeadline || '',
       content: snippetContent || '',
-      // TODO: dropdown for language
-      progLanguage: { id: 'cl4cxpg1u0045kssoz68kzfp3' },
+      progLanguage: { id: snippetLang?.id, name: snippetLang?.name },
     };
     createProgSnippet(dto);
     setDidSubmit(false);
     setVisible(false);
+    // TODO show snippet
   }
 
   return (
-    <>
-      <Button onClick={onNewSnippet} type="success-light">
-        New Snippet{' '}
-        <span className="ml-4">
-          <BsCodeSquare size={24} />
-        </span>
-      </Button>
-      <Modal {...modalBindings} width={1.5} height={25}>
-        <Modal.Title>New Snippet</Modal.Title>
-        <Modal.Subtitle>🤓 Be efficient!</Modal.Subtitle>
-        <Modal.Content>
-          <div className="flex flex-col justify-center items-center space-y-5">
-            {/* <p>
-               Parent:{' '}
-               {selectedTopic ? (
-                 <span className="font-bold underline">
-                   {selectedTopic.name}
-                 </span>
-               ) : (
-                 'None'
-               )}
-             </p> */}
-            <Input
-              label="name"
-              placeholder="Factorial"
-              width={30}
-              onChange={(e) => setSnippetHeadline(e.target.value)}
-            >
-              {/* {didSubmit && !snippetHeadline && (
-                <Dot type="error" className="text-sm text-gray-500">
-                  The name of the snippet cannot be empty.
-                </Dot>
-              )} */}
-            </Input>
-            <Input
-              label="content"
-              placeholder="const f = (x) => x == 0 ? 1 : x*f(x-1)"
-              width={30}
-              onChange={(e) => setSnippetContent(e.target.value)}
-            ></Input>
-            {didSubmit && (!snippetContent || !snippetHeadline) && (
-              <Dot type="error" className="text-sm text-gray-500">
-                <Text small> No fields can be empty.</Text>
-              </Dot>
-            )}
-            {isLoading && <Loading>Loading</Loading>}
-          </div>
-        </Modal.Content>
-        <Modal.Action passive onClick={onModalCancel}>
-          Cancel
-        </Modal.Action>
-        <Modal.Action onClick={onSaveSnippet}>Save Snippet</Modal.Action>
-      </Modal>
-    </>
+    selectedTopic && (
+      <>
+        <Button onClick={onNewSnippet} type="success-light">
+          New Snippet{' '}
+          <span className="ml-4">
+            <BsCodeSquare size={24} />
+          </span>
+        </Button>
+        <Modal {...modalBindings} width={1.5} height={36}>
+          <Modal.Title>New Snippet</Modal.Title>
+          <Modal.Subtitle>🤓 Be efficient!</Modal.Subtitle>
+          <Modal.Content>
+            <div className="flex flex-col justify-center items-center space-y-5">
+              <div>
+                Topic:{' '}
+                {selectedTopic ? (
+                  <span className="font-bold underline">
+                    {selectedTopic.name}
+                  </span>
+                ) : (
+                  'None'
+                )}
+              </div>
+              <Input
+                label="name"
+                placeholder="Factorial"
+                width={30}
+                onChange={(e) => setSnippetHeadline(e.target.value)}
+              ></Input>
+              <ProgLanguageSelector
+                width={30}
+                onChange={(e) => setSnippetLang(e)}
+              />
+              <Textarea
+                placeholder="Type your snippet here"
+                width={30}
+                height={13}
+                onChange={(e) => setSnippetContent(e.target.value)}
+              ></Textarea>
+              {didSubmit &&
+                (!snippetContent || !snippetHeadline || !snippetLang) && (
+                  <Dot type="error" className="text-sm text-gray-500">
+                    <Text small> No fields can be empty.</Text>
+                  </Dot>
+                )}
+              {isLoading && <Loading>Loading</Loading>}
+            </div>
+          </Modal.Content>
+          <Modal.Action passive onClick={onModalCancel}>
+            Cancel
+          </Modal.Action>
+          <Modal.Action onClick={onSaveSnippet}>Save Snippet</Modal.Action>
+        </Modal>
+      </>
+    )
   );
 }
 

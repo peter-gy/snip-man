@@ -1,8 +1,8 @@
 import { Loading, Tree } from '@geist-ui/core';
+import { ProgSnippetEntity, ProgTopicEntity } from '@snip-man/entities';
+import { useEffect } from 'react';
 import { useSnippetNavigatorState } from '../context/SnippetNavigatorContext';
 import { fileTreeFromTopicsWithSnippets } from '../utils/tree-file.util';
-import { useEffect } from 'react';
-import { ProgSnippetEntity, ProgTopicEntity } from '@snip-man/entities';
 
 function TopicTree() {
   const {

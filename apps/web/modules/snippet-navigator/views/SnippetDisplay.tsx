@@ -1,4 +1,4 @@
-import { Snippet } from '@geist-ui/core';
+import { Snippet, Text } from '@geist-ui/core';
 import { useSnippetNavigatorState } from '../context/SnippetNavigatorContext';
 
 function SnippetDisplay() {
@@ -11,19 +11,26 @@ function SnippetDisplay() {
 
   // TODO: code still not highlighted correctly
   return (
-    <>
-      <pre>
-        <Snippet
-          text={selectedSnippet?.content}
-          filled
-          width="300px"
-          symbol=""
-        />
-        {/* <Code block my={0}>
-          {snip}
-        </Code> */}
-      </pre>
-    </>
+    selectedSnippet && (
+      <>
+        <div className="columns-1">
+          <Text>{selectedSnippet.headline}</Text>
+          <Text>{selectedSnippet.progLanguage.name}</Text>
+          <Text>{selectedSnippet.progLanguage.version}</Text>
+          <pre>
+            <Snippet
+              text={selectedSnippet?.content}
+              filled
+              width="300px"
+              symbol=""
+            />
+            {/* <Code block my={0}>
+              {snip}
+            </Code> */}
+          </pre>
+        </div>
+      </>
+    )
   );
 }
 
