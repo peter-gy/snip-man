@@ -19,11 +19,11 @@ model User {
   password String
 
   // ProgTopic <created by> User (N:1) --- embeds `userId: string` to ProgTopic
-  progTopicCreatedByUser ProgTopic[] @relation("prog_topic_created_by_user")
+  progTopics_ProgTopicSide ProgTopic[] @relation("prog_topic_created_by_user")
 
   // User <creates> ProgTopic (1:N) --- embeds `progTopicIds: string[]` to User
-  userCreatesProgTopics ProgTopic[] @relation("user_creates_prog_topics")
-  progTopicIds          String[]    @map("prog_topic_ids") @db.ObjectId
+  progTopics_UserSide ProgTopic[] @relation("user_creates_prog_topics")
+  progTopicIds        String[]    @map("prog_topic_ids") @db.ObjectId
   @@map("user")
 }
 
@@ -39,18 +39,18 @@ model ProgTopic {
   children ProgTopic[] @relation("nested_topics") // nested topics
 
   // ProgTopic <created by> User (N:1) --- embeds `userId: string` to ProgTopic
-  userId                 String @map("user_id") @db.ObjectId
-  progTopicCreatedByUser User   @relation("prog_topic_created_by_user", fields: [userId], references: [id], onDelete: Cascade) // topic author
+  userId             String @map("user_id") @db.ObjectId
+  user_ProgTopicSide User   @relation("prog_topic_created_by_user", fields: [userId], references: [id], onDelete: Cascade) // topic author
 
   // User <creates> ProgTopic (1:N) --- embeds `progTopicIds: string[]` to User
-  userCreatesProgTopics User @relation("user_creates_prog_topics", fields: [userId], references: [progTopicIds])
+  user_UserSide User @relation("user_creates_prog_topics", fields: [userId], references: [progTopicIds])
 
   // ProgTopic <has> ProgSnippet (1:N) --- Embeds `progSnippetIds: string[]` to ProgTopic
-  progTopicHasProgSnippets ProgSnippet[] @relation("prog_topic_has_prog_snippets")
-  progSnippetIds           String[]      @map("prog_snippet_ids") @db.ObjectId
+  progSnippets_ProgTopicSide ProgSnippet[] @relation("prog_topic_has_prog_snippets")
+  progSnippetIds             String[]      @map("prog_snippet_ids") @db.ObjectId
 
   // ProgSnippet <has> ProgTopic (N:1) --- Embeds `progTopicId: string` to ProgSnippet
-  progSnippetHasProgTopic ProgSnippet[] @relation("prog_snippet_has_prog_topic")
+  progSnippets_ProgSnippetSide ProgSnippet[] @relation("prog_snippet_has_prog_topic")
 
   // [Embedded] ProgTopic <has> Tag (N:M)
   tags Tag[]
@@ -83,11 +83,11 @@ model ProgSnippet {
   lastModified DateTime @updatedAt @map("last_modified")
 
   // ProgSnippet <has> ProgTopic (N:1) --- Embeds `progTopicId: string` to ProgSnippet
-  progTopicId             String    @map("prog_topic_id") @db.ObjectId
-  progSnippetHasProgTopic ProgTopic @relation("prog_snippet_has_prog_topic", fields: [progTopicId], references: [id], onDelete: Cascade)
+  progTopicId               String    @map("prog_topic_id") @db.ObjectId
+  progTopic_ProgSnippetSide ProgTopic @relation("prog_snippet_has_prog_topic", fields: [progTopicId], references: [id], onDelete: Cascade)
 
   // ProgTopic <has> ProgSnippet (1:N) --- Embeds `progSnippetIds: string[]` to ProgTopic
-  progTopicHasProgSnippets ProgTopic @relation("prog_topic_has_prog_snippets", fields: [id], references: [progSnippetIds])
+  progTopic_ProgTopicSide ProgTopic @relation("prog_topic_has_prog_snippets", fields: [id], references: [progSnippetIds])
 
   // [Embedded] ProgLanguage <has> ProgSnippet (1:N)
   progLanguage ProgLanguage @map("prog_language")
