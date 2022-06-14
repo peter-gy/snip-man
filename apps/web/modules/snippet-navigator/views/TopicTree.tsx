@@ -6,7 +6,7 @@ import { ProgSnippetEntity, ProgTopicEntity } from '@snip-man/entities';
 
 function TopicTree() {
   const {
-    state: { topics, selectedTopic, selectedSnippet },
+    state: { topics, selectedTopic, selectedSnippetPreview },
     dispatch,
   } = useSnippetNavigatorState();
 
@@ -17,7 +17,7 @@ function TopicTree() {
     }
 
     function handleSnippetClicked(snippet: ProgSnippetEntity) {
-      dispatch({ type: 'setSelectedSnippet', data: snippet });
+      dispatch({ type: 'setSelectedSnippetPreview', data: snippet });
     }
 
     const folders = Array.from(document.getElementsByClassName('folder'));
@@ -81,12 +81,12 @@ function TopicTree() {
   }, [selectedTopic]);
 
   useEffect(() => {
-    if (!selectedSnippet) return;
+    if (!selectedSnippetPreview) return;
     const contentNode = Array.from(
       document.getElementsByClassName('extra')
     ).filter(
       (e) =>
-        e.textContent.includes(`"id":"${selectedSnippet.id}"`) &&
+        e.textContent.includes(`"id":"${selectedSnippetPreview.id}"`) &&
         e.textContent.includes(`"type":"file"`)
     )[0];
     const fileName = contentNode.parentElement;
@@ -96,7 +96,7 @@ function TopicTree() {
       fileName.classList.remove('italic');
       fileName.classList.remove('font-bold');
     };
-  }, [selectedSnippet]);
+  }, [selectedSnippetPreview]);
 
   const treeValue = fileTreeFromTopicsWithSnippets(topics);
   if (treeValue.length === 0) {

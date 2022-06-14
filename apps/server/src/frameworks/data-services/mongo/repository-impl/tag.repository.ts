@@ -20,7 +20,7 @@ export class TagRepository implements ITagRepository {
     by: keyof TagEntity,
     attribute: Pick<TagEntity, A>
   ): Promise<TagEntity> {
-    throw NotImplementedException;
+    return this.prisma.tagDocument.findFirst({ where: { [by]: attribute } });
   }
 
   async findAll(): Promise<TagEntity[]> {

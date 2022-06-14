@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { IBaseDataServices } from '../../../core';
-import { CreateTagDto, UpdateTagDto } from '@snip-man/entities';
+import { CreateTagDto, TagEntity, UpdateTagDto } from '@snip-man/entities';
 
 @Injectable()
 export class TagServices {
@@ -28,5 +28,16 @@ export class TagServices {
    */
   update(id: string, dto: UpdateTagDto) {
     return this.dataServices.tags.update(id, dto);
+  }
+
+  /**
+   * Finds a tag by id
+   * @param id the id of the tag
+   */
+  findById(id: string): Promise<TagEntity> {
+    return this.dataServices.tags.findUnique(
+      'id',
+      id as unknown as Pick<TagEntity, 'id'>
+    );
   }
 }

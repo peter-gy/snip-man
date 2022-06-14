@@ -1,14 +1,15 @@
 import {
   ProgSnippetEntity,
+  ProgSnippetPreview,
   ProgTopicEntity,
-  ProgTopicWithSnippets,
+  ProgTopicWithSnippetPreviews,
 } from '@snip-man/entities';
 
 export type SnippetNavigatorState = {
   /**
    * All topics of the current user.
    */
-  topics: ProgTopicWithSnippets[];
+  topics: ProgTopicWithSnippetPreviews[];
 
   /**
    * Currently selected topic.
@@ -17,8 +18,13 @@ export type SnippetNavigatorState = {
   selectedTopic?: ProgTopicEntity;
 
   /**
-   * Currently selected snippet.
+   * Currently selected snippet preview.
    * Null if there is no selection.
+   */
+  selectedSnippetPreview?: ProgSnippetPreview;
+
+  /**
+   * Selected snippet, will be fetched automatically upon `selectedSnippetPreview` change.
    */
   selectedSnippet?: ProgSnippetEntity;
 };
