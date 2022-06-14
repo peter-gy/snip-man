@@ -1,4 +1,4 @@
-import { Badge, Display, Loading, Snippet, Spacer, Text } from '@geist-ui/core';
+import { Display, Loading, Snippet, Spacer, Tag, Text } from '@geist-ui/core';
 import { useSnippetNavigatorState } from '../context/SnippetNavigatorContext';
 
 function SnippetDisplay() {
@@ -10,7 +10,7 @@ function SnippetDisplay() {
   const langVersion = selectedSnippet?.progLanguage.version;
   const createdAtString = new Date(selectedSnippet?.createdAt).toLocaleString();
 
-  // TODO: code still not highlighted correctly
+  // TODO: use <Code> instead of snippet to highlight
   return (
     <>
       <div className="w-full flex flex-col items-start justify-start space-y-5">
@@ -31,7 +31,7 @@ function SnippetDisplay() {
         {selectedSnippet && (
           <div className="w-full flex-col grow">
             <Text h2>{selectedSnippet.headline}</Text>
-            <Badge type="success">{`${langName} (v${langVersion})`}</Badge>
+            <Tag invert type="secondary">{`${langName} (v${langVersion})`}</Tag>
             <Spacer h={2}></Spacer>
             <Display shadow caption={createdAtString}>
               <Snippet
