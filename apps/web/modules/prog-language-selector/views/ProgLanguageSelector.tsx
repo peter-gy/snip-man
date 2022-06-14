@@ -15,8 +15,6 @@ function ProgLanguageSelector({
 }: ProgLanguageSelectorProps) {
   const { data: queryRes, isLoading } = useProgLanguages();
 
-  console.log(queryRes);
-
   function onSelection(value: string) {
     const progLanguage = JSON.parse(value) as ProgLanguageEntity;
     onChange(progLanguage);

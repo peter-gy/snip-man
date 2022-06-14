@@ -1,4 +1,4 @@
-import { Code, Snippet, Text } from '@geist-ui/core';
+import { Badge, Display, Snippet, Spacer, Text } from '@geist-ui/core';
 import { useSnippetNavigatorState } from '../context/SnippetNavigatorContext';
 
 function SnippetDisplay() {
@@ -6,29 +6,28 @@ function SnippetDisplay() {
     state: { selectedSnippet },
   } = useSnippetNavigatorState();
 
-  const snip = "import { someFunc, type BaseType } from './some-module.ts";
+  const langName = selectedSnippet?.progLanguage.name;
+  const langVersion = selectedSnippet?.progLanguage.version;
+  const createdAtString = new Date(selectedSnippet?.createdAt).toLocaleString();
 
   // TODO: code still not highlighted correctly
   return (
     selectedSnippet && (
-      <>
-        <div className="columns-1">
-          <Text>{selectedSnippet.headline}</Text>
-          <Text>{selectedSnippet.progLanguage.name}</Text>
-          <Text>{selectedSnippet.progLanguage.version}</Text>
-          <pre>
+      <div className="container">
+        <div className="columns-auto p-4 ">
+          <Text h2>{selectedSnippet.headline}</Text>
+          <Badge type="success">{`${langName} (v${langVersion})`}</Badge>
+          <Spacer h={2}></Spacer>
+          <Display shadow caption={createdAtString}>
             <Snippet
               text={selectedSnippet?.content}
-              filled
-              width="300px"
               symbol=""
+              type="lite"
+              className="pt-4"
             />
-            <Code block my={0}>
-              {snip}
-            </Code>
-          </pre>
+          </Display>
         </div>
-      </>
+      </div>
     )
   );
 }
