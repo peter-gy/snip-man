@@ -37,6 +37,6 @@ export class ProgLanguageRepository implements IProgLanguageRepository {
   }
 
   async clear(): Promise<void> {
-    this.prisma.progLanguageDocument.deleteMany();
+    await this.prisma.progLanguageDocument.deleteMany({});
   }
 }

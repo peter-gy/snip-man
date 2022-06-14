@@ -1,11 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PostgresDataServices } from '../../../frameworks/data-services/postgres/postgres-data-services.service';
 import { MongoDataServices } from '../../../frameworks/data-services/mongo/mongo-data-services.service';
-import {
-  ProgSnippetEntity,
-  ProgTopicEntity,
-  TagEntity,
-} from '@snip-man/entities';
+import { ProgTopicEntity } from '@snip-man/entities';
 
 @Injectable()
 export class DatabaseMigratorService {
@@ -92,21 +88,11 @@ export class DatabaseMigratorService {
     }
 
     // Migrate tags
-    const tags: Partial<TagEntity>[] = [];
-    for (const postgresTopic of postgresTopics) {
-      for (const tag of postgresTopic.tags) {
-        // Add if not already added
-        if (
-          !tags.find(
-            ({ name, color }) => name === tag.name && color === tag.color
-          )
-        ) {
-          tags.push(tag);
-        }
-      }
-    }
-    Logger.debug(`Migrating ${tags.length} tags from Postgres to Mongo`);
-    for (const tag of tags) {
+    const postgresTags = await this.postgres.tags.findAll();
+    Logger.debug(
+      `Migrating ${postgresTags.length} tags from Postgres to Mongo`
+    );
+    for (const tag of postgresTags) {
       await this.mongo.tags.create(tag);
     }
 
@@ -121,7 +107,7 @@ export class DatabaseMigratorService {
         `Migrating ${postgresSnippets.length} snippets of
         Postgres topic ${postgresTopicId} into Mongo topic ${mongoTopicId}`
       );
-      // Embed snipped ids to topic
+      // Embed snippet ids to topic
       const mongoSnippetIds: string[] = [];
       for (const postgresSnippet of postgresSnippets) {
         const { id } = await this.mongo.progSnippets.create(

@@ -101,6 +101,6 @@ export class ProgTopicRepository implements IProgTopicRepository {
   }
 
   async clear(): Promise<void> {
-    await this.prisma.progTopic.deleteMany();
+    await this.prisma.progTopic.deleteMany({});
   }
 }
