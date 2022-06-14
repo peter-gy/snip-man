@@ -44,8 +44,6 @@ function CreateSnippetButton() {
     ProgLanguageEntity | undefined
   >(undefined);
 
-  // TODO lang version
-
   function onNewSnippet() {
     if (!selectedTopic) {
       setToast({
@@ -79,6 +77,17 @@ function CreateSnippetButton() {
       },
       userEmail: user.email,
     };
+
+    createProgSnippet(dto);
+    setDidSubmit(false);
+    setVisible(false);
+    showSavedSnippet();
+  }
+
+  // This is a hacky way to instantly show the snippet, as it was a post condition in my use-case
+  // The snippet is not set as preview, because I could not figure out how to do that without the ID here
+  // todo: setSelectedSnippetPreview
+  function showSavedSnippet() {
     const entity: ProgSnippetEntity = {
       id: '',
       headline: snippetHeadline || '',
@@ -92,15 +101,10 @@ function CreateSnippetButton() {
       },
       userEmail: user.email,
     };
-
-    createProgSnippet(dto);
-    setDidSubmit(false);
-    setVisible(false);
     dispatch({
       type: 'setSelectedSnippet',
       data: entity,
     });
-    // TODO show snippet
   }
 
   return (
