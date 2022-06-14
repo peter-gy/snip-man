@@ -1,17 +1,21 @@
-import { IReportService } from '../../../core/reports/report-service.abstract';
-import { Injectable, NotImplementedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ProgLanguageEntity, TagEntity } from '@snip-man/entities';
+import { IReportService } from '../../../core/reports/report-service.abstract';
 import { PrismaPostgresService } from './prisma-postgres.service';
 
 @Injectable()
 export class ReportService implements IReportService {
-  constructor(private readonly prisma: PrismaPostgresService) {}
+  constructor(private readonly prisma: PrismaPostgresService) { }
 
-  findMostDominantLanguagesByTag(
+  async findMostDominantLanguagesByTag(
     tag: Partial<TagEntity>
   ): Promise<ProgLanguageEntity[]> {
-    console.log('postgres - findMostDominantLanguagesByTag');
-    throw NotImplementedException;
+    // TODO implement
+    console.log(`postgres - findMostDominantLanguagesByTag - not implemented`);
+
+    const result = await this.prisma.$queryRaw``;
+    console.log(result);
+    return [];
   }
 
   async findUsersActiveInSpecificLanguage(

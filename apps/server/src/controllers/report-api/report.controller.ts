@@ -1,7 +1,7 @@
-import { DataSourceType, IBaseDataServices } from '../../core';
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { ProgLanguageEntity, TagEntity } from '@snip-man/entities';
+import { DataSourceType, IBaseDataServices } from '../../core';
 
 export class ReportApiControllerBuilder {
   static build(dataSourceType: DataSourceType) {
@@ -9,7 +9,7 @@ export class ReportApiControllerBuilder {
 
     @Controller(`${dataSourceType}/report`)
     class EndpointController {
-      constructor(private readonly dataServices: IBaseDataServices) {}
+      constructor(private readonly dataServices: IBaseDataServices) { }
 
       @ApiOperation({
         tags: [openApiTag],

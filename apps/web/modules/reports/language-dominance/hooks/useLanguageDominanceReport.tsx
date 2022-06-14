@@ -12,21 +12,19 @@ function getLanguageDominanceReport(
   dbSource: DbSource,
   tag: Partial<TagEntity>
 ) {
-  // TODO implement
-  console.log('NOT IMPLEMENTED');
   return baseFetch<string[]>(
-    constructApiEndpoint(ApiEndpoint.ReportLanguageUsers, dbSource),
+    constructApiEndpoint(ApiEndpoint.ReportLanguageDominance, dbSource),
     {
       method: 'GET',
     },
-    { progLanguage: JSON.stringify(tag) }
+    { tag: JSON.stringify(tag) }
   );
 }
 
 function useLanguageUsersReport() {
   const dbSource = useDatabaseSource();
   return useMutation(
-    ApiEndpoint.ReportLanguageUsers,
+    ApiEndpoint.ReportLanguageDominance,
     (tag: Partial<TagEntity>) => getLanguageDominanceReport(dbSource, tag)
   );
 }
