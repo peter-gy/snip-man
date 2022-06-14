@@ -1,11 +1,11 @@
-import { IProgLanguageRepository } from '../../../../core';
-import { ProgLanguageEntity } from '@snip-man/entities';
 import { Injectable } from '@nestjs/common';
+import { ProgLanguageEntity } from '@snip-man/entities';
+import { IProgLanguageRepository } from '../../../../core';
 import { PrismaPostgresService } from '../prisma-postgres.service';
 
 @Injectable()
 export class ProgLanguageRepository implements IProgLanguageRepository {
-  constructor(private readonly prisma: PrismaPostgresService) {}
+  constructor(private readonly prisma: PrismaPostgresService) { }
 
   create(item: Partial<ProgLanguageEntity>): Promise<ProgLanguageEntity> {
     return this.prisma.progLanguage.create({

@@ -1,10 +1,9 @@
-import { Snippet, Text } from '@geist-ui/core';
+import { Code, Snippet, Text } from '@geist-ui/core';
 import { useSnippetNavigatorState } from '../context/SnippetNavigatorContext';
 
 function SnippetDisplay() {
   const {
-    state: { topics, selectedTopic, selectedSnippet },
-    dispatch,
+    state: { selectedSnippet },
   } = useSnippetNavigatorState();
 
   const snip = "import { someFunc, type BaseType } from './some-module.ts";
@@ -24,9 +23,9 @@ function SnippetDisplay() {
               width="300px"
               symbol=""
             />
-            {/* <Code block my={0}>
+            <Code block my={0}>
               {snip}
-            </Code> */}
+            </Code>
           </pre>
         </div>
       </>
