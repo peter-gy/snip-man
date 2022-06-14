@@ -2,6 +2,7 @@ import { Loading, Modal, useModal } from '@geist-ui/core';
 import { TagEntity } from '@snip-man/entities';
 import { BsCodeSquare } from 'react-icons/bs';
 import { Developer } from '../../../layout/views/Footer';
+import TagSelector from '../../../tag-selector/view/TagSelector';
 import ReportCard from '../../views/ReportCard';
 import useLanguageDominanceReport from '../hooks/useLanguageDominanceReport';
 
@@ -56,8 +57,7 @@ function LanguageDominanceReportCard() {
             <p className="text-justify hidden sm:block">{description}</p>
             <div className="flex flex-col items-center justify-center">
               <h4>Please choose a tag</h4>
-              {/* TODO tag selector  */}
-              {/* <ProgLanguageSelector onChange={onTagSelected} /> */}
+              <TagSelector onChange={onTagSelected} />
             </div>
             {isLoading && <Loading>Loading</Loading>}
             {queryResult?.data && (
