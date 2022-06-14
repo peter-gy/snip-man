@@ -1,8 +1,8 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ApiOperation, ApiParam } from '@nestjs/swagger';
-import { CreateProgSnippetDto } from '@snip-man/entities';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { DataSourceType } from '../../core';
 import { ProgSnippetServices } from '../../services/use-cases/prog-snippet/prog-snippet-services.service';
+import { ApiOperation, ApiQuery } from '@nestjs/swagger';
+import { CreateProgSnippetDto } from '@snip-man/entities';
 
 export class ProgSnippetApiControllerBuilder {
   static build(dataSourceType: DataSourceType) {
@@ -10,20 +10,20 @@ export class ProgSnippetApiControllerBuilder {
 
     @Controller(`${dataSourceType}/prog-snippet`)
     class EndpointController {
-      constructor(private readonly service: ProgSnippetServices) { }
+      constructor(private readonly service: ProgSnippetServices) {}
 
       @ApiOperation({
         tags: [openApiTag],
-        description: 'Retrieve all snippets',
+        summary: 'Retrieve a snippet by id',
       })
-      @ApiParam({
-        name: 'parentId',
-        description:
-          'ID of the parent topic from which snippets should be returned',
+      @ApiQuery({
+        name: 'id',
+        required: true,
+        description: 'The id of the snippet',
       })
-      @Get(':parentId')
-      findAll(@Param('parentId') parentId: string) {
-        return this.service.findAll(parentId);
+      @Get('find-by-id')
+      findById(@Query('id') id: string) {
+        return this.service.findById(id);
       }
 
       @ApiOperation({
@@ -34,7 +34,6 @@ export class ProgSnippetApiControllerBuilder {
       create(@Body() dto: CreateProgSnippetDto) {
         return this.service.create(dto);
       }
-
     }
 
     return EndpointController;

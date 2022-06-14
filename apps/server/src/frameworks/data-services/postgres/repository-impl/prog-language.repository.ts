@@ -5,7 +5,7 @@ import { PrismaPostgresService } from '../prisma-postgres.service';
 
 @Injectable()
 export class ProgLanguageRepository implements IProgLanguageRepository {
-  constructor(private readonly prisma: PrismaPostgresService) { }
+  constructor(private readonly prisma: PrismaPostgresService) {}
 
   create(item: Partial<ProgLanguageEntity>): Promise<ProgLanguageEntity> {
     return this.prisma.progLanguage.create({

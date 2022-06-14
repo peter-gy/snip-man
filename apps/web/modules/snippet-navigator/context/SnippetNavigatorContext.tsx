@@ -3,8 +3,9 @@
  */
 import {
   ProgSnippetEntity,
+  ProgSnippetPreview,
   ProgTopicEntity,
-  ProgTopicWithSnippets,
+  ProgTopicWithSnippetPreviews,
 } from '@snip-man/entities';
 import { SnippetNavigatorState } from '../types/snippet-navigator.state';
 import {
@@ -16,10 +17,12 @@ import {
 } from 'react';
 import { initialState } from '../data/initial-state';
 import useFindProgTopicsByUserId from '../hooks/useFindProgTopicsByUserId';
+import useFindProgSnippetById from '../hooks/useFindProgSnippetById';
 
 type Action =
-  | { type: 'setTopics'; data: ProgTopicWithSnippets[] }
+  | { type: 'setTopics'; data: ProgTopicWithSnippetPreviews[] }
   | { type: 'setSelectedTopic'; data: ProgTopicEntity }
+  | { type: 'setSelectedSnippetPreview'; data: ProgSnippetPreview }
   | { type: 'setSelectedSnippet'; data: ProgSnippetEntity };
 
 /**
@@ -45,6 +48,8 @@ function snippetNavigatorStateReducer(
       return { ...state, topics: action.data };
     case 'setSelectedTopic':
       return { ...state, selectedTopic: action.data };
+    case 'setSelectedSnippetPreview':
+      return { ...state, selectedSnippetPreview: action.data };
     case 'setSelectedSnippet':
       return { ...state, selectedSnippet: action.data };
     default:
@@ -75,9 +80,23 @@ function SnippetNavigatorStateProvider({
 
   return (
     <SnippetNavigatorStateContext.Provider value={{ state, dispatch }}>
+      {state.selectedSnippetPreview?.id && (
+        <SelectedSnippetFetcher id={state.selectedSnippetPreview.id} />
+      )}
       {children}
     </SnippetNavigatorStateContext.Provider>
   );
+}
+
+function SelectedSnippetFetcher({ id }: { id: string }): JSX.Element {
+  const { dispatch } = useSnippetNavigatorState();
+  const { data } = useFindProgSnippetById(id);
+  useEffect(() => {
+    if (data?.data) {
+      dispatch({ type: 'setSelectedSnippet', data: data.data });
+    }
+  }, [dispatch, data]);
+  return <></>;
 }
 
 function useSnippetNavigatorState(): SnippetNavigatorStateContextType {

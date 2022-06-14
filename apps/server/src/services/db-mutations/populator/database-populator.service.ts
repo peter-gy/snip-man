@@ -23,7 +23,7 @@ export class DatabasePopulatorService implements DatabasePopulator {
   constructor(
     private readonly generator: DataGenerator,
     private readonly dataServices: IBaseDataServices
-  ) { }
+  ) {}
 
   async populate(): Promise<void> {
     // Clear all data first

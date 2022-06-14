@@ -7,4 +7,5 @@ export class ProgTopicEntity extends BaseEntity {
   name: string;
   description: string;
   tags: Partial<TagEntity>[];
+  progSnippetIds?: string[];
 }

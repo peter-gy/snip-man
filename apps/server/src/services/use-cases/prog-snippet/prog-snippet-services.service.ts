@@ -3,7 +3,7 @@ import {
   CreateProgSnippetDto,
   ProgSnippetEntity,
   ProgTopicEntity,
-  UpdateProgSnippetDto
+  UpdateProgSnippetDto,
 } from '@snip-man/entities';
 import { IBaseDataServices } from '../../../core';
 
@@ -55,5 +55,17 @@ export class ProgSnippetServices {
     dto: UpdateProgSnippetDto
   ) {
     throw NotImplementedException;
+  }
+
+  /**
+   * Finds a tag by id
+   * @param id the id of the snippet
+   */
+  findById(id: string): Promise<ProgSnippetEntity> {
+    return this.dataServices.progSnippets.findUnique(
+      'placeholder',
+      'id',
+      id as unknown as Pick<ProgSnippetEntity, 'id'>
+    );
   }
 }

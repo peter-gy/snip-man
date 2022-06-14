@@ -5,14 +5,15 @@ import {
   CreateProgSnippetDto,
   CreateProgTopicDto,
   CreateTagDto,
-  CreateUserDto
+  CreateUserDto,
 } from '@snip-man/entities';
 import { progLanguages } from '../../../assets/data';
 import { DataGenerator } from '../../../core/populator/data-generator.abstract';
 
 @Injectable()
 export class FakeDataGeneratorService
-  implements DataGenerator, OnApplicationBootstrap {
+  implements DataGenerator, OnApplicationBootstrap
+{
   onApplicationBootstrap() {
     // faker.seed(42);
   }

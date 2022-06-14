@@ -1,21 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { IBaseDataServices, IBaseRepository } from '../../../core';
+import { IBaseDataServices } from '../../../core';
 import { CreateTagDto, TagEntity, UpdateTagDto } from '@snip-man/entities';
 
 @Injectable()
 export class TagServices {
-  repo: IBaseRepository<TagEntity>;
-
-  constructor(private readonly dataServices: IBaseDataServices) {
-    this.repo = dataServices.tags;
-  }
+  constructor(private readonly dataServices: IBaseDataServices) {}
 
   /**
    * Creates a new tag
    * @param dto data transfer object passed from the outside world
    */
   create(dto: CreateTagDto) {
-    return this.repo.create(dto);
+    return this.dataServices.tags.create(dto);
   }
 
   /**
@@ -31,6 +27,17 @@ export class TagServices {
    * @param dto data transfer object containing the updated attributes
    */
   update(id: string, dto: UpdateTagDto) {
-    return this.repo.update(id, dto);
+    return this.dataServices.tags.update(id, dto);
+  }
+
+  /**
+   * Finds a tag by id
+   * @param id the id of the tag
+   */
+  findById(id: string): Promise<TagEntity> {
+    return this.dataServices.tags.findUnique(
+      'id',
+      id as unknown as Pick<TagEntity, 'id'>
+    );
   }
 }
