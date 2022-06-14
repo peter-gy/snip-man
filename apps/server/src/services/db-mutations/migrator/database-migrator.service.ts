@@ -15,6 +15,14 @@ export class DatabaseMigratorService {
     Logger.debug('Clearing all data from Mongo before migrating...');
     await this.mongo.clear();
 
+    const postgresLanguages = await this.postgres.progLanguages.findAll();
+    Logger.debug(
+      `Migrating ${postgresLanguages.length} languages from Postgres to Mongo`
+    );
+    for (const language of postgresLanguages) {
+      await this.mongo.progLanguages.create(language);
+    }
+
     const postgresUsers = await this.postgres.users.findAll();
     Logger.debug(
       `Migrating ${postgresUsers.length} users from Postgres to Mongo`
@@ -59,6 +67,35 @@ export class DatabaseMigratorService {
         });
       }
     }
+    // Embed topic ids to user
+    const postgresTopicsByUserPostgresUserId = groupBy<ProgTopicEntity, string>(
+      postgresTopics,
+      ({ userId }) => userId
+    );
+    for (const postgresUserId of Object.keys(
+      postgresTopicsByUserPostgresUserId
+    )) {
+      const mongoProgTopicIds = postgresTopicsByUserPostgresUserId[
+        postgresUserId
+      ].map(({ id }) => topicIdMap.get(id));
+      const mongoUserId = userIdMap.get(postgresUserId);
+      if (!mongoUserId) {
+        throw new Error('Could not find migration id mapping');
+      }
+      await this.mongo.users.update(mongoUserId, {
+        progTopicIds: mongoProgTopicIds,
+      });
+    }
+
+    // Migrate tags
+    const postgresTags = await this.postgres.tags.findAll();
+    Logger.debug(
+      `Migrating ${postgresTags.length} tags from Postgres to Mongo`
+    );
+    for (const tag of postgresTags) {
+      await this.mongo.tags.create(tag);
+    }
+
     // Migrate snippets
     for (const postgresTopic of postgresTopics) {
       const postgresTopicId = postgresTopic.id;
@@ -70,9 +107,27 @@ export class DatabaseMigratorService {
         `Migrating ${postgresSnippets.length} snippets of
         Postgres topic ${postgresTopicId} into Mongo topic ${mongoTopicId}`
       );
+      // Embed snippet ids to topic
+      const mongoSnippetIds: string[] = [];
       for (const postgresSnippet of postgresSnippets) {
-        await this.mongo.progSnippets.create(mongoTopicId, postgresSnippet);
+        const { id } = await this.mongo.progSnippets.create(
+          mongoTopicId,
+          postgresSnippet
+        );
+        mongoSnippetIds.push(id);
       }
+      await this.mongo.progTopics.update(mongoTopicId, {
+        progSnippetIds: mongoSnippetIds,
+      });
     }
   }
+}
+
+function groupBy<T, K extends keyof any>(list: T[], getKey: (item: T) => K) {
+  return list.reduce((previous, currentItem) => {
+    const group = getKey(currentItem);
+    if (!previous[group]) previous[group] = [];
+    previous[group].push(currentItem);
+    return previous;
+  }, {} as Record<K, T[]>);
 }

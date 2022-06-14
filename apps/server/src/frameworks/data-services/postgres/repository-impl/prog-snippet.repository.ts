@@ -30,7 +30,10 @@ export class ProgSnippetRepository implements IProgSnippetRepository {
     by: keyof ProgSnippetEntity,
     attribute: Pick<ProgSnippetEntity, A>
   ): Promise<ProgSnippetEntity> {
-    throw new Error('Method not implemented.');
+    return this.prisma.progSnippet.findFirst({
+      where: { [by]: attribute },
+      include: { progLanguage: true },
+    });
   }
 
   findAll(parentId: string): Promise<ProgSnippetEntity[]> {

@@ -1,5 +1,8 @@
 import { IProgTopicRepository } from '../../../../core';
-import { ProgTopicEntity, ProgTopicWithSnippets } from '@snip-man/entities';
+import {
+  ProgTopicEntity,
+  ProgTopicWithSnippetPreviews,
+} from '@snip-man/entities';
 import { Injectable, NotImplementedException } from '@nestjs/common';
 import { PrismaPostgresService } from '../prisma-postgres.service';
 
@@ -78,12 +81,12 @@ export class ProgTopicRepository implements IProgTopicRepository {
       }));
   }
 
-  findAllForUser(userId: string): Promise<ProgTopicWithSnippets[]> {
+  findAllForUser(userId: string): Promise<ProgTopicWithSnippetPreviews[]> {
     return this.prisma.progTopic
       .findMany({
         include: {
           tags: { include: { tag: true } },
-          progSnippets: { include: { progTopic: true, progLanguage: true } },
+          progSnippets: { select: { id: true, headline: true } },
         },
         where: { userId: userId as unknown as string },
       })
@@ -91,6 +94,8 @@ export class ProgTopicRepository implements IProgTopicRepository {
         r.map((t) => ({
           ...t,
           tags: t.tags.map(({ tag }) => tag),
+          progSnippetPreviews: t.progSnippets,
+          progSnippets: undefined,
         }))
       );
   }

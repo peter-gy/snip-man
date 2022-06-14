@@ -4,4 +4,5 @@ export class UserEntity extends BaseEntity {
   username: string;
   password: string;
   email: string;
+  progTopicIds?: string[];
 }

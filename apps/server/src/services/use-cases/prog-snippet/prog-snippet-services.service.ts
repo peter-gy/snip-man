@@ -55,4 +55,16 @@ export class ProgSnippetServices {
   ) {
     throw NotImplementedException;
   }
+
+  /**
+   * Finds a tag by id
+   * @param id the id of the snippet
+   */
+  findById(id: string): Promise<ProgSnippetEntity> {
+    return this.dataServices.progSnippets.findUnique(
+      'placeholder',
+      'id',
+      id as unknown as Pick<ProgSnippetEntity, 'id'>
+    );
+  }
 }

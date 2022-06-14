@@ -40,6 +40,8 @@ export class MongoDataServices
   ) {}
 
   async clear(): Promise<void> {
+    await this.tags.clear();
+    await this.progLanguages.clear();
     await this.progSnippets.clear();
     await this.progTopics.clear();
     await this.users.clear();

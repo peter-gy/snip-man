@@ -29,7 +29,15 @@ export class UserRepository implements IUserRepository {
   }
 
   update(id: string, item: Partial<UserEntity>): Promise<UserEntity> {
-    throw NotImplementedException;
+    return this.prisma.user.update({
+      where: { id: id },
+      data: {
+        username: item.username,
+        email: item.email,
+        password: item.password,
+        progTopicIds: item.progTopicIds,
+      },
+    });
   }
 
   async clear(): Promise<void> {

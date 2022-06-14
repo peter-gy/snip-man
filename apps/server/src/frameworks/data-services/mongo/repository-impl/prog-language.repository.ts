@@ -2,14 +2,18 @@ import { IProgLanguageRepository } from '../../../../core';
 import { ProgLanguageEntity } from '@snip-man/entities';
 import { Injectable, NotImplementedException } from '@nestjs/common';
 import { PrismaMongoService } from '../prisma-mongo.service';
-import { progLanguages } from '../../../../assets/data';
 
 @Injectable()
 export class ProgLanguageRepository implements IProgLanguageRepository {
   constructor(private readonly prisma: PrismaMongoService) {}
 
   create(item: Partial<ProgLanguageEntity>): Promise<ProgLanguageEntity> {
-    throw NotImplementedException;
+    return this.prisma.progLanguageDocument.create({
+      data: {
+        name: item.name,
+        version: item.version,
+      },
+    });
   }
 
   findUnique<A extends keyof ProgLanguageEntity>(
@@ -20,13 +24,9 @@ export class ProgLanguageRepository implements IProgLanguageRepository {
   }
 
   async findAll(): Promise<ProgLanguageEntity[]> {
-    return progLanguages
-      .map((item) => ({
-        id: '',
-        name: item.name,
-        version: item.version,
-      }))
-      .sort((a, b) => a.name.localeCompare(b.name));
+    return this.prisma.progLanguageDocument.findMany({
+      orderBy: { name: 'asc' },
+    });
   }
 
   update(
@@ -37,6 +37,6 @@ export class ProgLanguageRepository implements IProgLanguageRepository {
   }
 
   async clear(): Promise<void> {
-    // Embedded
+    await this.prisma.progLanguageDocument.deleteMany({});
   }
 }
