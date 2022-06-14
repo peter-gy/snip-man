@@ -11,6 +11,9 @@ export class ProgSnippetRepository implements IProgSnippetRepository {
     parentId: string,
     item: Partial<ProgSnippetEntity>
   ): Promise<ProgSnippetEntity> {
+    if (!item.userEmail) {
+      throw new Error('User email is required for MongoDB');
+    }
     return this.prisma.progSnippet.create({
       data: {
         progTopicId: parentId,
@@ -22,6 +25,7 @@ export class ProgSnippetRepository implements IProgSnippetRepository {
           name: item.progLanguage.name,
           version: item.progLanguage.version,
         },
+        userEmail: item.userEmail,
       },
     });
   }

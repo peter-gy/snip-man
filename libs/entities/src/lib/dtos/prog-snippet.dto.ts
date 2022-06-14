@@ -38,6 +38,9 @@ export class CreateProgSnippetDto {
     description: 'ProgLanguage in which this snippet is written',
   })
   progLanguage: Partial<ProgLanguageEntity>;
+
+  @ApiProperty({ example: null, description: 'Email address of the author' })
+  userEmail?: string;
 }
 
 export class UpdateProgSnippetDto extends PartialType(CreateProgSnippetDto) {}
