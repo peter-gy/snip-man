@@ -7,7 +7,7 @@ import {
   CreateTagDto,
   CreateUserDto
 } from '@snip-man/entities';
-import { progLanguages, tagNames } from '../../../assets/data';
+import { progLanguages, snippetContent, tagNames } from '../../../assets/data';
 import { DataGenerator } from '../../../core/populator/data-generator.abstract';
 
 @Injectable()
@@ -50,12 +50,12 @@ export class FakeDataGeneratorService
     progTopicId: string,
     progLanguageId: string
   ): CreateProgSnippetDto {
-    const mockSnippet = 'useEffect(() => {\n    Prism.highlightAll();\n}, []);';
+    const randomSnippetIndex = Math.floor(Math.random() * snippetContent.length)
     return {
       progTopicId: progTopicId,
       progLanguage: { id: progLanguageId },
-      headline: faker.git.commitMessage(),
-      content: mockSnippet,
+      headline: snippetContent[randomSnippetIndex].headline,
+      content: snippetContent[randomSnippetIndex].content,
       createdAt: faker.date.past(),
       lastModified: faker.date.recent(),
     };
