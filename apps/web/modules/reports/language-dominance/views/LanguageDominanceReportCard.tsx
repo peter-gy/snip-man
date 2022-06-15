@@ -36,7 +36,6 @@ function LanguageDominanceReportCard() {
   async function onTagSelected(selectedTag: TagEntity) {
     if (!selectedTag) return;
     await getLanguageDominanceReport(selectedTag);
-    console.log(queryResult);
   }
   return (
     <>
@@ -74,16 +73,21 @@ function LanguageDominanceReportCard() {
                           The following result (use better text here)
                         </p>
                         <div className="flex flex-1 items-center justify-center overflow-y-scroll max-h-[25vh]">
-                          {/* <div className="flex flex-col space-y-1.5 min-h-min">
-                            {[...queryResult.data, ''].map((email) => (
+                          <div className="flex flex-col space-y-1.5 min-h-min">
+                            {[...queryResult.data].map((ret) => (
                               <div
-                                key={email}
+                                key={ret.name + ret.version}
                                 className="border-gray-300 border-t-[0.5px] my-1 italic"
                               >
-                                {email}
+                                {ret.name +
+                                  ' v' +
+                                  ret.version +
+                                  ' : ' +
+                                  ret.length +
+                                  ' characters'}
                               </div>
                             ))}
-                          </div> */}
+                          </div>
                         </div>
                       </div>
                     )}
