@@ -24,8 +24,8 @@ export class ProgSnippetRepository implements IProgSnippetRepository {
         progTopicId: parentId,
         headline: item.headline,
         content: item.content,
-        // createdAt: item.createdAt,
-        // lastModified: item.lastModified,
+        createdAt: item.createdAt,
+        lastModified: item.lastModified,
         progLanguage: {
           name: item.progLanguage.name,
           version: item.progLanguage.version,

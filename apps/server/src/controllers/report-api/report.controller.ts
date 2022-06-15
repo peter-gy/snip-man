@@ -9,7 +9,7 @@ export class ReportApiControllerBuilder {
 
     @Controller(`${dataSourceType}/report`)
     class EndpointController {
-      constructor(private readonly dataServices: IBaseDataServices) { }
+      constructor(private readonly dataServices: IBaseDataServices) {}
 
       @ApiOperation({
         tags: [openApiTag],

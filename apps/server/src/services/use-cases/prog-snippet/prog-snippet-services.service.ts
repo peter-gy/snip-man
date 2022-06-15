@@ -9,11 +9,7 @@ import { IBaseDataServices } from '../../../core';
 
 @Injectable()
 export class ProgSnippetServices {
-  // repo: IBaseRepositoryWeak<ProgSnippetEntity, ProgTopicEntity>;
-
-  constructor(private readonly dataServices: IBaseDataServices) {
-    // this.repo = dataServices.progSnippets;
-  }
+  constructor(private readonly dataServices: IBaseDataServices) {}
 
   /**
    * Create a new snippet
@@ -22,7 +18,6 @@ export class ProgSnippetServices {
   async create(dto: CreateProgSnippetDto) {
     const { progTopicId, ...item } = dto;
     return this.dataServices.progSnippets.create(progTopicId, item);
-    // return this.repo.create(progTopicId, item);
   }
 
   /**
@@ -31,9 +26,11 @@ export class ProgSnippetServices {
    * @param parentId the id of the topic
    * @param id the id of the snippet
    */
-  // find(parentId: string, id: string) {
-  //   return this.repo.findUnique<'id'>(parentId, 'id', { id });
-  // }
+  find(parentId: string, id: string) {
+    return this.dataServices.progSnippets.findUnique<'id'>(parentId, 'id', {
+      id,
+    });
+  }
 
   /**
    * Retrieves all snippets from the database for a given topic
@@ -64,7 +61,7 @@ export class ProgSnippetServices {
   findById(id: string): Promise<ProgSnippetEntity> {
     Logger.log(id);
     return this.dataServices.progSnippets.findUnique(
-      'placeholder', // no need for parent id here // todo right?
+      'placeholder', // no need for parent id here
       'id',
       id as unknown as Pick<ProgSnippetEntity, 'id'>
     );

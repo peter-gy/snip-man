@@ -5,7 +5,7 @@ import { PrismaMongoService } from './prisma-mongo.service';
 
 @Injectable()
 export class ReportService implements IReportService {
-  constructor(private readonly prisma: PrismaMongoService) { }
+  constructor(private readonly prisma: PrismaMongoService) {}
 
   async findMostDominantLanguagesByTag(
     tag: Partial<TagEntity>

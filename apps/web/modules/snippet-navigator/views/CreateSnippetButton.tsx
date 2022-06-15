@@ -86,7 +86,7 @@ function CreateSnippetButton() {
 
   // This is a hacky way to instantly show the snippet, as it was a post condition in my use-case
   // The snippet is not set as preview, because I could not figure out how to do that without the ID here
-  // todo: setSelectedSnippetPreview
+  // todo: if time left: setSelectedSnippetPreview
   function showSavedSnippet() {
     const entity: ProgSnippetEntity = {
       id: '',
