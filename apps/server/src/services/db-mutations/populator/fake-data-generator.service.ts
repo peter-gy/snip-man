@@ -5,14 +5,15 @@ import {
   CreateProgSnippetDto,
   CreateProgTopicDto,
   CreateTagDto,
-  CreateUserDto
+  CreateUserDto,
 } from '@snip-man/entities';
 import { progLanguages, snippetContent, tagNames } from '../../../assets/data';
 import { DataGenerator } from '../../../core/populator/data-generator.abstract';
 
 @Injectable()
 export class FakeDataGeneratorService
-  implements DataGenerator, OnApplicationBootstrap {
+  implements DataGenerator, OnApplicationBootstrap
+{
   onApplicationBootstrap() {
     // faker.seed(42);
   }
@@ -50,7 +51,9 @@ export class FakeDataGeneratorService
     progTopicId: string,
     progLanguageId: string
   ): CreateProgSnippetDto {
-    const randomSnippetIndex = Math.floor(Math.random() * snippetContent.length)
+    const randomSnippetIndex = Math.floor(
+      Math.random() * snippetContent.length
+    );
     return {
       progTopicId: progTopicId,
       progLanguage: { id: progLanguageId },

@@ -37,6 +37,7 @@ function LanguageDominanceReportCard() {
     if (!selectedTag) return;
     await getLanguageDominanceReport(selectedTag);
   }
+
   return (
     <>
       <div className="flex flex-col">

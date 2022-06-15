@@ -27,68 +27,69 @@ export const progLanguages = [
 ];
 
 export const tagNames = [
-  "ai",
-  "android",
-  "angular",
-  "artificial-intelligence",
-  "bootstrap",
-  "challenge",
-  "components",
-  "css-framework",
-  "css",
-  "cython",
-  "dart",
-  "data-science",
-  "deep-learning",
-  "design-systems",
-  "documentation",
-  "ember",
-  "entity-linking",
-  "flutter-apps",
-  "flutter",
-  "html",
-  "html",
-  "ios",
-  "javascript",
-  "machine-learning",
-  "material-design",
-  "material",
-  "named-entity-recognition",
-  "natural-language-processing",
-  "neural-network",
-  "neural-networks",
-  "neuromorphic",
-  "nlp-library",
-  "nlp",
-  "package",
-  "python",
-  "react-native",
-  "react",
-  "sass",
-  "scss",
-  "smart",
-  "spacy",
-  "storybook",
-  "styleguide",
-  "svelte-components",
-  "svelte",
-  "sveltejs",
-  "testing",
-  "text-classification",
-  "timeline",
-  "tokenization",
-  "typescript",
-  "ui-components",
-  "ui",
-  "vue",
-  "web-components",
-  "webpack",
-  "widget",
+  'ai',
+  'android',
+  'angular',
+  'artificial-intelligence',
+  'bootstrap',
+  'challenge',
+  'components',
+  'css-framework',
+  'css',
+  'cython',
+  'dart',
+  'data-science',
+  'deep-learning',
+  'design-systems',
+  'documentation',
+  'ember',
+  'entity-linking',
+  'flutter-apps',
+  'flutter',
+  'html',
+  'html',
+  'ios',
+  'javascript',
+  'machine-learning',
+  'material-design',
+  'material',
+  'named-entity-recognition',
+  'natural-language-processing',
+  'neural-network',
+  'neural-networks',
+  'neuromorphic',
+  'nlp-library',
+  'nlp',
+  'package',
+  'python',
+  'react-native',
+  'react',
+  'sass',
+  'scss',
+  'smart',
+  'spacy',
+  'storybook',
+  'styleguide',
+  'svelte-components',
+  'svelte',
+  'sveltejs',
+  'testing',
+  'text-classification',
+  'timeline',
+  'tokenization',
+  'typescript',
+  'ui-components',
+  'ui',
+  'vue',
+  'web-components',
+  'webpack',
+  'widget',
 ];
 
 export const snippetContent = [
   {
-    headline: "sort-object-to_str.js", content: `var random_string = require('./random-string');
+    headline: 'sort-object-to_str.js',
+    content: `var random_string = require('./random-string');
 
 function wide_object() {
     var o = {};
@@ -104,10 +105,12 @@ function wide_object() {
 if (require.main === module) {
     console.log(JSON.stringify(wide_object(), null, 4));
 }
-module.exports = wide_object;`},
+module.exports = wide_object;`,
+  },
 
   {
-    headline: "random-string.js", content: `// returns the object with keys sorted alphabetically (ignoring case) as a string
+    headline: 'random-string.js',
+    content: `// returns the object with keys sorted alphabetically (ignoring case) as a string
 function sort_object_to_str(o) {
     var object_string = '';
     var keys = Object.keys(o).sort(function (a, b) {
@@ -165,12 +168,15 @@ if (require.main === module) {
 module.exports = sort_object_to_str;`,
   },
   {
-    headline: "random-object.js", content: `var exec = require('child_process').execSync;
+    headline: 'random-object.js',
+    content: `var exec = require('child_process').execSync;
 var output = '[' + exec('git log --pretty=format:'{"commit":"%H","author":"%an","email":"%ae","date":"%ad","message":"%f"},'').toString().slice(0, - 1) + ']';
 var json = JSON.parse(output);
-console.log(JSON.stringify(json, null, 4))`},
+console.log(JSON.stringify(json, null, 4))`,
+  },
   {
-    headline: "git-to_json.js", content: `var random_string = require('./random-string');
+    headline: 'git-to_json.js',
+    content: `var random_string = require('./random-string');
 
 function wide_object() {
     var o = {};
@@ -186,33 +192,43 @@ function wide_object() {
 if (require.main === module) {
     console.log(JSON.stringify(wide_object(), null, 4));
 }
-module.exports = wide_object;`},
+module.exports = wide_object;`,
+  },
 
   {
-    headline: "Arrow Function Short Hand", content: `var simpleFunc =(int a,int b) => a+b;
+    headline: 'Arrow Function Short Hand',
+    content: `var simpleFunc =(int a,int b) => a+b;
 void main() {
  print(simpleFunc(2,3));
-}`},
+}`,
+  },
   {
-    headline: "Omit", content: `interface MyInterface {
+    headline: 'Omit',
+    content: `interface MyInterface {
     id: number;
     name: string;
     properties: string[];
   }
 
-type MyShortType = Omit<MyInterface, 'name' | 'id'>;`},
+type MyShortType = Omit<MyInterface, 'name' | 'id'>;`,
+  },
   {
-    headline: "Record", content: `const myTypedObject: {[key: string]: MyInterface} = {
+    headline: 'Record',
+    content: `const myTypedObject: {[key: string]: MyInterface} = {
   first: {...},
   second: {...},
   ...
-}`},
+}`,
+  },
   {
-    headline: "Optional Chaining", content: `<React.Fragment>
+    headline: 'Optional Chaining',
+    content: `<React.Fragment>
   {apiResult?.data?.params?.showOnline && (<div>✅ Online</div>)}
-</React.Fragment>`},
+</React.Fragment>`,
+  },
   {
-    headline: "UTF-8 conversion", content: `  def iconvert(str, encoding_from, encoding_to = "utf8")
+    headline: 'UTF-8 conversion',
+    content: `  def iconvert(str, encoding_from, encoding_to = "utf8")
     i = Iconv.new encoding_to, encoding_from
     utf_str = ""
     begin
@@ -223,9 +239,11 @@ type MyShortType = Omit<MyInterface, 'name' | 'id'>;`},
       utf_str << "?"
     end
     return utf_str
-  end`},
+  end`,
+  },
   {
-    headline: "Converting Array to Map", content: `import java.util.Map;
+    headline: 'Converting Array to Map',
+    content: `import java.util.Map;
 import org.apache.commons.lang.ArrayUtils;
 public class Main {
   public static void main(String[] args) {
@@ -233,14 +251,18 @@ public class Main {
         { "Netherland", "Amsterdam" }, { "Japan", "Tokyo" }, { "France", "Paris" } };
     Map countryCapitals = ArrayUtils.toMap(countries);
 System.out.println("Capital of Japan is " + countryCapitals.get("Japan"));System.out.println("Capital of France is " + countryCapitals.get("France")); } }
-`},
+`,
+  },
   {
-    headline: "Select database table and populate", content: `$result = $mysqli->query('SELECT * FROM students');
+    headline: 'Select database table and populate',
+    content: `$result = $mysqli->query('SELECT * FROM students');
 while ($row = $result->fetch_assoc()) {
 	echo $row['name'] . '<br>';
-}`},
+}`,
+  },
   {
-    headline: "Dropdown Menu", content: `import 'package:flutter/material.dart';
+    headline: 'Dropdown Menu',
+    content: `import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
@@ -295,9 +317,11 @@ class _MyDropDownState extends State<MyDropDown> {
       ),
     );
   }
-}`},
+}`,
+  },
   {
-    headline: "Stateless Widget", content: `class name extends StatefulWidget {
+    headline: 'Stateless Widget',
+    content: `class name extends StatefulWidget {
   name({Key? key}) : super(key: key);
 
   @override
@@ -309,9 +333,11 @@ class _nameState extends State<name> {
   Widget build(BuildContext context) {
     return Container();
   }
-}`},
+}`,
+  },
   {
-    headline: "Converting class objects to JSON string", content: `class Employee {
+    headline: 'Converting class objects to JSON string',
+    content: `class Employee {
   final String name;
   final String email;
 
@@ -328,22 +354,26 @@ class _nameState extends State<name> {
     };
 }
 
-//Now CONVERT SIMPLE JSON TO FLUTTER OBJECT 
+//Now CONVERT SIMPLE JSON TO FLUTTER OBJECT
 Map employeeMap = jsonDecode(jsonString);
 var employee = Employee.fromJson(employeeMap);
 
 //CONVERT FLUTTER OBJECT TO SIMPLE JSON STRING
-String json = jsonEncode(employee);`},
+String json = jsonEncode(employee);`,
+  },
   {
-    headline: "Bloc", content: `class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
+    headline: 'Bloc',
+    content: `class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
   SubjectBloc() : super(SubjectInitial()) {
     on<SubjectEvent>((event, emit) {
       // TODO: implement event handler
     });
   }
-}`},
+}`,
+  },
   {
-    headline: "Stateful Widget with Animation", content: `class  extends StatefulWidget {
+    headline: 'Stateful Widget with Animation',
+    content: `class  extends StatefulWidget {
   const ({ Key? key }) : super(key: key);
 
   @override
@@ -369,12 +399,14 @@ class _State extends State<>
   @override
   Widget build(BuildContext context) {
     return Container(
-      
+
     );
   }
-}`},
+}`,
+  },
   {
-    headline: "Change Text Style", content: `Text(
+    headline: 'Change Text Style',
+    content: `Text(
     'Here will be the text',
     style: TextStyle(
         color: Colors.blue,
@@ -383,9 +415,11 @@ class _State extends State<>
         fontStyle: FontStyle.italic,
         fontFamily: 'cursive'
     ),
-),` },
+),`,
+  },
   {
-    headline: "StreamBuilder", content: `StreamBuilder(
+    headline: 'StreamBuilder',
+    content: `StreamBuilder(
   stream: stream,
   initialData: initialData,
   builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -393,16 +427,20 @@ class _State extends State<>
       child: child,
     );
   },
-),`},
+),`,
+  },
   {
-    headline: "ValueListenableBuilder", content: `ValueListenableBuilder(
+    headline: 'ValueListenableBuilder',
+    content: `ValueListenableBuilder(
   valueListenable:  null,
   builder: (BuildContext context, dynamic value, Widget? child) {
     return  Container();
   },
-),` },
+),`,
+  },
   {
-    headline: "MultiRepositoryProvider", content: `MultiRepositoryProvider(
+    headline: 'MultiRepositoryProvider',
+    content: `MultiRepositoryProvider(
   providers: [
     RepositoryProvider(
       create: (context) => SubjectRepository(),
@@ -412,10 +450,12 @@ class _State extends State<>
     ),
   ],
   child: Container(),
-)` },
+)`,
+  },
 
   {
-    headline: "Styled Card Widget", content: `Widget getUICard() {
+    headline: 'Styled Card Widget',
+    content: `Widget getUICard() {
   return SizedBox(
       height: 300.00,
       child: Card(
@@ -443,12 +483,14 @@ class _State extends State<>
           ],
         ),
       ));
-}` },
+}`,
+  },
   {
-    headline: "Parsing & processing parameters", content: `while [ "$1" != "" ]; do
+    headline: 'Parsing & processing parameters',
+    content: `while [ "$1" != "" ]; do
     case $1 in
-        -s  )   shift	
-		SERVER=$1 ;;  
+        -s  )   shift
+		SERVER=$1 ;;
         -d  )   shift
 		DATE=$1 ;;
 	--paramter|p ) shift
@@ -459,9 +501,11 @@ class _State extends State<>
                 exit 1
     esac
     shift
-done` },
+done`,
+  },
   {
-    headline: "Checking if process is running", content: `# Define shell function
+    headline: 'Checking if process is running',
+    content: `# Define shell function
 check_process() {
 	echo "Checking if process $1 exists..."
 	[ "$1" = "" ]  && return 0
@@ -472,9 +516,11 @@ check_process() {
 	else
 	        return 0
 	fi
-}` },
+}`,
+  },
   {
-    headline: "Send Email Function", content: `# sendEmail Function - mail & exit.
+    headline: 'Send Email Function',
+    content: `# sendEmail Function - mail & exit.
 START=$(date +%s)
 sendEmail() {
 	scripttime=0;
@@ -490,9 +536,11 @@ sendEmail() {
 	echo $content | mail -s "$subject" $email_list
 	exit;
 }
-# sendEmail Function - end.` },
+# sendEmail Function - end.`,
+  },
   {
-    headline: "Convert num to ordinal", content: `fn num_to_ordinal_expr(x: u32) -> String {
+    headline: 'Convert num to ordinal',
+    content: `fn num_to_ordinal_expr(x: u32) -> String {
     format!("{}{}", x, match (x % 10, x % 100) {
         (_, 4...20) => "th",
         (1, _) => "st",
@@ -500,9 +548,11 @@ sendEmail() {
         (3, _) => "rd",
         _ => "th",
     })
-}`},
+}`,
+  },
   {
-    headline: "Floating Section Heading", content: `.container {
+    headline: 'Floating Section Heading',
+    content: `.container {
   display: grid;
   place-items: center;
   min-height: 400px;
@@ -523,9 +573,11 @@ sendEmail() {
   grid-template-columns: 2.5rem 1fr;
   align-items: center;
 }
-`},
+`,
+  },
   {
-    headline: "Menu on image hover", content: `.hover-menu {
+    headline: 'Menu on image hover',
+    content: `.hover-menu {
   position: relative;
   overflow: hidden;
   margin: 8px;
@@ -549,9 +601,11 @@ sendEmail() {
   right: 0;
   opacity: 1;
   transition: 0.3s ease-in-out;
-}`},
+}`,
+  },
   {
-    headline: "Staggered Animation", content: `.stagger-menu {
+    headline: 'Staggered Animation',
+    content: `.stagger-menu {
   list-style-type: none;
   margin: 16px 0;
   padding: 0;
@@ -571,9 +625,11 @@ sendEmail() {
   opacity: 1;
   transform: translateX(0);
   transition-delay: calc(0.055s * var(--i));
-}`},
+}`,
+  },
   {
-    headline: "Vertical scroll snap", content: `.vertical-snap {
+    headline: 'Vertical scroll snap',
+    content: `.vertical-snap {
   margin: 0 auto;
   display: grid;
   grid-auto-flow: row;
@@ -594,5 +650,6 @@ sendEmail() {
   width: 180px;
   object-fit: contain;
   border-radius: 1rem;
-}`},
+}`,
+  },
 ];

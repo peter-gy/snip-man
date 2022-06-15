@@ -23,7 +23,7 @@ export class DatabasePopulatorService implements DatabasePopulator {
   constructor(
     private readonly generator: DataGenerator,
     private readonly dataServices: IBaseDataServices
-  ) { }
+  ) {}
 
   async populate(): Promise<void> {
     // Clear all data first
@@ -130,7 +130,10 @@ export class DatabasePopulatorService implements DatabasePopulator {
   ): Promise<{ id: string; parentId: string }[]> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const snippetDtos = range(0, NUM_SNIPPETS_PER_TOPIC).map((_, idx) =>
-      this.generator.generateProgSnippet(topicId, languageIds[Math.floor(Math.random() * NUM_LANGUAGES)])
+      this.generator.generateProgSnippet(
+        topicId,
+        languageIds[Math.floor(Math.random() * NUM_LANGUAGES)]
+      )
     );
 
     const snippetPromises = snippetDtos.map((dto) =>
