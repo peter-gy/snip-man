@@ -18,7 +18,6 @@ import {
 import { initialState } from '../data/initial-state';
 import useFindProgTopicsByUserId from '../hooks/useFindProgTopicsByUserId';
 import useFindProgSnippetById from '../hooks/useFindProgSnippetById';
-import { useQueryClient } from 'react-query';
 
 type Action =
   | { type: 'setTopics'; data: ProgTopicWithSnippetPreviews[] }

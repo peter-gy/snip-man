@@ -1,6 +1,6 @@
-import { IProgSnippetRepository } from '../../../../core';
+import { Injectable, Logger } from '@nestjs/common';
 import { ProgSnippetEntity } from '@snip-man/entities';
-import { Injectable } from '@nestjs/common';
+import { IProgSnippetRepository } from '../../../../core';
 import { PrismaMongoService } from '../prisma-mongo.service';
 
 @Injectable()
@@ -11,6 +11,11 @@ export class ProgSnippetRepository implements IProgSnippetRepository {
     parentId: string,
     item: Partial<ProgSnippetEntity>
   ): Promise<ProgSnippetEntity> {
+    Logger.log(
+      `Creating prog snippet with parentId: ${parentId} and item: ${JSON.stringify(
+        item
+      )}`
+    );
     if (!item.userEmail) {
       throw new Error('User email is required for MongoDB');
     }

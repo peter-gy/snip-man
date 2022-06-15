@@ -1,8 +1,8 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Header from '../modules/layout/views/Header';
-import Footer from '../modules/layout/views/Footer';
 import HomeContent from '../modules/home/views/HomeContent';
+import Footer from '../modules/layout/views/Footer';
+import Header from '../modules/layout/views/Header';
 
 const Index: NextPage = () => {
   return (

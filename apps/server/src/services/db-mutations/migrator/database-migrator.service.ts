@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { PostgresDataServices } from '../../../frameworks/data-services/postgres/postgres-data-services.service';
-import { MongoDataServices } from '../../../frameworks/data-services/mongo/mongo-data-services.service';
 import { ProgTopicEntity } from '@snip-man/entities';
+import { MongoDataServices } from '../../../frameworks/data-services/mongo/mongo-data-services.service';
+import { PostgresDataServices } from '../../../frameworks/data-services/postgres/postgres-data-services.service';
 
 @Injectable()
 export class DatabaseMigratorService {

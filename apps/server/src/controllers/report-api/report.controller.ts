@@ -1,7 +1,7 @@
-import { DataSourceType, IBaseDataServices } from '../../core';
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { ProgLanguageEntity, TagEntity } from '@snip-man/entities';
+import { DataSourceType, IBaseDataServices } from '../../core';
 
 export class ReportApiControllerBuilder {
   static build(dataSourceType: DataSourceType) {

@@ -1,10 +1,12 @@
+import CreateSnippetButton from 'apps/web/modules/snippet-navigator/views/CreateSnippetButton';
+import SnippetDisplay from 'apps/web/modules/snippet-navigator/views/SnippetDisplay';
 import { NextPage } from 'next';
 import AppBar from '../../modules/app-bar/views/AppBar';
-import { SnippetNavigatorStateProvider } from '../../modules/snippet-navigator/context/SnippetNavigatorContext';
 import { useSnipManState } from '../../modules/snip-man-state/context/SnipManContext';
-import UserSelector from '../../modules/user-selector/views/UserSelector';
-import TopicTree from '../../modules/snippet-navigator/views/TopicTree';
+import { SnippetNavigatorStateProvider } from '../../modules/snippet-navigator/context/SnippetNavigatorContext';
 import CreateTopicButton from '../../modules/snippet-navigator/views/CreateTopicButton';
+import TopicTree from '../../modules/snippet-navigator/views/TopicTree';
+import UserSelector from '../../modules/user-selector/views/UserSelector';
 
 const Dashboard: NextPage = () => {
   const {
@@ -19,12 +21,13 @@ const Dashboard: NextPage = () => {
             <div className="col-span-2 lg:col-span-1 p-2 bg-navy-50 drop-shadow-2xl">
               <div className="flex flex-col space-y-5">
                 <CreateTopicButton />
+                <CreateSnippetButton />
                 <TopicTree />
               </div>
             </div>
             <div className="col-span-2 lg:col-span-3">
               <div className="p-8 flex justify-center items-center">
-                Snippets will come here
+                <SnippetDisplay />
               </div>
             </div>
           </SnippetNavigatorStateProvider>

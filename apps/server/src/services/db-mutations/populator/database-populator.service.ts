@@ -1,7 +1,7 @@
-import { DatabasePopulator } from '../../../core/populator/database-populator.abstract';
 import { Injectable, Logger } from '@nestjs/common';
-import { DataGenerator } from '../../../core/populator/data-generator.abstract';
 import { IBaseDataServices } from '../../../core';
+import { DataGenerator } from '../../../core/populator/data-generator.abstract';
+import { DatabasePopulator } from '../../../core/populator/database-populator.abstract';
 
 function range(start: number, end: number) {
   return Array.from({ length: end - start }, (_, i) => i + start);
@@ -12,7 +12,7 @@ function randomArrayElement<T>(array: T[]) {
 }
 
 const NUM_USERS = 3;
-const NUM_LANGUAGES = 10;
+const NUM_LANGUAGES = 25;
 const NUM_TAGS = 8;
 const NUM_TOPICS_PER_USER = 5;
 const NUM_SNIPPETS_PER_TOPIC = 3;
@@ -130,7 +130,10 @@ export class DatabasePopulatorService implements DatabasePopulator {
   ): Promise<{ id: string; parentId: string }[]> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const snippetDtos = range(0, NUM_SNIPPETS_PER_TOPIC).map((_, idx) =>
-      this.generator.generateProgSnippet(topicId, languageIds[idx])
+      this.generator.generateProgSnippet(
+        topicId,
+        languageIds[Math.floor(Math.random() * NUM_LANGUAGES)]
+      )
     );
 
     const snippetPromises = snippetDtos.map((dto) =>

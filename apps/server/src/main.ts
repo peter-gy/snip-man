@@ -1,9 +1,9 @@
-import { NestFactory } from '@nestjs/core';
-import { ConfigService } from '@nestjs/config';
 import { Logger, ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { join } from 'path';
 import { config as dotenvConfig } from 'dotenv';
+import { join } from 'path';
 import { AppModule } from './app.module';
 import { shouldLoadConfig } from './config/configuration';
 
