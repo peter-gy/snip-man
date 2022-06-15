@@ -14,71 +14,70 @@ export class ReportService implements IReportService {
 
     const result = await this.prisma.progTopic.aggregateRaw({
       pipeline: [
-
         {
-          '$match': {
-            'tags': {
-              '$elemMatch': {
-                'name': tagName
-              }
+          // filter topics with the given tag name
+          $match: {
+            tags: {
+              $elemMatch: { name: tagName }
             }
           }
         }, {
-          '$project': {
-            'prog_snippet_ids': 1
+          // join snippets that are associated with the topics
+          // as prog_snippet_ids is an array, prog_snippets is also an array (of snippets)
+          $lookup: {
+            from: 'prog_snippet',
+            localField: 'prog_snippet_ids',
+            foreignField: '_id',
+            as: 'prog_snippets'
           }
         }, {
-          '$lookup': {
-            'from': 'prog_snippet',
-            'localField': 'prog_snippet_ids',
-            'foreignField': '_id',
-            'as': 'prog_snippet_docs'
+          // only keep snippet arrays
+          $project: {
+            _id: 0,
+            prog_snippets: 1
           }
         }, {
-          '$project': {
-            '_id': 0,
-            'prog_snippet_docs': 1
+          // create a document for each snippet 
+          $unwind: '$prog_snippets'
+        }, {
+          // keep only the relevant fields
+          $project: {
+            lang: '$prog_snippets.prog_language',
+            content: '$prog_snippets.content'
           }
         }, {
-          '$unwind': '$prog_snippet_docs'
-        }, {
-          '$project': {
-            'id': '$prog_snippet_docs._id',
-            'content': '$prog_snippet_docs.content',
-            'lang': '$prog_snippet_docs.prog_language',
-            'len': {
-              '$strLenCP': '$prog_snippet_docs.content'
+          // group by language 
+          // create an aggregate length field with the sum of the length of the content
+          $group: {
+            _id: '$lang',
+            length: {
+              $sum: { $strLenCP: '$content' }
             }
           }
         }, {
-          '$group': {
-            '_id': '$lang',
-            'length': {
-              '$sum': '$len'
-            }
+          // map fields to create wanted output format
+          $project: {
+            _id: 0,
+            name: '$_id.name',
+            version: '$_id.version',
+            length: 1
           }
         }, {
-          '$project': {
-            '_id': 0,
-            'name': '$_id.name',
-            'version': '$_id.version',
-            'length': 1
+          // sort by length descending and name ascending
+          $sort: {
+            length: -1,
+            name: 1
           }
         }, {
-          '$sort': {
-            'length': -1
-          }
-        },
-        {
-          '$limit': 10
+          // only take the first 10 results
+          $limit: 10
         }
       ]
 
     });
 
 
-    const castedResult = result as unknown as { name: string, version: string, length: number }[];
-    return castedResult;
+    return result as unknown as { name: string, version: string, length: number }[];
   }
 
   async findUsersActiveInSpecificLanguage(
