@@ -22,7 +22,7 @@ const title = (
 );
 
 const description =
-  'This report enumerates the programming languages in which the most lines of code snippets have been written under a specific tag.';
+  'This report enumerates the programming languages in which the longest code snippets have been written under a specific tag.';
 
 function LanguageDominanceReportCard() {
   const { setVisible: setModalVisible, bindings: modalBindings } = useModal();
@@ -70,7 +70,7 @@ function LanguageDominanceReportCard() {
                     {queryResult?.data.length !== 0 && (
                       <div className="flex flex-col overflow-hidden">
                         <p className="font-medium">
-                          The following result (use better text here)
+                          The top 10 language for this tag are:
                         </p>
                         <div className="flex flex-1 items-center justify-center overflow-y-scroll max-h-[25vh]">
                           <div className="flex flex-col space-y-1.5 min-h-min">
