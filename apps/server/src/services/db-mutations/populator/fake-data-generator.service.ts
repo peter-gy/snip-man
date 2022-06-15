@@ -5,15 +5,14 @@ import {
   CreateProgSnippetDto,
   CreateProgTopicDto,
   CreateTagDto,
-  CreateUserDto,
+  CreateUserDto
 } from '@snip-man/entities';
-import { progLanguages } from '../../../assets/data';
+import { progLanguages, tagNames } from '../../../assets/data';
 import { DataGenerator } from '../../../core/populator/data-generator.abstract';
 
 @Injectable()
 export class FakeDataGeneratorService
-  implements DataGenerator, OnApplicationBootstrap
-{
+  implements DataGenerator, OnApplicationBootstrap {
   onApplicationBootstrap() {
     // faker.seed(42);
   }
@@ -42,7 +41,7 @@ export class FakeDataGeneratorService
 
   public generateTag(): CreateTagDto {
     return {
-      name: faker.hacker.noun(),
+      name: tagNames[Math.floor(Math.random() * tagNames.length)],
       color: faker.internet.color(),
     };
   }

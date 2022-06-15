@@ -22,7 +22,7 @@ const title = (
 );
 
 const description =
-  'This report enumerates the programming languages in which the most lines of code snippets have been written under a specific tag.';
+  'This report enumerates the programming languages in which the longest code snippets have been written under a specific tag.';
 
 function LanguageDominanceReportCard() {
   const { setVisible: setModalVisible, bindings: modalBindings } = useModal();
@@ -49,7 +49,7 @@ function LanguageDominanceReportCard() {
           onExploreClick={() => setModalVisible(true)}
         />
       </div>
-      <Modal {...modalBindings} width={3} height={45}>
+      <Modal {...modalBindings} width={3} height={50}>
         <Modal.Title>{title}</Modal.Title>
         <Modal.Subtitle>Actionable Insights ⚡️</Modal.Subtitle>
         <Modal.Content>
@@ -70,16 +70,21 @@ function LanguageDominanceReportCard() {
                     {queryResult?.data.length !== 0 && (
                       <div className="flex flex-col overflow-hidden">
                         <p className="font-medium">
-                          The following result (use better text here)
+                          The top 10 language for this tag are:
                         </p>
                         <div className="flex flex-1 items-center justify-center overflow-y-scroll max-h-[25vh]">
                           <div className="flex flex-col space-y-1.5 min-h-min">
-                            {[...queryResult.data, ''].map((email) => (
+                            {[...queryResult.data].map((ret) => (
                               <div
-                                key={email}
+                                key={ret.name + ret.version}
                                 className="border-gray-300 border-t-[0.5px] my-1 italic"
                               >
-                                {email}
+                                {ret.name +
+                                  ' v' +
+                                  ret.version +
+                                  ' : ' +
+                                  ret.length +
+                                  ' characters'}
                               </div>
                             ))}
                           </div>

@@ -12,7 +12,7 @@ function getLanguageDominanceReport(
   dbSource: DbSource,
   tag: Partial<TagEntity>
 ) {
-  return baseFetch<string[]>(
+  return baseFetch<{ name: string; version: string; length: number }[]>(
     constructApiEndpoint(ApiEndpoint.ReportLanguageDominance, dbSource),
     {
       method: 'GET',
