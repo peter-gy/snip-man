@@ -5,17 +5,80 @@ import { PrismaMongoService } from './prisma-mongo.service';
 
 @Injectable()
 export class ReportService implements IReportService {
-  constructor(private readonly prisma: PrismaMongoService) {}
+  constructor(private readonly prisma: PrismaMongoService) { }
 
   async findMostDominantLanguagesByTag(
     tag: Partial<TagEntity>
-  ): Promise<ProgLanguageEntity[]> {
-    // TODO implement
-    console.log(`mongo - findMostDominantLanguagesByTag - not implemented`);
+  ): Promise<{ name: string, version: string, length: number }[]> {
+    const tagName = tag.name;
 
-    // const result = await this.prisma.$queryRaw``;
-    // console.log(result);
-    return [];
+    const result = await this.prisma.progTopic.aggregateRaw({
+      pipeline: [
+
+        {
+          '$match': {
+            'tags': {
+              '$elemMatch': {
+                'name': tagName
+              }
+            }
+          }
+        }, {
+          '$project': {
+            'prog_snippet_ids': 1
+          }
+        }, {
+          '$lookup': {
+            'from': 'prog_snippet',
+            'localField': 'prog_snippet_ids',
+            'foreignField': '_id',
+            'as': 'prog_snippet_docs'
+          }
+        }, {
+          '$project': {
+            '_id': 0,
+            'prog_snippet_docs': 1
+          }
+        }, {
+          '$unwind': '$prog_snippet_docs'
+        }, {
+          '$project': {
+            'id': '$prog_snippet_docs._id',
+            'content': '$prog_snippet_docs.content',
+            'lang': '$prog_snippet_docs.prog_language',
+            'len': {
+              '$strLenCP': '$prog_snippet_docs.content'
+            }
+          }
+        }, {
+          '$group': {
+            '_id': '$lang',
+            'length': {
+              '$sum': '$len'
+            }
+          }
+        }, {
+          '$project': {
+            '_id': 0,
+            'name': '$_id.name',
+            'version': '$_id.version',
+            'length': 1
+          }
+        }, {
+          '$sort': {
+            'length': -1
+          }
+        },
+        {
+          '$limit': 10
+        }
+      ]
+
+    });
+
+
+    const castedResult = result as unknown as { name: string, version: string, length: number }[];
+    return castedResult;
   }
 
   async findUsersActiveInSpecificLanguage(
