@@ -22,7 +22,8 @@ export class ReportService implements IReportService {
     FROM x
       JOIN prog_language ON prog_language.id = x.prog_language_id
     GROUP BY prog_language_id, name, version
-      `;
+    ORDER BY length DESC
+    LIMIT 10`;
     return result;
   }
 

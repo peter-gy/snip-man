@@ -49,7 +49,7 @@ function LanguageDominanceReportCard() {
           onExploreClick={() => setModalVisible(true)}
         />
       </div>
-      <Modal {...modalBindings} width={3} height={45}>
+      <Modal {...modalBindings} width={3} height={50}>
         <Modal.Title>{title}</Modal.Title>
         <Modal.Subtitle>Actionable Insights ⚡️</Modal.Subtitle>
         <Modal.Content>
