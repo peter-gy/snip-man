@@ -5,7 +5,7 @@ import { PrismaMongoService } from './prisma-mongo.service';
 
 @Injectable()
 export class ReportService implements IReportService {
-  constructor(private readonly prisma: PrismaMongoService) {}
+  constructor(private readonly prisma: PrismaMongoService) { }
 
   async findMostDominantLanguagesByTag(
     tag: Partial<TagEntity>
@@ -20,6 +20,13 @@ export class ReportService implements IReportService {
             tags: {
               $elemMatch: { name: tagName },
             },
+          },
+        },
+        {
+          // only keep snippet id arrays
+          $project: {
+            _id: 0,
+            prog_snippet_ids: 1,
           },
         },
         {
