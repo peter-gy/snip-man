@@ -50,14 +50,16 @@ function SnippetDisplay() {
                 type="secondary"
               >{`${langName} (v${langVersion})`}</Tag>
               <Spacer h={2}></Spacer>
-              <Display shadow caption={createdAtString}>
-                <Snippet
-                  text={selectedSnippet?.content}
-                  symbol=""
-                  type="lite"
-                  className="pt-4"
-                />
-              </Display>
+              <div className="max-h-[52.5vh] overflow-scroll drop-shadow-2xl">
+                <Display caption={createdAtString}>
+                  <Snippet
+                    text={selectedSnippet?.content}
+                    symbol=""
+                    type="lite"
+                    className="pt-4"
+                  />
+                </Display>
+              </div>
             </div>
           </>
         )}
