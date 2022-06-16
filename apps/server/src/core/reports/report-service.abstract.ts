@@ -29,5 +29,5 @@ export abstract class IReportService {
    */
   abstract findMostDominantLanguagesByTag(
     tag: Partial<TagEntity>
-  ): Promise<ProgLanguageEntity[]>;
+  ): Promise<Partial<ProgLanguageEntity>[]>;
 }

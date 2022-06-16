@@ -8,20 +8,18 @@ import {
 import { baseFetch } from '../../api/utils/api.util';
 import { useDatabaseSource } from '../../snip-man-state/context/SnipManContext';
 
-function findAllProgrammingLanguages(dbSource: DbSource) {
+function findAllTags(dbSource: DbSource) {
   return baseFetch<ProgLanguageEntity[]>(
-    constructApiEndpoint(ApiEndpoint.FindAllProgLanguages, dbSource),
+    constructApiEndpoint(ApiEndpoint.FindAllTags, dbSource),
     {
       method: 'GET',
     }
   );
 }
 
-function useProgLanguages() {
+function useTags() {
   const dbSource = useDatabaseSource();
-  return useQuery(ApiEndpoint.FindAllProgLanguages, () =>
-    findAllProgrammingLanguages(dbSource)
-  );
+  return useQuery(ApiEndpoint.FindAllTags, () => findAllTags(dbSource));
 }
 
-export default useProgLanguages;
+export default useTags;

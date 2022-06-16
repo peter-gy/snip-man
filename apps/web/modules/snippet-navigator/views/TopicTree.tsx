@@ -1,12 +1,12 @@
 import { Loading, Tree } from '@geist-ui/core';
+import { ProgSnippetEntity, ProgTopicEntity } from '@snip-man/entities';
+import { useEffect } from 'react';
 import { useSnippetNavigatorState } from '../context/SnippetNavigatorContext';
 import { fileTreeFromTopicsWithSnippets } from '../utils/tree-file.util';
-import { useEffect } from 'react';
-import { ProgSnippetEntity, ProgTopicEntity } from '@snip-man/entities';
 
 function TopicTree() {
   const {
-    state: { topics, selectedTopic, selectedSnippet },
+    state: { topics, selectedTopic, selectedSnippetPreview, selectedSnippet },
     dispatch,
   } = useSnippetNavigatorState();
 
@@ -14,10 +14,13 @@ function TopicTree() {
   useEffect(() => {
     function handleTopicClicked(topic: ProgTopicEntity) {
       dispatch({ type: 'setSelectedTopic', data: topic });
+      // Upon new topic selection, clear selected snippet from other topic
+      dispatch({ type: 'setSelectedSnippetPreview', data: undefined });
+      dispatch({ type: 'setSelectedSnippet', data: undefined });
     }
 
     function handleSnippetClicked(snippet: ProgSnippetEntity) {
-      dispatch({ type: 'setSelectedSnippet', data: snippet });
+      dispatch({ type: 'setSelectedSnippetPreview', data: snippet });
     }
 
     const folders = Array.from(document.getElementsByClassName('folder'));
@@ -79,6 +82,24 @@ function TopicTree() {
       folderName.classList.remove('underline');
     };
   }, [selectedTopic]);
+
+  useEffect(() => {
+    if (!selectedSnippetPreview) return;
+    const contentNode = Array.from(
+      document.getElementsByClassName('extra')
+    ).filter(
+      (e) =>
+        e.textContent.includes(`"id":"${selectedSnippetPreview.id}"`) &&
+        e.textContent.includes(`"type":"file"`)
+    )[0];
+    const fileName = contentNode.parentElement;
+    fileName.classList.add('italic');
+    fileName.classList.add('font-bold');
+    return () => {
+      fileName.classList.remove('italic');
+      fileName.classList.remove('font-bold');
+    };
+  }, [selectedSnippetPreview]);
 
   useEffect(() => {
     if (!selectedSnippet) return;

@@ -1,19 +1,15 @@
-import { Injectable, NotImplementedException } from '@nestjs/common';
-import { IBaseDataServices, IBaseRepositoryWeak } from '../../../core';
+import { Injectable, Logger, NotImplementedException } from '@nestjs/common';
 import {
   CreateProgSnippetDto,
   ProgSnippetEntity,
   ProgTopicEntity,
   UpdateProgSnippetDto,
 } from '@snip-man/entities';
+import { IBaseDataServices } from '../../../core';
 
 @Injectable()
 export class ProgSnippetServices {
-  repo: IBaseRepositoryWeak<ProgSnippetEntity, ProgTopicEntity>;
-
-  constructor(private readonly dataServices: IBaseDataServices) {
-    this.repo = dataServices.progSnippets;
-  }
+  constructor(private readonly dataServices: IBaseDataServices) {}
 
   /**
    * Create a new snippet
@@ -21,7 +17,7 @@ export class ProgSnippetServices {
    */
   async create(dto: CreateProgSnippetDto) {
     const { progTopicId, ...item } = dto;
-    return this.repo.create(progTopicId, item);
+    return this.dataServices.progSnippets.create(progTopicId, item);
   }
 
   /**
@@ -31,7 +27,9 @@ export class ProgSnippetServices {
    * @param id the id of the snippet
    */
   find(parentId: string, id: string) {
-    return this.repo.findUnique<'id'>(parentId, 'id', { id });
+    return this.dataServices.progSnippets.findUnique<'id'>(parentId, 'id', {
+      id,
+    });
   }
 
   /**
@@ -54,5 +52,18 @@ export class ProgSnippetServices {
     dto: UpdateProgSnippetDto
   ) {
     throw NotImplementedException;
+  }
+
+  /**
+   * Finds a snippet by id
+   * @param id the id of the snippet
+   */
+  findById(id: string): Promise<ProgSnippetEntity> {
+    Logger.log(id);
+    return this.dataServices.progSnippets.findUnique(
+      'placeholder', // no need for parent id here
+      'id',
+      id as unknown as Pick<ProgSnippetEntity, 'id'>
+    );
   }
 }

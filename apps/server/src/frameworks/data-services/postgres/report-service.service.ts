@@ -1,17 +1,32 @@
-import { IReportService } from '../../../core/reports/report-service.abstract';
-import { Injectable, NotImplementedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ProgLanguageEntity, TagEntity } from '@snip-man/entities';
+import { IReportService } from '../../../core/reports/report-service.abstract';
 import { PrismaPostgresService } from './prisma-postgres.service';
 
 @Injectable()
 export class ReportService implements IReportService {
   constructor(private readonly prisma: PrismaPostgresService) {}
 
-  findMostDominantLanguagesByTag(
+  async findMostDominantLanguagesByTag(
     tag: Partial<TagEntity>
-  ): Promise<ProgLanguageEntity[]> {
-    console.log('postgres - findMostDominantLanguagesByTag');
-    throw NotImplementedException;
+  ): Promise<{ name: string; version: string; length: number }[]> {
+    const { id: tagId } = tag;
+    const result: { name: string; version: string; length: number }[] =
+      await this.prisma.$queryRaw`
+   WITH relevant_snippets AS (SELECT prog_language_id, LENGTH(content) as local_len
+              FROM prog_snippet
+              WHERE prog_topic_id IN
+                (SELECT \"progTopicId\"
+                FROM tags_on_prog_topics
+                WHERE \"tagId\" = ${tagId}))
+    SELECT name, version, SUM(local_len) as length
+    FROM relevant_snippets
+        JOIN prog_language
+        ON prog_language.id = relevant_snippets.prog_language_id
+    GROUP BY prog_language_id, name, version
+    ORDER BY length DESC
+    LIMIT 10`;
+    return result;
   }
 
   async findUsersActiveInSpecificLanguage(

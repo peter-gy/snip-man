@@ -23,8 +23,7 @@ dev-up: build-dev
 dev-down:
 	docker-compose -f docker-compose.dev.yml down
 
-# Only for postgres
 dev-up-local: build-dev
 	docker-compose -f docker-compose.dev.yml up -d mongo postgres
-	echo "Waiting 45 seconds for mongo to be ready..." && sleep 45
+	echo "Waiting 25 seconds for mongo to be ready..." && sleep 25
 	npm run local:project:serve

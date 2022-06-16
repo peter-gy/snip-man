@@ -1,5 +1,8 @@
 import { IProgTopicRepository } from '../../../../core';
-import { ProgTopicEntity, ProgTopicWithSnippets } from '@snip-man/entities';
+import {
+  ProgTopicEntity,
+  ProgTopicWithSnippetPreviews,
+} from '@snip-man/entities';
 import { Injectable, NotImplementedException } from '@nestjs/common';
 import { PrismaMongoService } from '../prisma-mongo.service';
 
@@ -39,15 +42,32 @@ export class ProgTopicRepository implements IProgTopicRepository {
         name: item.name,
         description: item.description,
         tags: item.tags?.map((tag) => ({ name: tag.name, color: tag.color })),
+        progSnippetIds: item.progSnippetIds,
       },
     });
   }
 
-  findAllForUser(userId: string): Promise<ProgTopicWithSnippets[]> {
-    return this.prisma.progTopic.findMany({
-      where: { userId },
-      include: { progSnippets: true },
-    });
+  findAllForUser(userId: string): Promise<ProgTopicWithSnippetPreviews[]> {
+    return this.prisma.user
+      .findFirst({
+        where: { id: userId },
+        select: {
+          progTopics_ProgTopicSide: {
+            include: {
+              progSnippets_ProgSnippetSide: {
+                select: { id: true, headline: true },
+              },
+            },
+          },
+        },
+      })
+      .then(({ progTopics_ProgTopicSide }) =>
+        progTopics_ProgTopicSide.map((item) => ({
+          ...item,
+          progSnippetPreviews: item.progSnippets_ProgSnippetSide,
+          progSnippets_ProgSnippetSide: undefined,
+        }))
+      );
   }
 
   async clear(): Promise<void> {

@@ -1,15 +1,17 @@
-import useProgLanguages from '../hooks/useProgLanguages';
 import { Loading, Select } from '@geist-ui/core';
 import { ProgLanguageEntity } from '@snip-man/entities';
+import useProgLanguages from '../hooks/useProgLanguages';
 
 type ProgLanguageSelectorProps = {
   onChange: (value: ProgLanguageEntity) => void;
   initialValue?: ProgLanguageEntity;
+  width?: number;
 };
 
 function ProgLanguageSelector({
   onChange,
   initialValue,
+  width,
 }: ProgLanguageSelectorProps) {
   const { data: queryRes, isLoading } = useProgLanguages();
 
@@ -23,6 +25,7 @@ function ProgLanguageSelector({
       {isLoading && <Loading>Loading</Loading>}
       {queryRes?.data && (
         <Select
+          width={width}
           placeholder="Choose a language"
           initialValue={initialValue ? JSON.stringify(initialValue) : undefined}
           onChange={onSelection}

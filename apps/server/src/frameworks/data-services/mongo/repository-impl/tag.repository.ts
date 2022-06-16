@@ -8,42 +8,23 @@ export class TagRepository implements ITagRepository {
   constructor(private readonly prisma: PrismaMongoService) {}
 
   create(item: Partial<TagEntity>): Promise<TagEntity> {
-    throw NotImplementedException;
+    return this.prisma.tagDocument.create({
+      data: {
+        name: item.name,
+        color: item.color,
+      },
+    });
   }
 
   findUnique<A extends keyof TagEntity>(
     by: keyof TagEntity,
     attribute: Pick<TagEntity, A>
   ): Promise<TagEntity> {
-    throw NotImplementedException;
+    return this.prisma.tagDocument.findFirst({ where: { [by]: attribute } });
   }
 
   async findAll(): Promise<TagEntity[]> {
-    const tagsNested = await this.prisma.progTopic
-      .findMany({ select: { tags: true } })
-      .then((res) =>
-        res.map((item) =>
-          item.tags.map((tag) => ({
-            id: '',
-            name: tag.name,
-            color: tag.color,
-          }))
-        )
-      );
-    // flatten
-    const tags = tagsNested.reduce((acc, curr) => acc.concat(curr), []);
-    // remove duplicates
-    const uniqueTags: TagEntity[] = [];
-    for (const tag of tags) {
-      const exists =
-        uniqueTags.find(
-          (item) => item.name === tag.name && item.color === tag.color
-        ) !== undefined;
-      if (!exists) {
-        uniqueTags.push({ ...tag, id: '' });
-      }
-    }
-    return uniqueTags;
+    return this.prisma.tagDocument.findMany();
   }
 
   update(id: string, item: Partial<TagEntity>): Promise<TagEntity> {
@@ -51,6 +32,6 @@ export class TagRepository implements ITagRepository {
   }
 
   async clear(): Promise<void> {
-    // Embedded
+    await this.prisma.tagDocument.deleteMany({});
   }
 }

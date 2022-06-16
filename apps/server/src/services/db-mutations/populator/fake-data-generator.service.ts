@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import {
   CreateProgLanguageDto,
   CreateProgSnippetDto,
@@ -6,9 +7,8 @@ import {
   CreateTagDto,
   CreateUserDto,
 } from '@snip-man/entities';
-import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
+import { progLanguages, snippetContent, tagNames } from '../../../assets/data';
 import { DataGenerator } from '../../../core/populator/data-generator.abstract';
-import { progLanguages } from '../../../assets/data';
 
 @Injectable()
 export class FakeDataGeneratorService
@@ -42,7 +42,7 @@ export class FakeDataGeneratorService
 
   public generateTag(): CreateTagDto {
     return {
-      name: faker.hacker.noun(),
+      name: tagNames[Math.floor(Math.random() * tagNames.length)],
       color: faker.internet.color(),
     };
   }
@@ -51,11 +51,14 @@ export class FakeDataGeneratorService
     progTopicId: string,
     progLanguageId: string
   ): CreateProgSnippetDto {
+    const randomSnippetIndex = Math.floor(
+      Math.random() * snippetContent.length
+    );
     return {
       progTopicId: progTopicId,
       progLanguage: { id: progLanguageId },
-      headline: faker.git.commitMessage(),
-      content: faker.lorem.paragraphs(2),
+      headline: snippetContent[randomSnippetIndex].headline,
+      content: snippetContent[randomSnippetIndex].content,
       createdAt: faker.date.past(),
       lastModified: faker.date.recent(),
     };

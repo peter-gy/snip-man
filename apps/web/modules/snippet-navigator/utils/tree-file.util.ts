@@ -1,9 +1,12 @@
-import { ProgSnippetEntity, ProgTopicWithSnippets } from '@snip-man/entities';
+import {
+  ProgSnippetEntity,
+  ProgTopicWithSnippetPreviews,
+} from '@snip-man/entities';
 import { TreeFile } from '@geist-ui/core/dist/tree';
 import { arrayToTree } from 'performant-array-to-tree';
 
 export function fileTreeFromTopicsWithSnippets(
-  topicsWithSnippets: ProgTopicWithSnippets[]
+  topicsWithSnippets: ProgTopicWithSnippetPreviews[]
 ): TreeFile[] {
   const topics = topicsWithSnippets.map(treeFileFromProgTopic);
   const tree = arrayToTree(topics, {
@@ -19,8 +22,8 @@ export function fileTreeFromTopicsWithSnippets(
 }
 
 function process(obj: any, key: string) {
-  if (key === 'progSnippets') {
-    const progSnippets = obj['progSnippets'];
+  if (key === 'progSnippetPreviews') {
+    const progSnippets = obj['progSnippetPreviews'];
     obj['files'] = [...obj['files'], ...progSnippets];
   }
 }
@@ -37,12 +40,12 @@ function treeFileFromProgSnippet(
 }
 
 function treeFileFromProgTopic(
-  progTopic: ProgTopicWithSnippets
-): ProgTopicWithSnippets & TreeFile {
-  const snippets = progTopic.progSnippets.map(treeFileFromProgSnippet);
+  progTopic: ProgTopicWithSnippetPreviews
+): ProgTopicWithSnippetPreviews & TreeFile {
+  const snippets = progTopic.progSnippetPreviews.map(treeFileFromProgSnippet);
   return {
     ...progTopic,
-    progSnippets: snippets,
+    progSnippetPreviews: snippets,
     type: 'directory',
     name: progTopic.name,
     extra: JSON.stringify({ ...progTopic, type: 'directory' }),

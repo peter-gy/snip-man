@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { PostgresDataServices } from '../../../frameworks/data-services/postgres/postgres-data-services.service';
-import { MongoDataServices } from '../../../frameworks/data-services/mongo/mongo-data-services.service';
 import { ProgTopicEntity } from '@snip-man/entities';
+import { MongoDataServices } from '../../../frameworks/data-services/mongo/mongo-data-services.service';
+import { PostgresDataServices } from '../../../frameworks/data-services/postgres/postgres-data-services.service';
 
 @Injectable()
 export class DatabaseMigratorService {
@@ -14,6 +14,14 @@ export class DatabaseMigratorService {
     // Clear all data first
     Logger.debug('Clearing all data from Mongo before migrating...');
     await this.mongo.clear();
+
+    const postgresLanguages = await this.postgres.progLanguages.findAll();
+    Logger.debug(
+      `Migrating ${postgresLanguages.length} languages from Postgres to Mongo`
+    );
+    for (const language of postgresLanguages) {
+      await this.mongo.progLanguages.create(language);
+    }
 
     const postgresUsers = await this.postgres.users.findAll();
     Logger.debug(
@@ -59,6 +67,35 @@ export class DatabaseMigratorService {
         });
       }
     }
+    // Embed topic ids to user
+    const postgresTopicsByUserPostgresUserId = groupBy<ProgTopicEntity, string>(
+      postgresTopics,
+      ({ userId }) => userId
+    );
+    for (const postgresUserId of Object.keys(
+      postgresTopicsByUserPostgresUserId
+    )) {
+      const mongoProgTopicIds = postgresTopicsByUserPostgresUserId[
+        postgresUserId
+      ].map(({ id }) => topicIdMap.get(id));
+      const mongoUserId = userIdMap.get(postgresUserId);
+      if (!mongoUserId) {
+        throw new Error('Could not find migration id mapping');
+      }
+      await this.mongo.users.update(mongoUserId, {
+        progTopicIds: mongoProgTopicIds,
+      });
+    }
+
+    // Migrate tags
+    const postgresTags = await this.postgres.tags.findAll();
+    Logger.debug(
+      `Migrating ${postgresTags.length} tags from Postgres to Mongo`
+    );
+    for (const tag of postgresTags) {
+      await this.mongo.tags.create(tag);
+    }
+
     // Migrate snippets
     for (const postgresTopic of postgresTopics) {
       const postgresTopicId = postgresTopic.id;
@@ -70,9 +107,32 @@ export class DatabaseMigratorService {
         `Migrating ${postgresSnippets.length} snippets of
         Postgres topic ${postgresTopicId} into Mongo topic ${mongoTopicId}`
       );
+      // Embed snippet ids to topic
+      const mongoSnippetIds: string[] = [];
+      const { email } = postgresUsers.find(
+        ({ id }) => id === postgresTopic.userId
+      );
       for (const postgresSnippet of postgresSnippets) {
-        await this.mongo.progSnippets.create(mongoTopicId, postgresSnippet);
+        // Attach user email to snippet
+        const mongoSnippet = { ...postgresSnippet, userEmail: email };
+        const { id } = await this.mongo.progSnippets.create(
+          mongoTopicId,
+          mongoSnippet
+        );
+        mongoSnippetIds.push(id);
       }
+      await this.mongo.progTopics.update(mongoTopicId, {
+        progSnippetIds: mongoSnippetIds,
+      });
     }
   }
+}
+
+function groupBy<T, K extends keyof any>(list: T[], getKey: (item: T) => K) {
+  return list.reduce((previous, currentItem) => {
+    const group = getKey(currentItem);
+    if (!previous[group]) previous[group] = [];
+    previous[group].push(currentItem);
+    return previous;
+  }, {} as Record<K, T[]>);
 }
