@@ -5,9 +5,9 @@ import { PrismaMongoService } from '../prisma-mongo.service';
 
 @Injectable()
 export class ProgSnippetRepository implements IProgSnippetRepository {
-  constructor(private readonly prisma: PrismaMongoService) {}
+  constructor(private readonly prisma: PrismaMongoService) { }
 
-  create(
+  async create(
     parentId: string,
     item: Partial<ProgSnippetEntity>
   ): Promise<ProgSnippetEntity> {
@@ -19,7 +19,7 @@ export class ProgSnippetRepository implements IProgSnippetRepository {
     if (!item.userEmail) {
       throw new Error('User email is required for MongoDB');
     }
-    return this.prisma.progSnippet.create({
+    const snippet = await this.prisma.progSnippet.create({
       data: {
         progTopicId: parentId,
         headline: item.headline,
@@ -33,6 +33,20 @@ export class ProgSnippetRepository implements IProgSnippetRepository {
         userEmail: item.userEmail,
       },
     });
+
+    const { id, progTopicId } = snippet;
+
+    await this.prisma.progTopic.update({
+      where: {
+        id: progTopicId
+      },
+      data: {
+        progSnippetIds: {
+          push: id
+        }
+      }
+    });
+    return snippet;
   }
 
   findUnique<A extends keyof ProgSnippetEntity>(
