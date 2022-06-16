@@ -15,7 +15,7 @@ function SnippetDisplay() {
     <>
       <div className="w-full flex flex-col items-start justify-start space-y-5">
         {selectedTopic && (
-          <div className="flex flex-col space-y-3">
+          <div className="flex flex-col space-y-3 lg:flex-row lg:space-y-0 lg:space-x-3">
             <div className="flex space-x-4 justify-start items-center">
               <div className="py-2 px-3 bg-navy-700 text-2xl text-center rounded-lg">
                 <p className="p-0 m-0 font-bold text-white uppercase">
@@ -50,7 +50,7 @@ function SnippetDisplay() {
                 type="secondary"
               >{`${langName} (v${langVersion})`}</Tag>
               <Spacer h={2}></Spacer>
-              <div className="max-h-[52.5vh] overflow-scroll drop-shadow-2xl">
+              <div className="max-h-[37.5vh] sm:max-h-[42.5vh] md:max-h-[47.5vh] lg:max-h-[52.5vh] overflow-scroll drop-shadow-2xl">
                 <Display caption={createdAtString}>
                   <Snippet
                     text={selectedSnippet?.content}
