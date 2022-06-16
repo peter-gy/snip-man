@@ -14,7 +14,7 @@ import {
   ProgLanguageEntity,
   ProgSnippetEntity,
 } from '@snip-man/entities';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsCodeSquare } from 'react-icons/bs';
 import ProgLanguageSelector from '../../prog-language-selector/views/ProgLanguageSelector';
 import { useSnipManState } from '../../snip-man-state/context/SnipManContext';
@@ -22,7 +22,7 @@ import { useSnippetNavigatorState } from '../context/SnippetNavigatorContext';
 import useCreateProgSnippet from '../hooks/useCreateProgSnippet';
 
 function CreateSnippetButton() {
-  const { mutate: createProgSnippet, isLoading } = useCreateProgSnippet();
+  const { mutate: createProgSnippet, isLoading, data } = useCreateProgSnippet();
   const { setVisible, bindings: modalBindings } = useModal();
   const { setToast } = useToasts();
   const {
@@ -81,31 +81,15 @@ function CreateSnippetButton() {
     createProgSnippet(dto);
     setDidSubmit(false);
     setVisible(false);
-    showSavedSnippet();
+    //showSavedSnippet();
   }
 
-  // This is a hacky way to instantly show the snippet, as it was a post condition in my use-case
-  // The snippet is not set as preview, because I could not figure out how to do that without the ID here
-  // todo: if time left: setSelectedSnippetPreview
-  function showSavedSnippet() {
-    const entity: ProgSnippetEntity = {
-      id: '',
-      headline: snippetHeadline || '',
-      content: snippetContent || '',
-      createdAt: new Date(Date.now()),
-      lastModified: undefined,
-      progLanguage: {
-        id: snippetLang?.id,
-        name: snippetLang?.name,
-        version: snippetLang?.version,
-      },
-      userEmail: user.email,
-    };
-    dispatch({
-      type: 'setSelectedSnippet',
-      data: entity,
-    });
-  }
+  // Show the newly created snippet as soon as it arrives
+  useEffect(() => {
+    if (data?.data) {
+      dispatch({ type: 'setSelectedSnippet', data: data.data });
+    }
+  }, [dispatch, data]);
 
   return (
     selectedTopic && (
