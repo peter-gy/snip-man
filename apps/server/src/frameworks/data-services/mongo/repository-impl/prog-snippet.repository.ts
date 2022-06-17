@@ -5,7 +5,7 @@ import { PrismaMongoService } from '../prisma-mongo.service';
 
 @Injectable()
 export class ProgSnippetRepository implements IProgSnippetRepository {
-  constructor(private readonly prisma: PrismaMongoService) { }
+  constructor(private readonly prisma: PrismaMongoService) {}
 
   async create(
     parentId: string,
@@ -33,18 +33,17 @@ export class ProgSnippetRepository implements IProgSnippetRepository {
         userEmail: item.userEmail,
       },
     });
-
+    // Embedded document update
     const { id, progTopicId } = snippet;
-
     await this.prisma.progTopic.update({
       where: {
-        id: progTopicId
+        id: progTopicId,
       },
       data: {
         progSnippetIds: {
-          push: id
-        }
-      }
+          push: id,
+        },
+      },
     });
     return snippet;
   }

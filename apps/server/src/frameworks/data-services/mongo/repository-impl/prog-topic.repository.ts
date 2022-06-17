@@ -10,16 +10,29 @@ import { PrismaMongoService } from '../prisma-mongo.service';
 export class ProgTopicRepository implements IProgTopicRepository {
   constructor(private readonly prisma: PrismaMongoService) {}
 
-  create(item: Partial<ProgTopicEntity>): Promise<ProgTopicEntity> {
-    return this.prisma.progTopic.create({
+  async create(item: Partial<ProgTopicEntity>): Promise<ProgTopicEntity> {
+    const topic = await this.prisma.progTopic.create({
       data: {
         parentId: item.parentId,
         userId: item.userId,
         name: item.name,
         description: item.description,
         tags: item.tags?.map((tag) => ({ name: tag.name, color: tag.color })),
+        progSnippetIds: [],
       },
     });
+    // Embedded document update
+    const { id, userId } = topic;
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        progTopicIds: {
+          push: id,
+        },
+      },
+    });
+
+    return topic;
   }
 
   findUnique<A extends keyof ProgTopicEntity>(
