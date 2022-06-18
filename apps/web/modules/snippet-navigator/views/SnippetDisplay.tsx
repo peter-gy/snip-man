@@ -26,7 +26,7 @@ function SnippetDisplay() {
                 {selectedTopic.tags.map(({ name, color }) => (
                   <span
                     key={`${name}-${color}`}
-                    className="px-2 py-1 border-2 rounded-xl capitalize text-sm"
+                    className="px-2 py-1 border-2 rounded-xl capitalize text-sm flex justify-center items-center text-center"
                     style={{ borderColor: color }}
                   >
                     {name}
@@ -34,9 +34,11 @@ function SnippetDisplay() {
                 ))}
               </div>
             </div>
-            <Text blockquote my={0} font="1rem">
-              {selectedTopic.description}
-            </Text>
+            {selectedTopic.description && (
+              <Text blockquote my={0} font="1rem" className="italic">
+                {selectedTopic.description}
+              </Text>
+            )}
           </div>
         )}
         {!selectedTopic && <Loading>Select a Topic</Loading>}

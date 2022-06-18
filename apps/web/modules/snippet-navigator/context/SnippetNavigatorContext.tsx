@@ -89,13 +89,21 @@ function SnippetNavigatorStateProvider({
 }
 
 function SelectedSnippetFetcher({ id }: { id: string }): JSX.Element {
-  const { dispatch } = useSnippetNavigatorState();
+  const {
+    state: { topics },
+    dispatch,
+  } = useSnippetNavigatorState();
   const { data } = useFindProgSnippetById(id);
   useEffect(() => {
     if (data?.data) {
-      dispatch({ type: 'setSelectedSnippet', data: data.data });
+      const snippet = data.data;
+      dispatch({ type: 'setSelectedSnippet', data: snippet });
+      const topic = topics.find((t) =>
+        t.progSnippetPreviews.find(({ id }) => id === snippet.id)
+      );
+      dispatch({ type: 'setSelectedTopic', data: topic });
     }
-  }, [dispatch, data]);
+  }, [dispatch, data, topics]);
   return <></>;
 }
 
