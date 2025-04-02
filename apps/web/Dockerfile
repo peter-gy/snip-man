@@ -8,7 +8,7 @@ COPY . .
 RUN npx nx build web $NX_BUILD_ARGS
 
 # Runs the artifacts built by `builder`
-FROM node:lts-alpine3.15 AS runner
+FROM node:lts-alpine3.21 AS runner
 
 ARG NODE_ENV
 ARG PORT

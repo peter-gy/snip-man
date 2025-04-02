@@ -9,7 +9,7 @@ RUN npx nx build server $NX_BUILD_ARGS
 
 # Runs the artifacts built by `builder`
 # Using a Debian-based image, since Prisma does not support alpine at the moment
-FROM node:lts-buster AS runner
+FROM node:lts-bookworm AS runner
 
 ARG NODE_ENV
 ARG PORT
